@@ -1,8 +1,7 @@
-import { NavigationContainer } from '@react-navigation/native'
-//import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import { IconButton } from 'react-native-paper'
 import { useAuth } from '~/context/AuthContext'
 import { Role } from '~/enums/Role'
 import { colors } from '~/styles/colors'
@@ -10,54 +9,85 @@ import AdminView from '~/views/Admin/AdminView'
 import FormsView from '~/views/Forms/FormsView'
 import HomeView from '~/views/Home/HomeView'
 import LecturerView from '~/views/Lecturer/LecturerView'
+import StudentView from '~/views/Student/StudentView'
 
-//const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
+
+enum views {
+    studentView = 'Bewerten',
+    lecturerView = 'Ergebnisse',
+    adminView = 'Verwaltung',
+    homeView = 'Home',
+    formsView = 'Vorlesung bewerten',
+}
+
+const GetIconName = (routename: any) => {
+    let iconName
+
+    switch (routename) {
+        case views.homeView: {
+            iconName = 'home'
+            break
+        }
+        case views.studentView: {
+            iconName = 'compass-outline'
+            break
+        }
+        case views.lecturerView: {
+            iconName = 'compass-outline'
+            break
+        }
+        case views.adminView: {
+            iconName = 'cog'
+            break
+        }
+        default: {
+            throw new Error('Invalid Route')
+        }
+    }
+    return iconName
+}
 
 const TabNavigator = () => {
     const { role } = useAuth()
     let name
     let component
 
-    if (role === Role.Student) {
-        name = 'Bewerten'
-        component = LecturerView
-    } else if (role === Role.Lecturer) {
-        name = 'Ergebnisse'
-        component = LecturerView
-    } else if (role === Role.Admin) {
-        name = 'Verwaltung'
-        component = AdminView
-    } //else throw new Error('Undefined Role')
-    //Workaround, because Role doesn't apply immediately
-    else {
-        component = LecturerView
-        name = 'Bewerten'
+    switch (role) {
+        case Role.Student: {
+            name = views.studentView
+            component = StudentView
+            break
+        }
+        case Role.Lecturer: {
+            name = views.lecturerView
+            component = LecturerView
+            break
+        }
+        case Role.Admin: {
+            name = views.adminView
+            component = AdminView
+            break
+        }
+        //Workaround, because Role doesn't apply immediately
+        default: {
+            component = StudentView
+            name = views.studentView
+        }
     }
 
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName
+                tabBarIcon: ({ size, color }) => {
+                    const iconName = GetIconName(route.name)
 
-                    if (route.name === 'Home') {
-                        iconName = focused ? 'home' : 'home-outline'
-                    } else if (route.name === 'Bewerten') {
-                        iconName = focused ? 'compass' : 'compass-outline'
-                    } else if (route.name === 'Ergebnisse') {
-                        iconName = focused ? 'compass' : 'compass-outline'
-                    } else if (route.name === 'Verwaltung') {
-                        iconName = focused ? 'settings' : 'settings-outline'
-                    } else throw new Error('Invalid Icon')
-
-                    // Icon-Komponente von Ionicons zurückgeben
                     return (
-                        <Ionicons
-                            name={iconName}
+                        <IconButton
+                            icon={iconName}
                             size={size}
-                            color={color}
+                            iconColor={color}
                         />
                     )
                 },
@@ -66,7 +96,7 @@ const TabNavigator = () => {
             })}
         >
             <Tab.Screen
-                name='Home'
+                name={views.homeView}
                 component={HomeView}
             />
             <Tab.Screen
@@ -87,7 +117,7 @@ const Navigation = () => {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name='Vorlesung bewerten'
+                    name={views.formsView}
                     component={FormsView}
                 />
             </Stack.Navigator>
