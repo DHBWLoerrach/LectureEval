@@ -1,14 +1,22 @@
-import { Session } from '@supabase/supabase-js'
+import { useCallback } from 'react'
 import { Text, View } from 'react-native'
+import { Button } from 'react-native-paper'
+import { useAuth } from '~/context/AuthContext'
+import { supabase } from '~/services/supabase'
 
-type Props = {
-    session: Session
-}
+const HomeView = () => {
+    const { user, role } = useAuth()
 
-const HomeView = ({ session }: Props) => {
+    const onLogoutPressed = useCallback(() => {
+        supabase.auth.signOut()
+    }, [])
+
     return (
         <View>
-            <Text>Hallo {session.user.email}</Text>
+            <Text>
+                Hallo {user?.email} ({role})
+            </Text>
+            <Button onPress={onLogoutPressed}>Abmelden</Button>
         </View>
     )
 }

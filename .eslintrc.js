@@ -71,6 +71,6 @@ module.exports = {
         'react-native/split-platform-components': 'warn', // Use platform-specific files (e.g. Button.ios.js)
         'react-native/no-inline-styles': 'warn', // Discourage inline styles in React Native
         'react-native/no-color-literals': 'warn', // Discourage color literals in styles
-        'react-native/no-raw-text': 'warn', // Warn if raw text is outside <Text> in React Native
+        'react-native/no-raw-text': 'off', // Warn if raw text is outside <Text> in React Native
     },
 }

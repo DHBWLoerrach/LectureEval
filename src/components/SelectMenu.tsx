@@ -19,11 +19,12 @@ const styles = StyleSheet.create({
 type Props = {
     label: string
     value: string | undefined
+    error?: boolean
     options: string[]
     onChange: (value: string) => void
 }
 
-const SelectMenu = ({ label, value, options, onChange }: Props) => {
+const SelectMenu = ({ label, error, value, options, onChange }: Props) => {
     const [visible, setVisible] = useState(false)
 
     const openModal = useCallback(() => setVisible(true), [setVisible])
@@ -43,6 +44,7 @@ const SelectMenu = ({ label, value, options, onChange }: Props) => {
                 label={label}
                 value={value}
                 mode='outlined'
+                error={error}
                 onFocus={(e) => {
                     openModal()
                     e.target.blur()

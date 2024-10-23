@@ -1,122 +1,128 @@
-import { useCallback, useState } from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import { Button, Card, TextInput } from 'react-native-paper'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Alert, ImageBackground, ScrollView, View } from 'react-native'
+import { Button, Card, HelperText, Text, TextInput } from 'react-native-paper'
 import HeaderImage from '~/../assets/header.png'
 import Link from '~/components/Link'
 import SelectMenu from '~/components/SelectMenu'
-import { colors } from '~/styles/colors'
+import { Table } from '~/enums/Table'
+import { supabase } from '~/services/supabase'
 import { useLoginLogic } from '~/views/Login/hooks/useLoginLogic'
+import { loginStyles } from '~/views/Login/styles'
 
-const styles = StyleSheet.create({
-    buttonContainer: {
-        alignItems: 'flex-end',
-        display: 'flex',
-        marginRight: 30,
-    },
-    card: {
-        margin: 30,
-    },
-    cardContent: {
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 10,
-        justifyContent: 'center',
-    },
-    headerText: {
-        color: colors.white,
-        fontSize: 36,
-        fontWeight: 'bold',
-    },
-    image: {
-        alignItems: 'center',
-        display: 'flex',
-        height: 250,
-        justifyContent: 'center',
-    },
-    main: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 40,
-        padding: 30,
-    },
-    overlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: `${colors.black}60`,
-    },
-})
+const LoginScreen = () => {
+    const {
+        errors,
+        email,
+        location,
+        password,
+        onEmailChanged,
+        onLocationChanged,
+        onLoginPressed,
+        onPasswordChanged,
+    } = useLoginLogic()
 
-// TODO move to database
-const locations = ['DHBW Lörrach', 'DHBW Stuttgart', '...']
+    const [locations, setLocations] = useState<string[]>([])
 
-const LoginView = () => {
-    const [location, setLocation] = useState<string>()
-    const [email, setEmail] = useState<string>()
-    const [password, setPassword] = useState<string>()
+    const loadAvailableLocations = useCallback(async () => {
+        const { data, error } = await supabase.from(Table.Locations).select('*')
 
-    const { login } = useLoginLogic()
+        if (error) {
+            console.error(error)
+            Alert.alert('Fehler', 'Standorte konnten nicht geladen werden.')
+            return
+        }
 
-    const onLoginPressed = useCallback(() => {
-        // TODO Check for valid Email
-        if (!email || email.trim().length === 0) return
+        setLocations(data.map((loc) => loc.name))
+    }, [])
 
-        if (!password || password.trim().length === 0) return
-
-        login({ email, password })
-    }, [login, email, password])
+    /**
+     * Load available locations on component mount
+     */
+    useEffect(() => {
+        loadAvailableLocations()
+    }, [loadAvailableLocations])
 
     return (
-        <View>
-            <ImageBackground
-                style={styles.image}
-                source={HeaderImage}
-                resizeMode='cover'
-            >
-                <View style={styles.overlay} />
-                <Text style={styles.headerText}>Anmelden</Text>
-            </ImageBackground>
-            <View style={styles.main}>
-                <SelectMenu
-                    label='Standort'
-                    value={location}
-                    options={locations}
-                    onChange={(text) => setLocation(text)}
-                />
-                <TextInput
-                    label='E-Mail Adresse'
-                    value={email}
-                    mode='outlined'
-                    onChangeText={(text) => setEmail(text)}
-                />
-                <TextInput
-                    label='Passwort'
-                    value={password}
-                    mode='outlined'
-                    secureTextEntry
-                    onChangeText={(text) => setPassword(text)}
-                />
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button
-                    mode='contained'
-                    onPress={onLoginPressed}
+        <View style={loginStyles.container}>
+            <ScrollView contentContainerStyle={loginStyles.scrollContent}>
+                <ImageBackground
+                    style={loginStyles.header}
+                    source={HeaderImage}
                 >
-                    <Text>Anmelden</Text>
-                </Button>
-            </View>
-            <Card style={styles.card}>
-                <Card.Content style={styles.cardContent}>
-                    <Link href='https://dhbw-loerrach.de/impressum'>
-                        <Text>Impressum</Text>
-                    </Link>
-                    <Text>|</Text>
-                    <Link href='https://dhbw-loerrach.de/datenschutz'>
-                        <Text>Datenschutz</Text>
-                    </Link>
-                </Card.Content>
-            </Card>
+                    <View style={loginStyles.overlay} />
+                    <Text style={loginStyles.headerText}>Anmelden</Text>
+                </ImageBackground>
+                <View style={loginStyles.wrapper}>
+                    <View style={loginStyles.main}>
+                        <View>
+                            <SelectMenu
+                                label='Standort'
+                                value={location}
+                                options={locations}
+                                error={!!errors.location}
+                                onChange={onLocationChanged}
+                            />
+                            <HelperText
+                                type='error'
+                                padding='none'
+                                visible={!!errors.location}
+                            >
+                                {errors.location}
+                            </HelperText>
+                        </View>
+                        <View>
+                            <TextInput
+                                value={email}
+                                mode='outlined'
+                                label='E-Mail Adresse'
+                                error={!!errors.email}
+                                onChangeText={onEmailChanged}
+                            />
+                            <HelperText
+                                type='error'
+                                padding='none'
+                                visible={!!errors.email}
+                            >
+                                {errors.email}
+                            </HelperText>
+                        </View>
+                        <View>
+                            <TextInput
+                                mode='outlined'
+                                secureTextEntry
+                                label='Passwort'
+                                value={password}
+                                error={!!errors.password}
+                                onChangeText={onPasswordChanged}
+                            />
+                            <HelperText
+                                type='error'
+                                padding='none'
+                                visible={!!errors.password}
+                            >
+                                {errors.password}
+                            </HelperText>
+                        </View>
+                        <View style={loginStyles.buttonContainer}>
+                            <Button
+                                mode='contained'
+                                onPress={onLoginPressed}
+                            >
+                                Anmelden
+                            </Button>
+                        </View>
+                    </View>
+                    <View style={loginStyles.footer}>
+                        <Card contentStyle={loginStyles.card}>
+                            <Link href='https://dhbw-loerrach.de/impressum'>Impressum</Link>
+                            <Text>|</Text>
+                            <Link href='https://dhbw-loerrach.de/datenschutz'>Datenschutz</Link>
+                        </Card>
+                    </View>
+                </View>
+            </ScrollView>
         </View>
     )
 }
 
-export default LoginView
+export default LoginScreen

@@ -21,7 +21,7 @@ const Link = ({ href, children }: Props) => {
         const supported = await Linking.canOpenURL(href)
 
         if (!supported) {
-            Alert.alert('Unexpected: Link cannot be opened.')
+            Alert.alert('Fehler', 'Der Link konnte nicht geöffnet werden')
             return
         }
 
