@@ -6,7 +6,6 @@ import { lecturerStyles } from './styles'
 const LecturerView = () => {
     return (
         <ScrollView>
-            {/* Header mit Bild und Avatar */}
             <View>
                 <ImageBackground
                     style={lecturerStyles.image}

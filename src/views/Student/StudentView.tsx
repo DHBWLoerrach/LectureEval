@@ -6,7 +6,6 @@ import { studentStyles } from './styles'
 const StudentView = () => {
     return (
         <ScrollView>
-            {/* Header mit Bild und Avatar */}
             <View>
                 <ImageBackground
                     style={studentStyles.image}

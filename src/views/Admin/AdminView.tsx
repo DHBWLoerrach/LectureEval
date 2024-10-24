@@ -1,12 +1,18 @@
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React from 'react'
 import { Button, ImageBackground, ScrollView, Text, View } from 'react-native'
 import HeaderImage from '~/../assets/header.png'
+import { Page } from '~/enums/Page'
 import { adminStyles } from './styles'
 
-const AdminView = ({ navigation }: any) => {
+export type StackNavigationProps = NativeStackNavigationProp<ParamListBase>
+
+const AdminView = () => {
+    const navigation = useNavigation<StackNavigationProps>()
+
     return (
         <ScrollView>
-            {/* Header mit Bild und Avatar */}
             <View>
                 <ImageBackground
                     style={adminStyles.image}
@@ -18,7 +24,7 @@ const AdminView = ({ navigation }: any) => {
                 </ImageBackground>
                 <Button
                     title='Test'
-                    onPress={() => navigation.navigate('Vorlesung bewerten')}
+                    onPress={() => navigation.navigate(Page.formsView)}
                 ></Button>
             </View>
         </ScrollView>
