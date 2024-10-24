@@ -1,10 +1,10 @@
 import { useAuth } from '~/context/AuthContext'
-import HomeView from '~/views/Home/HomeView'
-import LoginView from '~/views/Login/LoginView'
+import LoginView from '~/views/Login'
+import Navigation from '~/views/Navigation'
 
 const Main = () => {
     const { session } = useAuth()
 
-    return session ? <HomeView /> : <LoginView />
+    return session ? <Navigation /> : <LoginView />
 }
 export default Main
