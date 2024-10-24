@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native'
 
-const Forms = () => {
+const FormsView = () => {
     return (
         <View>
             <Text>Test</Text>
@@ -8,4 +8,4 @@ const Forms = () => {
     )
 }
 
-export default Forms
+export default FormsView

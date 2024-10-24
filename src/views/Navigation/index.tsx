@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import TabNavigator from '~/components/TabNavigator'
 import { Page } from '~/enums/Page'
-import FormsView from '~/views/Forms/FormsView'
+import FormsView from '~/views/Forms'
+import TabNavigator from '~/views/Navigation/components/TabNavigator'
 
 const Navigation = () => {
     const Stack = createNativeStackNavigator()
@@ -16,7 +16,7 @@ const Navigation = () => {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name={Page.formsView}
+                    name={Page.FormsView}
                     component={FormsView}
                 />
             </Stack.Navigator>

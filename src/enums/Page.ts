@@ -1,7 +1,7 @@
 export enum Page {
-    studentView = 'Bewertungen',
-    lecturerView = 'Ergebnisse',
-    adminView = 'Verwaltung',
-    homeView = 'Home',
-    formsView = 'Vorlesungsbewertung',
+    StudentView = 'Bewertungen',
+    LecturerView = 'Ergebnisse',
+    AdminView = 'Verwaltung',
+    HomeView = 'Home',
+    FormsView = 'Vorlesungsbewertung',
 }

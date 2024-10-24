@@ -1,4 +1,5 @@
-import { ActivityIndicator, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 import { colors } from '~/styles/colors'
 
 const styles = StyleSheet.create({

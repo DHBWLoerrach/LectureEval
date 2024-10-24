@@ -6,10 +6,8 @@ import HeaderImage from '~/../assets/header.png'
 import { Page } from '~/enums/Page'
 import { adminStyles } from './styles'
 
-export type StackNavigationProps = NativeStackNavigationProp<ParamListBase>
-
 const AdminView = () => {
-    const navigation = useNavigation<StackNavigationProps>()
+    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
     return (
         <ScrollView>
@@ -24,7 +22,7 @@ const AdminView = () => {
                 </ImageBackground>
                 <Button
                     title='Test'
-                    onPress={() => navigation.navigate(Page.formsView)}
+                    onPress={() => navigation.navigate(Page.FormsView)}
                 ></Button>
             </View>
         </ScrollView>

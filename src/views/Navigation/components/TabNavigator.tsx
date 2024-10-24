@@ -7,10 +7,10 @@ import { useAuth } from '~/context/AuthContext'
 import { Page } from '~/enums/Page'
 import { Role } from '~/enums/Role'
 import { colors } from '~/styles/colors'
-import AdminView from '~/views/Admin/AdminView'
-import HomeView from '~/views/Home/HomeView'
-import LecturerView from '~/views/Lecturer/LecturerView'
-import StudentView from '~/views/Student/StudentView'
+import AdminView from '~/views/Admin'
+import HomeView from '~/views/Home'
+import LecturerView from '~/views/Lecturer'
+import StudentView from '~/views/Student'
 
 const TabNavigator = () => {
     const { role } = useAuth()
@@ -18,16 +18,16 @@ const TabNavigator = () => {
 
     const getIcon = useCallback((routename: string) => {
         switch (routename) {
-            case Page.homeView:
+            case Page.HomeView:
                 return 'home'
 
-            case Page.studentView:
+            case Page.StudentView:
                 return 'compass-outline'
 
-            case Page.lecturerView:
+            case Page.LecturerView:
                 return 'compass-outline'
 
-            case Page.adminView:
+            case Page.AdminView:
                 return 'cog'
 
             default:
@@ -39,17 +39,17 @@ const TabNavigator = () => {
         switch (role) {
             case Role.Student:
                 return {
-                    name: Page.studentView,
+                    name: Page.StudentView,
                     component: StudentView,
                 }
             case Role.Lecturer:
                 return {
-                    name: Page.lecturerView,
+                    name: Page.LecturerView,
                     component: LecturerView,
                 }
             case Role.Admin:
                 return {
-                    name: Page.adminView,
+                    name: Page.AdminView,
                     component: AdminView,
                 }
             default:
@@ -76,7 +76,7 @@ const TabNavigator = () => {
             })}
         >
             <Tab.Screen
-                name={Page.homeView}
+                name={Page.HomeView}
                 component={HomeView}
             />
             <Tab.Screen
