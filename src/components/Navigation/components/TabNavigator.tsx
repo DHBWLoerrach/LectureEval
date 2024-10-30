@@ -7,31 +7,29 @@ import { useAuth } from '~/context/AuthContext'
 import { Page } from '~/enums/Page'
 import { Role } from '~/enums/Role'
 import { colors } from '~/styles/colors'
-import AdminView from '~/views/Admin'
 import HomeView from '~/views/Home'
 import LecturerView from '~/views/Lecturer'
+import ManagementOverview from '~/views/Management/Overview'
 import StudentView from '~/views/Student'
 
 const TabNavigator = () => {
     const { role } = useAuth()
     const Tab = createBottomTabNavigator()
 
-    const getIcon = useCallback((routename: string) => {
-        switch (routename) {
+    const getIcon = useCallback((route: string) => {
+        switch (route) {
             case Page.HomeView:
                 return 'home'
 
             case Page.StudentView:
-                return 'compass-outline'
-
             case Page.LecturerView:
                 return 'compass-outline'
 
-            case Page.AdminView:
+            case Page.ManagementView:
                 return 'cog'
 
             default:
-                throw new Error('Invalid Route')
+                throw new Error(`Invalid Route: ${route}`)
         }
     }, [])
 
@@ -49,8 +47,8 @@ const TabNavigator = () => {
                 }
             case Role.Admin:
                 return {
-                    name: Page.AdminView,
-                    component: AdminView,
+                    name: Page.ManagementView,
+                    component: ManagementOverview,
                 }
             default:
                 return { name: null, component: null }
@@ -82,6 +80,7 @@ const TabNavigator = () => {
             <Tab.Screen
                 name={name}
                 component={component}
+                options={{ headerShown: false }}
             />
         </Tab.Navigator>
     )

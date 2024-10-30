@@ -72,5 +72,19 @@ module.exports = {
         'react-native/no-inline-styles': 'warn', // Discourage inline styles in React Native
         'react-native/no-color-literals': 'warn', // Discourage color literals in styles
         'react-native/no-raw-text': 'off', // Warn if raw text is outside <Text> in React Native
+
+        // ----- IMPORT BEST PRACTICES -----
+        'no-restricted-imports': [
+            'error',
+            {
+                paths: [
+                    {
+                        name: 'react-native-paper',
+                        importNames: ['TextInput'],
+                        message: 'Please use `~/components/TextInput.tsx` instead.',
+                    },
+                ],
+            },
+        ],
     },
 }

@@ -1,53 +1,49 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { Alert, ImageBackground, ScrollView, View } from 'react-native'
-import { Button, Card, HelperText, SegmentedButtons, Text, TextInput } from 'react-native-paper'
+import { Button, Card, SegmentedButtons, Text } from 'react-native-paper'
 import HeaderImage from '~/../assets/header.png'
 import Link from '~/components/Link'
-import SelectMenu from '~/components/SelectMenu'
+import TextInput from '~/components/TextInput'
 import { useLocale } from '~/context/LocaleContext'
 import { Locale } from '~/enums/Locale'
-import { Table } from '~/enums/Table'
 import { supabase } from '~/services/supabase'
 import { translations } from '~/translations/translations'
-import { useLoginLogic } from '~/views/Login/hooks/useLoginLogic'
 import { loginStyles } from '~/views/Login/styles'
+
+type LoginModel = {
+    email: string
+    password: string
+}
 
 const LoginScreen = () => {
     const intl = useIntl()
     const { locale, setLocale } = useLocale()
 
+    const form = useForm<LoginModel>()
     const {
-        errors,
-        email,
-        location,
-        password,
-        onEmailChanged,
-        onLocationChanged,
-        onLoginPressed,
-        onPasswordChanged,
-    } = useLoginLogic()
+        handleSubmit,
+        formState: { isDirty },
+    } = form
 
-    const [locations, setLocations] = useState<string[]>([])
+    const login = useCallback(
+        async ({ email, password }: LoginModel) => {
+            if (!isDirty) return
 
-    const loadAvailableLocations = useCallback(async () => {
-        const { data, error } = await supabase.from(Table.Locations).select('*')
+            const { error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            })
 
-        if (error) {
-            console.error(error)
-            Alert.alert('Fehler', 'Standorte konnten nicht geladen werden.')
-            return
-        }
-
-        setLocations(data.map((loc) => loc.name))
-    }, [])
-
-    /**
-     * Load available locations on component mount
-     */
-    useEffect(() => {
-        loadAvailableLocations()
-    }, [loadAvailableLocations])
+            if (error)
+                Alert.alert(
+                    'Login fehlgeschlagen.',
+                    'Bitte prüfe deine Angaben und versuche es erneut.',
+                )
+        },
+        [isDirty],
+    )
 
     const onLocaleChange = useCallback(
         (val: string) => {
@@ -84,63 +80,33 @@ const LoginScreen = () => {
                                 ]}
                             />
                         </View>
-                        <View>
-                            <SelectMenu
-                                label='Standort'
-                                value={location}
-                                options={locations}
-                                error={!!errors.location}
-                                onChange={onLocationChanged}
-                            />
-                            <HelperText
-                                type='error'
-                                padding='none'
-                                visible={!!errors.location}
-                            >
-                                {errors.location}
-                            </HelperText>
-                        </View>
-                        <View>
+                        <FormProvider {...form}>
                             <TextInput
-                                value={email}
-                                mode='outlined'
+                                name='email'
                                 label={intl.formatMessage(translations.emailLabel)}
-                                error={!!errors.email}
-                                onChangeText={onEmailChanged}
+                                rules={{
+                                    required: 'Bitte gebe eine E-Mail Adresse ein.',
+                                    validate: (val) =>
+                                        val.includes('@') ||
+                                        'Bitte gebe eine gültige E-Mail Adresse ein.',
+                                }}
                             />
-                            <HelperText
-                                type='error'
-                                padding='none'
-                                visible={!!errors.email}
-                            >
-                                {errors.email}
-                            </HelperText>
-                        </View>
-                        <View>
                             <TextInput
-                                mode='outlined'
+                                name='password'
+                                label='Passwort'
                                 secureTextEntry
-                                label={intl.formatMessage(translations.passwordLabel)}
-                                value={password}
-                                error={!!errors.password}
-                                onChangeText={onPasswordChanged}
+                                rules={{ required: 'Bitte gebe ein Passwort ein.' }}
                             />
-                            <HelperText
-                                type='error'
-                                padding='none'
-                                visible={!!errors.password}
-                            >
-                                {errors.password}
-                            </HelperText>
-                        </View>
-                        <View style={loginStyles.buttonContainer}>
-                            <Button
-                                mode='contained'
-                                onPress={onLoginPressed}
-                            >
-                                Anmelden
-                            </Button>
-                        </View>
+                            <View style={loginStyles.buttonContainer}>
+                                <Button
+                                    mode='contained'
+                                    disabled={!isDirty}
+                                    onPress={handleSubmit(login)}
+                                >
+                                    Anmelden
+                                </Button>
+                            </View>
+                        </FormProvider>
                     </View>
                     <View style={loginStyles.footer}>
                         <Card contentStyle={loginStyles.card}>

@@ -5,7 +5,7 @@ import { useAuth } from '~/context/AuthContext'
 import { supabase } from '~/services/supabase'
 
 const HomeView = () => {
-    const { user, role } = useAuth()
+    const { session, role } = useAuth()
 
     const onLogoutPressed = useCallback(() => {
         supabase.auth.signOut()
@@ -14,7 +14,7 @@ const HomeView = () => {
     return (
         <View>
             <Text>
-                Hallo {user?.email} ({role})
+                Hallo {session?.user.email} ({role})
             </Text>
             <Button onPress={onLogoutPressed}>Abmelden</Button>
         </View>

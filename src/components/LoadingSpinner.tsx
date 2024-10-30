@@ -1,22 +1,26 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
-import { colors } from '~/styles/colors'
 
 const styles = StyleSheet.create({
-    loadingContainer: {
+    container: {
         alignItems: 'center',
         flex: 1,
         justifyContent: 'center',
     },
 })
 
-const LoadingSpinner = () => {
+type Props = {
+    size?: 'small' | 'large' | number
+}
+
+const LoadingSpinner = ({ size = 'large' }: Props) => {
     return (
-        <ActivityIndicator
-            style={styles.loadingContainer}
-            size='large'
-            color={colors.secondary}
-        />
+        <View style={styles.container}>
+            <ActivityIndicator
+                animating
+                size={size}
+            />
+        </View>
     )
 }
 

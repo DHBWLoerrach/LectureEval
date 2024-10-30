@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Modal, Portal, Text, TextInput } from 'react-native-paper'
+import { useCallback, useMemo, useState } from 'react'
+import { useController, UseControllerProps } from 'react-hook-form'
+import { FlatList, StyleSheet, View } from 'react-native'
+// eslint-disable-next-line no-restricted-imports
+import { HelperText, Modal, Portal, Text, TextInput, TouchableRipple } from 'react-native-paper'
 import { colors } from '~/styles/colors'
 
 const styles = StyleSheet.create({
@@ -16,35 +18,50 @@ const styles = StyleSheet.create({
     },
 })
 
-type Props = {
+type SelectOption = {
     label: string
-    value: string | undefined
-    error?: boolean
-    options: string[]
-    onChange: (value: string) => void
+    value: number
 }
 
-const SelectMenu = ({ label, error, value, options, onChange }: Props) => {
+type Props = {
+    name: string
+    label: string
+    options: SelectOption[]
+    helperText?: string
+    rules?: UseControllerProps['rules']
+}
+
+const SelectMenu = ({ name, rules, helperText, label, options }: Props) => {
     const [visible, setVisible] = useState(false)
+
+    const {
+        field: { value, onChange },
+        fieldState: { error },
+    } = useController({ name, rules })
 
     const openModal = useCallback(() => setVisible(true), [setVisible])
     const closeModal = useCallback(() => setVisible(false), [setVisible])
 
     const handleSelect = useCallback(
-        (item: string) => {
-            onChange(item)
+        (value: number) => {
+            onChange(value)
             closeModal()
         },
         [closeModal, onChange],
+    )
+
+    const displayValue = useMemo(
+        () => options.find((o) => o.value === value)?.label,
+        [options, value],
     )
 
     return (
         <View>
             <TextInput
                 label={label}
-                value={value}
+                value={displayValue}
                 mode='outlined'
-                error={error}
+                error={!!error}
                 onFocus={(e) => {
                     openModal()
                     e.target.blur()
@@ -57,6 +74,15 @@ const SelectMenu = ({ label, error, value, options, onChange }: Props) => {
                     />
                 }
             />
+            {(helperText || error) && (
+                <HelperText
+                    visible
+                    type={error ? 'error' : 'info'}
+                    padding='none'
+                >
+                    {error?.message ?? helperText}
+                </HelperText>
+            )}
             <Portal>
                 <Modal
                     visible={visible}
@@ -65,11 +91,13 @@ const SelectMenu = ({ label, error, value, options, onChange }: Props) => {
                 >
                     <FlatList
                         data={options}
-                        keyExtractor={(item) => item}
                         renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => handleSelect(item)}>
-                                <Text style={styles.option}>{item}</Text>
-                            </TouchableOpacity>
+                            <TouchableRipple
+                                key={item.value.toString()}
+                                onPress={() => handleSelect(item.value)}
+                            >
+                                <Text style={styles.option}>{item.label}</Text>
+                            </TouchableRipple>
                         )}
                     />
                 </Modal>

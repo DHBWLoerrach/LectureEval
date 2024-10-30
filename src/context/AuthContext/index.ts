@@ -1,17 +1,17 @@
-import { Session, User } from '@supabase/supabase-js'
+import { Session } from '@supabase/supabase-js'
 import { createContext, useContext } from 'react'
 import { Role } from '~/enums/Role'
 
 type AuthContextProps = {
     session: Session | undefined
-    user: User | undefined
     role: Role | undefined
+    isLoading: boolean
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     session: undefined,
-    user: undefined,
     role: undefined,
+    isLoading: false,
 })
 
 /**

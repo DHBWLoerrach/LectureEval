@@ -1,6 +1,7 @@
-import { Session, User } from '@supabase/supabase-js'
-import { PropsWithChildren, useEffect, useState } from 'react'
-import { AppState } from 'react-native'
+import { Session } from '@supabase/supabase-js'
+import { useQuery } from '@tanstack/react-query'
+import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
+import { Alert, AppState } from 'react-native'
 import { AuthContext } from '~/context/AuthContext'
 import { Role } from '~/enums/Role'
 import { Table } from '~/enums/Table'
@@ -25,16 +26,13 @@ AppState.addEventListener('change', (state) => {
  * The authentication state can be accessed using the `useAuth()` hook.
  */
 const AuthProvider = ({ children }: Props) => {
-    const [user, setUser] = useState<User>()
-    const [role, setRole] = useState<Role>()
+    const [sessionLoading, setSessionLoading] = useState(true)
     const [session, setSession] = useState<Session>()
 
-    /**
-     * Initializes the session state and subscribes to session changes.
-     */
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session ?? undefined)
+            setSessionLoading(false)
         })
 
         supabase.auth.onAuthStateChange((_event, session) => {
@@ -42,54 +40,47 @@ const AuthProvider = ({ children }: Props) => {
         })
     }, [])
 
-    /**
-     * Updates the user state based on the session state.
-     * If the session is cleared, the user data is removed.
-     */
+    const {
+        data: role,
+        isLoading: roleLoading,
+        error: roleError,
+    } = useQuery<Role>({
+        queryKey: [Table.Roles],
+        queryFn: useCallback(async () => {
+            const { data } = await supabase
+                .from(Table.UserRoles)
+                .select('role')
+                .eq('user', session?.user.id)
+                .throwOnError()
+                .single()
+
+            const { data: role } = await supabase
+                .from(Table.Roles)
+                .select('name')
+                .eq('id', data?.role)
+                .throwOnError()
+                .single()
+
+            return role?.name
+        }, [session]),
+        enabled: !!session,
+    })
+
     useEffect(() => {
-        if (!session) {
-            setUser(undefined)
-            return
-        }
+        if (!roleError) return
 
-        supabase.auth.getUser().then(({ data, error }) => {
-            if (error) {
-                console.error(error)
-                return
-            }
+        Alert.alert('Fehler', 'Benutzerinformationen konnten nicht geladen werden.')
+        console.error(`Unexpected error while loading role: ${roleError.message}`)
 
-            setUser(data.user ?? undefined)
-        })
-    }, [session])
+        // Logout user to force a new login and prevent further errors
+        setSession(undefined)
+    }, [roleError])
 
-    /**
-     * If the user state changes either refresh the current user's role or remove role data if the user was cleared.
-     */
-    useEffect(() => {
-        if (!user) {
-            setRole(undefined)
-            return
-        }
+    const isLoading = useMemo(() => sessionLoading || roleLoading, [sessionLoading, roleLoading])
 
-        supabase
-            .from(Table.UserRoles)
-            .select('roles(name)')
-            .eq('user', user.id)
-            .single()
-            .then(({ data, error }) => {
-                if (error) {
-                    console.error(error)
-                    return
-                }
-
-                // @ts-expect-error (supabase type is incorrect)
-                const name = data.roles.name as Role | undefined
-
-                setRole(name)
-            })
-    }, [user])
-
-    return <AuthContext.Provider value={{ session, user, role }}>{children}</AuthContext.Provider>
+    return (
+        <AuthContext.Provider value={{ session, role, isLoading }}>{children}</AuthContext.Provider>
+    )
 }
 
 export default AuthProvider
