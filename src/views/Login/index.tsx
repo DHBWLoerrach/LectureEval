@@ -1,15 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Alert, ImageBackground, ScrollView, View } from 'react-native'
-import { Button, Card, HelperText, Text, TextInput } from 'react-native-paper'
+import { Button, Card, HelperText, SegmentedButtons, Text, TextInput } from 'react-native-paper'
 import HeaderImage from '~/../assets/header.png'
 import Link from '~/components/Link'
 import SelectMenu from '~/components/SelectMenu'
+import { useLocale } from '~/context/LocaleContext'
+import { Locale } from '~/enums/Locale'
 import { Table } from '~/enums/Table'
 import { supabase } from '~/services/supabase'
+import { translations } from '~/translations/translations'
 import { useLoginLogic } from '~/views/Login/hooks/useLoginLogic'
 import { loginStyles } from '~/views/Login/styles'
 
 const LoginScreen = () => {
+    const intl = useIntl()
+    const { locale, setLocale } = useLocale()
+
     const {
         errors,
         email,
@@ -42,6 +49,13 @@ const LoginScreen = () => {
         loadAvailableLocations()
     }, [loadAvailableLocations])
 
+    const onLocaleChange = useCallback(
+        (val: string) => {
+            setLocale(val as Locale)
+        },
+        [setLocale],
+    )
+
     return (
         <View style={loginStyles.container}>
             <ScrollView contentContainerStyle={loginStyles.scrollContent}>
@@ -54,6 +68,22 @@ const LoginScreen = () => {
                 </ImageBackground>
                 <View style={loginStyles.wrapper}>
                     <View style={loginStyles.main}>
+                        <View>
+                            <SegmentedButtons
+                                value={locale}
+                                onValueChange={onLocaleChange}
+                                buttons={[
+                                    {
+                                        value: Locale.DE,
+                                        label: '🇩🇪 Deutsch',
+                                    },
+                                    {
+                                        value: Locale.EN,
+                                        label: '🇬🇧 English',
+                                    },
+                                ]}
+                            />
+                        </View>
                         <View>
                             <SelectMenu
                                 label='Standort'
@@ -74,7 +104,7 @@ const LoginScreen = () => {
                             <TextInput
                                 value={email}
                                 mode='outlined'
-                                label='E-Mail Adresse'
+                                label={intl.formatMessage(translations.emailLabel)}
                                 error={!!errors.email}
                                 onChangeText={onEmailChanged}
                             />
@@ -90,7 +120,7 @@ const LoginScreen = () => {
                             <TextInput
                                 mode='outlined'
                                 secureTextEntry
-                                label='Passwort'
+                                label={intl.formatMessage(translations.passwordLabel)}
                                 value={password}
                                 error={!!errors.password}
                                 onChangeText={onPasswordChanged}
