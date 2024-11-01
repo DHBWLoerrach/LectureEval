@@ -1,7 +1,9 @@
 import { PropsWithChildren, useCallback, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { StyleSheet, Text } from 'react-native'
 import { Button, Dialog, Portal } from 'react-native-paper'
 import { DialogContext, DialogInfo } from '~/context/DialogContext'
+import { translations } from '~/translations/translations'
 
 const styles = StyleSheet.create({
     description: {
@@ -12,6 +14,7 @@ const styles = StyleSheet.create({
 type Props = PropsWithChildren
 
 const DialogProvider = ({ children }: Props) => {
+    const intl = useIntl()
     const [dialogInfo, setDialogInfo] = useState<DialogInfo>()
 
     const onDismiss = useCallback(() => {
@@ -38,8 +41,12 @@ const DialogProvider = ({ children }: Props) => {
                             <Text style={styles.description}>{dialogInfo.description}</Text>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button onPress={onDismiss}>Abbrechen</Button>
-                            <Button onPress={onAccept}>Fortfahren</Button>
+                            <Button onPress={onDismiss}>
+                                {intl.formatMessage(translations.cancel)}
+                            </Button>
+                            <Button onPress={onAccept}>
+                                {intl.formatMessage(translations.continue)}
+                            </Button>
                         </Dialog.Actions>
                     </Dialog>
                 )}

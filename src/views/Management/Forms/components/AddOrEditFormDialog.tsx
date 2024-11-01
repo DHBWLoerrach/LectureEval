@@ -1,8 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useIntl } from 'react-intl'
 import { Button, Dialog, Portal } from 'react-native-paper'
 import SelectMenu from '~/components/SelectMenu'
 import TextInput from '~/components/TextInput'
+import { useLocale } from '~/context/LocaleContext'
+import { translations } from '~/translations/translations'
 import { FormFormData } from '~/views/Management/Forms/types/AddOrEditFormData'
 import { Department } from '~/views/Management/Forms/types/Department'
 import { Form } from '~/views/Management/Forms/types/Form'
@@ -15,17 +18,33 @@ type Props = {
 }
 
 const AddOrEditFormDialog = ({ onClose, onSave, initialData, departments }: Props) => {
+    const intl = useIntl()
+    const { locale } = useLocale()
+
     const form = useForm<FormFormData>({
         defaultValues: initialData,
     })
     const {
+        trigger,
         handleSubmit,
         formState: { isDirty },
     } = form
 
+    useEffect(() => {
+        trigger()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [locale])
+
     const title = useMemo(
-        () => (initialData ? 'Formular bearbeiten' : 'Formular hinzufügen'),
-        [initialData],
+        () =>
+            initialData
+                ? intl.formatMessage(translations.editEntityHeader, {
+                      entity: intl.formatMessage(translations.formLabel),
+                  })
+                : intl.formatMessage(translations.createEntityHeader, {
+                      entity: intl.formatMessage(translations.formLabel),
+                  }),
+        [initialData, intl],
     )
 
     const options = useMemo(() => {
@@ -48,23 +67,23 @@ const AddOrEditFormDialog = ({ onClose, onSave, initialData, departments }: Prop
                     <Dialog.Content>
                         <TextInput
                             name='name'
-                            label='Name'
-                            rules={{ required: 'Bitte gib einen Namen ein.' }}
+                            label={intl.formatMessage(translations.nameLabel)}
+                            rules={{ required: intl.formatMessage(translations.required) }}
                         />
                         <SelectMenu
                             name='departmentID'
-                            label='Studiengang'
+                            label={intl.formatMessage(translations.departmentLabel)}
                             options={options}
-                            rules={{ required: 'Bitte wähle einen Studiengang aus.' }}
+                            rules={{ required: intl.formatMessage(translations.required) }}
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button onPress={onClose}>Abbrechen</Button>
+                        <Button onPress={onClose}>{intl.formatMessage(translations.cancel)}</Button>
                         <Button
                             disabled={!isDirty}
                             onPress={handleSubmit(onSave)}
                         >
-                            Speichern
+                            {intl.formatMessage(translations.save)}
                         </Button>
                     </Dialog.Actions>
                 </FormProvider>

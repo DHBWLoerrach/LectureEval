@@ -1,15 +1,19 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
 import { useDialog } from '~/context/DialogContext'
 import { useSnackbar } from '~/context/SnackbarContext'
 import { Table } from '~/enums/Table'
 import { supabase } from '~/services/supabase'
+import { translations } from '~/translations/translations'
 import { FormFormData } from '~/views/Management/Forms/types/AddOrEditFormData'
 import { Department } from '~/views/Management/Forms/types/Department'
 import { Form } from '~/views/Management/Forms/types/Form'
 
 export const useFormManagementLogic = () => {
+    const intl = useIntl()
+
     const showDialog = useDialog()
     const showSnackbar = useSnackbar()
 
@@ -49,10 +53,13 @@ export const useFormManagementLogic = () => {
 
                 refetchForms()
                 showSnackbar({
-                    text: 'Das Formular wurde gelöscht.',
+                    text: intl.formatMessage(translations.entityDeleted, {
+                        article: intl.formatMessage(translations.neutralArticle),
+                        entity: intl.formatMessage(translations.formLabel),
+                    }),
                 })
             },
-            [refetchForms, showSnackbar],
+            [refetchForms, showSnackbar, intl],
         ),
     })
 
@@ -64,11 +71,14 @@ export const useFormManagementLogic = () => {
                 refetchForms()
                 showSnackbar({
                     text: form.id
-                        ? 'Die Änderungen wurden gespeichert.'
-                        : 'Das Formular wurde erstellt.',
+                        ? intl.formatMessage(translations.changesSaved)
+                        : intl.formatMessage(translations.entityCreated, {
+                              article: intl.formatMessage(translations.neutralArticle),
+                              entity: intl.formatMessage(translations.formLabel),
+                          }),
                 })
             },
-            [refetchForms, showSnackbar],
+            [refetchForms, showSnackbar, intl],
         ),
     })
 
@@ -76,23 +86,33 @@ export const useFormManagementLogic = () => {
         (form: FormFormData) =>
             saveForm(form, {
                 onError: (error) => {
-                    Alert.alert('Fehler', 'Fehler beim Speichern des Formulars.')
+                    Alert.alert(
+                        intl.formatMessage(translations.error),
+                        intl.formatMessage(translations.errorDescription),
+                    )
                     console.error(`Unexpected error while saving a form: ${error.message}`)
                 },
             }),
-        [saveForm],
+        [saveForm, intl],
     )
     const onClose = useCallback(() => setEditInfo(undefined), [setEditInfo])
 
     const onDelete = useCallback(
         (form: Form) => {
             showDialog({
-                title: 'Formular löschen?',
-                description: `"${form.name}" wird unwiderruflich gelöscht.`,
+                title: intl.formatMessage(translations.deleteEntityHeader, {
+                    entity: intl.formatMessage(translations.formLabel),
+                }),
+                description: intl.formatMessage(translations.deleteEntityDescription, {
+                    name: form.name,
+                }),
                 onAccept: () =>
                     deleteForm(form.id, {
                         onError: (error) => {
-                            Alert.alert('Fehler', 'Fehler beim Löschen des Formulars.')
+                            Alert.alert(
+                                intl.formatMessage(translations.error),
+                                intl.formatMessage(translations.errorDescription),
+                            )
                             console.error(
                                 `Unexpected error while deleting a form: ${error.message}`,
                             )
@@ -100,7 +120,7 @@ export const useFormManagementLogic = () => {
                     }),
             })
         },
-        [showDialog, deleteForm],
+        [showDialog, deleteForm, intl],
     )
     const onEdit = useCallback((form: Form) => setEditInfo({ initialData: form }), [])
     const onCreate = useCallback(() => setEditInfo({}), [])
@@ -108,9 +128,12 @@ export const useFormManagementLogic = () => {
     useEffect(() => {
         if (!formsError && !departmentsError) return
 
-        Alert.alert('Fehler', 'Fehler beim Laden der Daten.')
+        Alert.alert(
+            intl.formatMessage(translations.error),
+            intl.formatMessage(translations.errorDescription),
+        )
         console.error(formsError?.message ?? departmentsError?.message)
-    }, [formsError, departmentsError])
+    }, [formsError, departmentsError, intl])
 
     return {
         forms,

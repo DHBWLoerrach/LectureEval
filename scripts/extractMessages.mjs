@@ -176,9 +176,18 @@ const extractMessages = () => {
 
         // Merge existing messages with new messages
         const mergedMessages = mergeMessages(existingMessages, newMessages, locale)
+        const sortedMessages = Object.keys(mergedMessages)
+            // Sort the messages by key
+            .sort()
+            // Create an object containing the sorted messages
+            .reduce((sorted, key) => {
+                sorted[key] = mergedMessages[key]
+
+                return sorted
+            }, {})
 
         // Write merged messages back to the locale file
-        fs.writeFileSync(outputPath, JSON.stringify(mergedMessages, null, 2))
+        fs.writeFileSync(outputPath, JSON.stringify(sortedMessages, null, 2))
         console.log(`Successfully extracted messages for locale "${locale}".`)
     })
 }

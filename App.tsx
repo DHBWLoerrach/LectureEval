@@ -11,9 +11,9 @@ const App = () => {
     const queryClient = new QueryClient()
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <LocaleProvider>
+        <LocaleProvider>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
                     <PaperProvider theme={theme}>
                         <DialogProvider>
                             <SnackbarProvider>
@@ -21,9 +21,9 @@ const App = () => {
                             </SnackbarProvider>
                         </DialogProvider>
                     </PaperProvider>
-                </LocaleProvider>
-            </AuthProvider>
-        </QueryClientProvider>
+                </AuthProvider>
+            </QueryClientProvider>
+        </LocaleProvider>
     )
 }
 export default App

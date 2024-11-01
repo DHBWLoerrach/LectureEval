@@ -60,10 +60,13 @@ const compileMessages = () => {
         const compiledMessages = {}
 
         // Transform the messages to the desired format
-        for (const key in existingMessages) {
-            // Set the compiled message with the translated defaultMessage as the value
-            compiledMessages[key] = existingMessages[key].message
-        }
+        Object.keys(existingMessages)
+            // sort by identifier
+            .sort()
+            .forEach((key) => {
+                // Set the compiled message with the translated defaultMessage as the value
+                compiledMessages[key] = existingMessages[key].message
+            })
 
         // Define the output file path
         const outputFilePath = path.join(outputDir, `${locale}.json`)

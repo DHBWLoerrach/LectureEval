@@ -1,11 +1,13 @@
 import { Session } from '@supabase/supabase-js'
 import { useQuery } from '@tanstack/react-query'
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Alert, AppState } from 'react-native'
 import { AuthContext } from '~/context/AuthContext'
 import { Role } from '~/enums/Role'
 import { Table } from '~/enums/Table'
 import { supabase } from '~/services/supabase'
+import { translations } from '~/translations/translations'
 
 type Props = PropsWithChildren
 
@@ -26,6 +28,7 @@ AppState.addEventListener('change', (state) => {
  * The authentication state can be accessed using the `useAuth()` hook.
  */
 const AuthProvider = ({ children }: Props) => {
+    const intl = useIntl()
     const [sessionLoading, setSessionLoading] = useState(true)
     const [session, setSession] = useState<Session>()
 
@@ -69,12 +72,15 @@ const AuthProvider = ({ children }: Props) => {
     useEffect(() => {
         if (!roleError) return
 
-        Alert.alert('Fehler', 'Benutzerinformationen konnten nicht geladen werden.')
+        Alert.alert(
+            intl.formatMessage(translations.error),
+            intl.formatMessage(translations.errorDescription),
+        )
         console.error(`Unexpected error while loading role: ${roleError.message}`)
 
         // Logout user to force a new login and prevent further errors
         setSession(undefined)
-    }, [roleError])
+    }, [roleError, intl])
 
     const isLoading = useMemo(() => sessionLoading || roleLoading, [sessionLoading, roleLoading])
 

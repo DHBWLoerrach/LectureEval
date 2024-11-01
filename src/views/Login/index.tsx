@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { Alert, ImageBackground, ScrollView, View } from 'react-native'
@@ -23,9 +23,15 @@ const LoginScreen = () => {
 
     const form = useForm<LoginModel>()
     const {
+        trigger,
         handleSubmit,
         formState: { isDirty },
     } = form
+
+    useEffect(() => {
+        trigger()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [locale])
 
     const login = useCallback(
         async ({ email, password }: LoginModel) => {
@@ -38,18 +44,34 @@ const LoginScreen = () => {
 
             if (error)
                 Alert.alert(
-                    'Login fehlgeschlagen.',
-                    'Bitte prüfe deine Angaben und versuche es erneut.',
+                    intl.formatMessage(translations.loginError),
+                    intl.formatMessage(translations.loginErrorDescription),
                 )
         },
-        [isDirty],
+        [isDirty, intl],
     )
 
-    const onLocaleChange = useCallback(
+    const onLocaleChange = useCallback((val: string) => setLocale(val as Locale), [setLocale])
+
+    const buttons = useMemo(
+        () => [
+            {
+                value: Locale.DE,
+                label: intl.formatMessage(translations.germanLabel),
+            },
+            {
+                value: Locale.EN,
+                label: intl.formatMessage(translations.englishLabel),
+            },
+        ],
+        [intl],
+    )
+
+    const validate = useCallback(
         (val: string) => {
-            setLocale(val as Locale)
+            return val.includes('@') || intl.formatMessage(translations.invalidEmail)
         },
-        [setLocale],
+        [intl],
     )
 
     return (
@@ -60,24 +82,17 @@ const LoginScreen = () => {
                     source={HeaderImage}
                 >
                     <View style={loginStyles.overlay} />
-                    <Text style={loginStyles.headerText}>Anmelden</Text>
+                    <Text style={loginStyles.headerText}>
+                        {intl.formatMessage(translations.loginTitle)}
+                    </Text>
                 </ImageBackground>
                 <View style={loginStyles.wrapper}>
                     <View style={loginStyles.main}>
                         <View>
                             <SegmentedButtons
                                 value={locale}
+                                buttons={buttons}
                                 onValueChange={onLocaleChange}
-                                buttons={[
-                                    {
-                                        value: Locale.DE,
-                                        label: '🇩🇪 Deutsch',
-                                    },
-                                    {
-                                        value: Locale.EN,
-                                        label: '🇬🇧 English',
-                                    },
-                                ]}
                             />
                         </View>
                         <FormProvider {...form}>
@@ -85,17 +100,15 @@ const LoginScreen = () => {
                                 name='email'
                                 label={intl.formatMessage(translations.emailLabel)}
                                 rules={{
-                                    required: 'Bitte gebe eine E-Mail Adresse ein.',
-                                    validate: (val) =>
-                                        val.includes('@') ||
-                                        'Bitte gebe eine gültige E-Mail Adresse ein.',
+                                    required: intl.formatMessage(translations.required),
+                                    validate,
                                 }}
                             />
                             <TextInput
                                 name='password'
-                                label='Passwort'
+                                label={intl.formatMessage(translations.passwordLabel)}
                                 secureTextEntry
-                                rules={{ required: 'Bitte gebe ein Passwort ein.' }}
+                                rules={{ required: intl.formatMessage(translations.required) }}
                             />
                             <View style={loginStyles.buttonContainer}>
                                 <Button
@@ -103,16 +116,20 @@ const LoginScreen = () => {
                                     disabled={!isDirty}
                                     onPress={handleSubmit(login)}
                                 >
-                                    Anmelden
+                                    {intl.formatMessage(translations.loginTitle)}
                                 </Button>
                             </View>
                         </FormProvider>
                     </View>
                     <View style={loginStyles.footer}>
                         <Card contentStyle={loginStyles.card}>
-                            <Link href='https://dhbw-loerrach.de/impressum'>Impressum</Link>
+                            <Link href='https://dhbw-loerrach.de/impressum'>
+                                {intl.formatMessage(translations.imprint)}
+                            </Link>
                             <Text>|</Text>
-                            <Link href='https://dhbw-loerrach.de/datenschutz'>Datenschutz</Link>
+                            <Link href='https://dhbw-loerrach.de/datenschutz'>
+                                {intl.formatMessage(translations.privacy)}
+                            </Link>
                         </Card>
                     </View>
                 </View>
