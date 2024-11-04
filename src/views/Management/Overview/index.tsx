@@ -2,11 +2,10 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
-import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
-import HeaderImage from '~/../assets/header.png'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import Header from '~/components/Header'
 import { Page } from '~/enums/Page'
 import { translations } from '~/translations/translations'
-import { loginStyles } from '~/views/Login/styles'
 import ListItem from '~/views/Management/Overview/components/ListItem'
 import ListSection from '~/views/Management/Overview/components/ListSection'
 
@@ -35,47 +34,38 @@ const ManagementOverview = () => {
 
     return (
         <View style={styles.flexBox}>
-            {/* TODO: Replace with Header component */}
-            <ImageBackground
-                style={loginStyles.header}
-                source={HeaderImage}
-            >
-                <View style={loginStyles.overlay} />
-                <Text style={loginStyles.headerText}>
-                    {intl.formatMessage(translations.managementLabel)}
-                </Text>
-            </ImageBackground>
+            <Header />
             <ScrollView contentContainerStyle={styles.content}>
-                <ListSection title={intl.formatMessage(translations.entitiesLabel)}>
+                <ListSection title={intl.formatMessage(translations.entities)}>
                     <ListItem
-                        title={intl.formatMessage(translations.coursesLabel)}
+                        title={intl.formatMessage(translations.courses)}
                         onPress={navigateTo(Page.CourseManagement)}
                         icon='account-group'
                     />
                     <ListItem
-                        title={intl.formatMessage(translations.lecturesLabel)}
+                        title={intl.formatMessage(translations.lectures)}
                         onPress={navigateTo(Page.LectureManagement)}
                         icon='calendar-month'
                     />
                     <ListItem
-                        title={intl.formatMessage(translations.formsLabel)}
+                        title={intl.formatMessage(translations.forms)}
                         onPress={navigateTo(Page.FormsManagement)}
                         icon='text-box-multiple-outline'
                     />
                     <ListItem
-                        title={intl.formatMessage(translations.ratingsLabel)}
+                        title={intl.formatMessage(translations.ratings)}
                         onPress={navigateTo(Page.RatingManagement)}
                         icon='star-circle'
                     />
                 </ListSection>
-                <ListSection title={intl.formatMessage(translations.usersLabel)}>
+                <ListSection title={intl.formatMessage(translations.users)}>
                     <ListItem
-                        title={intl.formatMessage(translations.studentsLabel)}
+                        title={intl.formatMessage(translations.students)}
                         onPress={navigateTo(Page.StudentManagement)}
                         icon='account'
                     />
                     <ListItem
-                        title={intl.formatMessage(translations.lecturersLabel)}
+                        title={intl.formatMessage(translations.lecturers)}
                         onPress={navigateTo(Page.LecturerManagement)}
                         icon='account-tie'
                     />

@@ -23,43 +23,46 @@ const defineMessages = <T extends MessageRecord<keyof T & string>>(messages: T) 
 }
 
 export const translations = defineMessages({
-    loginTitle: {
+    german: {
+        defaultMessage: '🇩🇪 Deutsch',
+    },
+    english: {
+        defaultMessage: '🇬🇧 Englisch',
+    },
+    login: {
         defaultMessage: 'Anmelden',
     },
-    emailLabel: {
+    emailAdress: {
         defaultMessage: 'E-Mail Adresse',
     },
-    passwordLabel: {
+    password: {
         defaultMessage: 'Passwort',
     },
-    lecturesLabel: {
-        defaultMessage: 'Vorlesungen',
-    },
-    managementLabel: {
+    management: {
         defaultMessage: 'Verwaltung',
     },
-    studentsLabel: {
+    students: {
         defaultMessage: 'Studierende',
     },
-    entitiesLabel: {
+    entities: {
         defaultMessage: 'Entitäten',
     },
-    coursesLabel: {
+    courses: {
         defaultMessage: 'Kurse',
     },
-    formsLabel: {
+    forms: {
         defaultMessage: 'Formulare',
     },
-    formLabel: {
+    form: {
         defaultMessage: 'Formular',
     },
-    ratingsLabel: {
+    ratings: {
         defaultMessage: 'Bewertungen',
     },
-    lecturersLabel: {
+    lecturers: {
         defaultMessage: 'Dozierende',
     },
-    usersLabel: {
+    users: {
         defaultMessage: 'Benutzer*innen',
     },
     entityCreated: {
@@ -110,10 +113,10 @@ export const translations = defineMessages({
     save: {
         defaultMessage: 'Speichern',
     },
-    nameLabel: {
+    name: {
         defaultMessage: 'Name',
     },
-    departmentLabel: {
+    department: {
         defaultMessage: 'Studiengang',
     },
     loginError: {
@@ -121,12 +124,6 @@ export const translations = defineMessages({
     },
     loginErrorDescription: {
         defaultMessage: 'Bitte überprüfe deine Angaben und versuche es erneut.',
-    },
-    germanLabel: {
-        defaultMessage: '🇩🇪 Deutsch',
-    },
-    englishLabel: {
-        defaultMessage: '🇬🇧 Englisch',
     },
     invalidEmail: {
         defaultMessage: 'Bitte gebe eine gültige E-Mail Adresse ein.',
@@ -140,16 +137,13 @@ export const translations = defineMessages({
     results: {
         defaultMessage: 'Auswertung',
     },
-    logoutLabel: {
+    logout: {
         defaultMessage: 'Abmelden',
     },
-    managementView: {
-        defaultMessage: 'Verwaltung',
+    lectures: {
+        defaultMessage: 'Vorlesungen',
     },
-    lecturesView: {
-        defaultMessage: 'Vorlesungsübersicht',
-    },
-    formsView: {
+    lectureEvaluation: {
         defaultMessage: 'Vorlesung bewerten',
     },
     courseManagement: {
@@ -169,5 +163,8 @@ export const translations = defineMessages({
     },
     lecturerManagement: {
         defaultMessage: 'Dozierende verwalten',
+    },
+    loginTitle: {
+        defaultMessage: 'Anmelden',
     },
 })

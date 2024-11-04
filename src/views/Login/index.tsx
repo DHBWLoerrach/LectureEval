@@ -57,11 +57,11 @@ const LoginScreen = () => {
         () => [
             {
                 value: Locale.DE,
-                label: intl.formatMessage(translations.germanLabel),
+                label: intl.formatMessage(translations.german),
             },
             {
                 value: Locale.EN,
-                label: intl.formatMessage(translations.englishLabel),
+                label: intl.formatMessage(translations.english),
             },
         ],
         [intl],
@@ -98,7 +98,7 @@ const LoginScreen = () => {
                         <FormProvider {...form}>
                             <TextInput
                                 name='email'
-                                label={intl.formatMessage(translations.emailLabel)}
+                                label={intl.formatMessage(translations.emailAdress)}
                                 rules={{
                                     required: intl.formatMessage(translations.required),
                                     validate,
@@ -106,7 +106,7 @@ const LoginScreen = () => {
                             />
                             <TextInput
                                 name='password'
-                                label={intl.formatMessage(translations.passwordLabel)}
+                                label={intl.formatMessage(translations.password)}
                                 secureTextEntry
                                 rules={{ required: intl.formatMessage(translations.required) }}
                             />

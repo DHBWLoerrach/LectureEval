@@ -18,7 +18,7 @@ const StudentView = () => {
                 >
                     <View style={studentStyles.overlay} />
                     <Text style={studentStyles.headerText}>
-                        {intl.formatMessage(translations.studentsLabel)}
+                        {intl.formatMessage(translations.students)}
                     </Text>
                 </ImageBackground>
             </View>

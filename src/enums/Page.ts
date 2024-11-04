@@ -2,9 +2,8 @@ export enum Page {
     StudentView = 'Bewertungen',
     LecturerView = 'Ergebnisse',
     ManagementView = 'Verwaltung',
-    HomeView = 'Home',
+    LecturesView = 'Vorlesungen',
     FormsView = 'Vorlesungsbewertung',
-
     CourseManagement = 'Kurse verwalten',
     LectureManagement = 'Vorlesungen verwalten',
     FormsManagement = 'Formulare verwalten',

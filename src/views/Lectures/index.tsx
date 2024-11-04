@@ -1,8 +1,7 @@
-import React from 'react'
 import { ScrollView } from 'react-native'
 import Header from '~/components/Header'
 
-const LecturerView = () => {
+const LecturesView = () => {
     return (
         <ScrollView>
             <Header />
@@ -10,4 +9,4 @@ const LecturerView = () => {
     )
 }
 
-export default LecturerView
+export default LecturesView

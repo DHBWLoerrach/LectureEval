@@ -39,10 +39,10 @@ const AddOrEditFormDialog = ({ onClose, onSave, initialData, departments }: Prop
         () =>
             initialData
                 ? intl.formatMessage(translations.editEntityHeader, {
-                      entity: intl.formatMessage(translations.formLabel),
+                      entity: intl.formatMessage(translations.form),
                   })
                 : intl.formatMessage(translations.createEntityHeader, {
-                      entity: intl.formatMessage(translations.formLabel),
+                      entity: intl.formatMessage(translations.form),
                   }),
         [initialData, intl],
     )
@@ -67,12 +67,12 @@ const AddOrEditFormDialog = ({ onClose, onSave, initialData, departments }: Prop
                     <Dialog.Content>
                         <TextInput
                             name='name'
-                            label={intl.formatMessage(translations.nameLabel)}
+                            label={intl.formatMessage(translations.name)}
                             rules={{ required: intl.formatMessage(translations.required) }}
                         />
                         <SelectMenu
                             name='departmentID'
-                            label={intl.formatMessage(translations.departmentLabel)}
+                            label={intl.formatMessage(translations.department)}
                             options={options}
                             rules={{ required: intl.formatMessage(translations.required) }}
                         />

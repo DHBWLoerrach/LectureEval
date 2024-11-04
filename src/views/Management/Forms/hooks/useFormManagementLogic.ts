@@ -55,7 +55,7 @@ export const useFormManagementLogic = () => {
                 showSnackbar({
                     text: intl.formatMessage(translations.entityDeleted, {
                         article: intl.formatMessage(translations.neutralArticle),
-                        entity: intl.formatMessage(translations.formLabel),
+                        entity: intl.formatMessage(translations.form),
                     }),
                 })
             },
@@ -74,7 +74,7 @@ export const useFormManagementLogic = () => {
                         ? intl.formatMessage(translations.changesSaved)
                         : intl.formatMessage(translations.entityCreated, {
                               article: intl.formatMessage(translations.neutralArticle),
-                              entity: intl.formatMessage(translations.formLabel),
+                              entity: intl.formatMessage(translations.form),
                           }),
                 })
             },
@@ -101,7 +101,7 @@ export const useFormManagementLogic = () => {
         (form: Form) => {
             showDialog({
                 title: intl.formatMessage(translations.deleteEntityHeader, {
-                    entity: intl.formatMessage(translations.formLabel),
+                    entity: intl.formatMessage(translations.form),
                 }),
                 description: intl.formatMessage(translations.deleteEntityDescription, {
                     name: form.name,

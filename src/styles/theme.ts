@@ -12,5 +12,6 @@ export const theme = {
         accent: colors.secondary,
         background: colors.white,
         surface: colors.secondary,
+        surfaceVariant: colors.white,
     },
 }

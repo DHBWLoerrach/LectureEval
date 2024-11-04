@@ -10,11 +10,11 @@ export const getPageTranslation = (page: Page, intl: IntlShape) => {
         case Page.LecturerView:
             return '//TODO'
         case Page.ManagementView:
-            return intl.formatMessage(translations.managementView)
-        case Page.HomeView:
-            return intl.formatMessage(translations.lecturesView)
+            return intl.formatMessage(translations.management)
+        case Page.LecturesView:
+            return intl.formatMessage(translations.lectures)
         case Page.FormsView:
-            return intl.formatMessage(translations.formsView)
+            return intl.formatMessage(translations.forms)
         case Page.CourseManagement:
             return intl.formatMessage(translations.courseManagement)
         case Page.LectureManagement:
