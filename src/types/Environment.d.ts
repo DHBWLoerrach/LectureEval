@@ -18,4 +18,9 @@ declare module '@env' {
      * The anonymous public key for accessing the Supabase instance.
      */
     export const supabaseAnonKey: string
+
+    /**
+     * Api Key for DeepL Translation API
+     */
+    export const deeplApiKey: string
 }

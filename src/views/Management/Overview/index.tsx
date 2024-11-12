@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import Header from '~/components/Header'
-import { Page } from '~/enums/Page'
+import { Route } from '~/enums/Route'
 import { translations } from '~/translations/translations'
 import ListItem from '~/views/Management/Overview/components/ListItem'
 import ListSection from '~/views/Management/Overview/components/ListSection'
@@ -26,7 +26,7 @@ const ManagementOverview = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
     const navigateTo = useCallback(
-        (page: Page) => {
+        (page: Route) => {
             return () => navigation.navigate(page)
         },
         [navigation],
@@ -39,34 +39,34 @@ const ManagementOverview = () => {
                 <ListSection title={intl.formatMessage(translations.entities)}>
                     <ListItem
                         title={intl.formatMessage(translations.courses)}
-                        onPress={navigateTo(Page.CourseManagement)}
+                        onPress={navigateTo(Route.CourseManagement)}
                         icon='account-group'
                     />
                     <ListItem
                         title={intl.formatMessage(translations.lectures)}
-                        onPress={navigateTo(Page.LectureManagement)}
+                        onPress={navigateTo(Route.LectureManagement)}
                         icon='calendar-month'
                     />
                     <ListItem
                         title={intl.formatMessage(translations.forms)}
-                        onPress={navigateTo(Page.FormsManagement)}
+                        onPress={navigateTo(Route.FormsManagement)}
                         icon='text-box-multiple-outline'
                     />
                     <ListItem
                         title={intl.formatMessage(translations.ratings)}
-                        onPress={navigateTo(Page.RatingManagement)}
+                        onPress={navigateTo(Route.RatingManagement)}
                         icon='star-circle'
                     />
                 </ListSection>
                 <ListSection title={intl.formatMessage(translations.users)}>
                     <ListItem
                         title={intl.formatMessage(translations.students)}
-                        onPress={navigateTo(Page.StudentManagement)}
+                        onPress={navigateTo(Route.StudentManagement)}
                         icon='account'
                     />
                     <ListItem
                         title={intl.formatMessage(translations.lecturers)}
-                        onPress={navigateTo(Page.LecturerManagement)}
+                        onPress={navigateTo(Route.LecturerManagement)}
                         icon='account-tie'
                     />
                 </ListSection>

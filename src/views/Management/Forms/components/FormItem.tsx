@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Card, IconButton } from 'react-native-paper'
-import { Department } from '~/views/Management/Forms/types/Department'
-import { Form } from '~/views/Management/Forms/types/Form'
+import { StyleSheet, View } from 'react-native'
+import { Card, IconButton, Text } from 'react-native-paper'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { Department } from '~/types/Department'
+import { Form } from '~/types/Form'
 
 const styles = StyleSheet.create({
     card: {
@@ -14,11 +15,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     subtitle: {
-        fontSize: 16,
+        fontSize: RFValue(13),
+        maxWidth: 170,
+        overflow: 'hidden',
     },
     title: {
-        fontSize: 24,
+        fontSize: RFValue(19),
         fontWeight: 'bold',
+        maxWidth: 170,
+        overflow: 'hidden',
     },
 })
 
@@ -26,10 +31,17 @@ type Props = {
     form: Form
     onEdit: (form: Form) => void
     onDelete: (form: Form) => void
+    onDesign: (formId: number, departmentId: number) => void
     departments: Department[]
 }
 
-const FormItem = ({ form, onEdit: onEditProp, onDelete: onDeleteProp, departments }: Props) => {
+const FormItem = ({
+    form,
+    onEdit: onEditProp,
+    onDelete: onDeleteProp,
+    onDesign: onDesignProp,
+    departments,
+}: Props) => {
     const onEdit = useCallback(() => {
         onEditProp(form)
     }, [onEditProp, form])
@@ -43,19 +55,34 @@ const FormItem = ({ form, onEdit: onEditProp, onDelete: onDeleteProp, department
         [departments, form.departmentID],
     )
 
+    const onDesign = useCallback(() => {
+        if (!department) return
+
+        onDesignProp(form.id, department.id)
+    }, [onDesignProp, form.id, department])
+
     return (
         <Card
             style={styles.card}
             contentStyle={styles.row}
         >
             <View>
-                <Text style={styles.title}>{form.name}</Text>
+                <Text
+                    style={styles.title}
+                    numberOfLines={1}
+                >
+                    {form.name}
+                </Text>
                 <Text style={styles.subtitle}>{department?.name}</Text>
             </View>
             <View style={styles.row}>
                 <IconButton
                     onPress={onEdit}
                     icon='pencil'
+                />
+                <IconButton
+                    onPress={onDesign}
+                    icon='magic-staff'
                 />
                 <IconButton
                     onPress={onDelete}

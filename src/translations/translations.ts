@@ -167,4 +167,61 @@ export const translations = defineMessages({
     loginTitle: {
         defaultMessage: 'Anmelden',
     },
+    formDesigner: {
+        defaultMessage: 'Formular-Designer',
+    },
+    stepHeading: {
+        defaultMessage: 'Schritt {current} von {max}',
+    },
+    stepLabel: {
+        defaultMessage: 'Schritt',
+    },
+    titleLabel: {
+        defaultMessage: 'Titel',
+    },
+    subTitleLabel: {
+        defaultMessage: 'Untertitel',
+    },
+    question: {
+        defaultMessage: 'Frage',
+    },
+    privacyNotice: {
+        defaultMessage: 'Datenschutzhinweis',
+    },
+    privacyMoreInfo: {
+        defaultMessage: 'Weitere Infos zum Datenschutz',
+    },
+    acceptAndContinue: {
+        defaultMessage: 'Zustimmen und weiter',
+    },
+    privacyStepSubTitle: {
+        defaultMessage: 'Bitte stimme den Datenschutzbestimmungen deiner Universität zu.',
+    },
+    agree: {
+        defaultMessage: 'Stimme voll zu',
+    },
+    disagree: {
+        defaultMessage: 'Stimme nicht zu',
+    },
+    next: {
+        defaultMessage: 'Weiter',
+    },
+    back: {
+        defaultMessage: 'Zurück',
+    },
+    addStep: {
+        defaultMessage: 'Schritt hinzufügen',
+    },
+    questionType: {
+        defaultMessage: 'Fragen-Typ',
+    },
+    questionTypeRating: {
+        defaultMessage: 'Sterne-Bewertung',
+    },
+    questionTypeText: {
+        defaultMessage: 'Freitext',
+    },
+    formNameExists: {
+        defaultMessage: 'Ein Formular mit diesem Namen existiert bereits.',
+    },
 })

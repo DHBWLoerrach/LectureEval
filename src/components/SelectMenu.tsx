@@ -3,6 +3,7 @@ import { useController, UseControllerProps } from 'react-hook-form'
 import { FlatList, StyleSheet, View } from 'react-native'
 // eslint-disable-next-line no-restricted-imports
 import { HelperText, Modal, Portal, Text, TextInput, TouchableRipple } from 'react-native-paper'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { colors } from '~/styles/colors'
 
 const styles = StyleSheet.create({
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     option: {
-        fontSize: 18,
+        fontSize: RFValue(14),
         padding: 10,
     },
 })

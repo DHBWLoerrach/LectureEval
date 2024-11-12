@@ -1,12 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { useCallback, useMemo } from 'react'
-import { useIntl } from 'react-intl'
 import { IconButton } from 'react-native-paper'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import { useAuth } from '~/context/AuthContext'
-import { Page } from '~/enums/Page'
 import { Role } from '~/enums/Role'
+import { Route } from '~/enums/Route'
 import { colors } from '~/styles/colors'
 import LecturerView from '~/views/Lecturer'
 import LecturesView from '~/views/Lectures'
@@ -14,20 +13,19 @@ import ManagementOverview from '~/views/Management/Overview'
 import StudentView from '~/views/Student'
 
 const TabNavigator = () => {
-    const intl = useIntl()
     const { role } = useAuth()
     const Tab = createBottomTabNavigator()
 
     const getIcon = useCallback((route: string) => {
         switch (route) {
-            case Page.LecturesView:
+            case Route.LecturesView:
                 return 'home'
 
-            case Page.StudentView:
-            case Page.LecturerView:
+            case Route.StudentView:
+            case Route.LecturerView:
                 return 'compass-outline'
 
-            case Page.ManagementView:
+            case Route.ManagementView:
                 return 'cog'
 
             default:
@@ -39,17 +37,17 @@ const TabNavigator = () => {
         switch (role) {
             case Role.Student:
                 return {
-                    name: Page.StudentView,
+                    name: Route.StudentView,
                     component: StudentView,
                 }
             case Role.Lecturer:
                 return {
-                    name: Page.LecturerView,
+                    name: Route.LecturerView,
                     component: LecturerView,
                 }
             case Role.Admin:
                 return {
-                    name: Page.ManagementView,
+                    name: Route.ManagementView,
                     component: ManagementOverview,
                 }
             default:
@@ -76,7 +74,7 @@ const TabNavigator = () => {
             })}
         >
             <Tab.Screen
-                name={Page.LecturesView}
+                name={Route.LecturesView}
                 component={LecturesView}
                 options={{ headerShown: false }}
             />

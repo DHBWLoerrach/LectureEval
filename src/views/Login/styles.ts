@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { colors } from '~/styles/colors'
 
 export const loginStyles = StyleSheet.create({
@@ -25,7 +26,7 @@ export const loginStyles = StyleSheet.create({
     },
     headerText: {
         color: colors.white,
-        fontSize: 36,
+        fontSize: RFValue(28),
         fontWeight: 'bold',
     },
     main: {

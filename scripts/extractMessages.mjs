@@ -188,7 +188,7 @@ const extractMessages = () => {
 
         // Write merged messages back to the locale file
         fs.writeFileSync(outputPath, JSON.stringify(sortedMessages, null, 2))
-        console.log(`Successfully extracted messages for locale "${locale}".`)
+        console.log(`Successfully extracted messages to "${outputPath}".`)
     })
 }
 

@@ -12,8 +12,18 @@ const styles = StyleSheet.create({
 })
 
 const FormsManagement = () => {
-    const { forms, loading, editInfo, departments, onCreate, onDelete, onEdit, onSave, onClose } =
-        useFormManagementLogic()
+    const {
+        forms,
+        loading,
+        editInfo,
+        departments,
+        onCreate,
+        onDelete,
+        onEdit,
+        onSave,
+        onClose,
+        onDesign,
+    } = useFormManagementLogic()
 
     return (
         <ManagementWrapper
@@ -27,12 +37,14 @@ const FormsManagement = () => {
                         form={form}
                         onEdit={onEdit}
                         onDelete={onDelete}
+                        onDesign={onDesign}
                         departments={departments ?? []}
                     />
                 ))}
             </View>
             {editInfo && (
                 <AddOrEditFormDialog
+                    forms={forms}
                     onSave={onSave}
                     onClose={onClose}
                     departments={departments ?? []}

@@ -1,33 +1,35 @@
 import { IntlShape } from 'react-intl'
-import { Page } from '~/enums/Page'
+import { Route } from '~/enums/Route'
 import { never } from '~/helpers/never'
 import { translations } from '~/translations/translations'
 
-export const getPageTranslation = (page: Page, intl: IntlShape) => {
+export const getPageTranslation = (page: Route, intl: IntlShape) => {
     switch (page) {
-        case Page.StudentView:
+        case Route.StudentView:
             return '//TODO'
-        case Page.LecturerView:
+        case Route.LecturerView:
             return '//TODO'
-        case Page.ManagementView:
+        case Route.ManagementView:
             return intl.formatMessage(translations.management)
-        case Page.LecturesView:
+        case Route.LecturesView:
             return intl.formatMessage(translations.lectures)
-        case Page.FormsView:
+        case Route.FormsView:
             return intl.formatMessage(translations.forms)
-        case Page.CourseManagement:
+        case Route.CourseManagement:
             return intl.formatMessage(translations.courseManagement)
-        case Page.LectureManagement:
+        case Route.LectureManagement:
             return intl.formatMessage(translations.lectureManagement)
-        case Page.FormsManagement:
+        case Route.FormsManagement:
             return intl.formatMessage(translations.formsManagement)
-        case Page.RatingManagement:
+        case Route.RatingManagement:
             return intl.formatMessage(translations.ratingManagement)
-        case Page.StudentManagement:
+        case Route.StudentManagement:
             return intl.formatMessage(translations.studentManagement)
-        case Page.LecturerManagement:
+        case Route.LecturerManagement:
             return intl.formatMessage(translations.lecturerManagement)
+        case Route.FormDesigner:
+            return intl.formatMessage(translations.formDesigner)
         default:
-            never(page, `Unexpected page: ${page}. This should never happen.`)
+            return never(page, `Unexpected page: ${page}. This should never happen.`)
     }
 }

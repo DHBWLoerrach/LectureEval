@@ -1,18 +1,23 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useCallback, useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
 import { useDialog } from '~/context/DialogContext'
 import { useSnackbar } from '~/context/SnackbarContext'
-import { Table } from '~/enums/Table'
-import { supabase } from '~/services/supabase'
+import { Route } from '~/enums/Route'
+import { useDepartmentsQuery } from '~/queries/Departments/useDepartmentsQuery'
+import { useDeleteFormMutation } from '~/queries/Forms/useDeleteFormMutation'
+import { useFormsQuery } from '~/queries/Forms/useFormsQuery'
+import { useUpsertFormMutation } from '~/queries/Forms/useUpsertFormMutation'
 import { translations } from '~/translations/translations'
-import { FormFormData } from '~/views/Management/Forms/types/AddOrEditFormData'
-import { Department } from '~/views/Management/Forms/types/Department'
-import { Form } from '~/views/Management/Forms/types/Form'
+import { Form } from '~/types/Form'
+import { FormFormData } from '~/views/Management/Forms/types/FormFormData'
 
 export const useFormManagementLogic = () => {
     const intl = useIntl()
+
+    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
     const showDialog = useDialog()
     const showSnackbar = useSnackbar()
@@ -23,68 +28,33 @@ export const useFormManagementLogic = () => {
         data: departments,
         isLoading: departmentsLoading,
         error: departmentsError,
-    } = useQuery<Department[]>({
-        queryKey: [Table.Departments],
-        queryFn: useCallback(async () => {
-            const { data } = await supabase.from(Table.Departments).select('*').throwOnError()
-
-            return data ?? []
-        }, []),
-    })
+    } = useDepartmentsQuery()
 
     const {
         data: forms,
         isLoading: formsLoading,
         error: formsError,
         refetch: refetchForms,
-    } = useQuery<Form[]>({
-        queryKey: [Table.Forms],
-        queryFn: useCallback(async () => {
-            const { data } = await supabase.from(Table.Forms).select('*').throwOnError()
+    } = useFormsQuery()
 
-            return data ?? []
-        }, []),
-    })
-
-    const { mutate: deleteForm } = useMutation({
-        mutationFn: useCallback(
-            async (id: number) => {
-                await supabase.from(Table.Forms).delete().eq('id', id).throwOnError()
-
-                refetchForms()
-                showSnackbar({
-                    text: intl.formatMessage(translations.entityDeleted, {
-                        article: intl.formatMessage(translations.neutralArticle),
-                        entity: intl.formatMessage(translations.form),
-                    }),
-                })
-            },
-            [refetchForms, showSnackbar, intl],
-        ),
-    })
-
-    const { mutate: saveForm } = useMutation({
-        mutationFn: useCallback(
-            async (form: FormFormData) => {
-                await supabase.from(Table.Forms).upsert(form).throwOnError()
-
-                refetchForms()
-                showSnackbar({
-                    text: form.id
-                        ? intl.formatMessage(translations.changesSaved)
-                        : intl.formatMessage(translations.entityCreated, {
-                              article: intl.formatMessage(translations.neutralArticle),
-                              entity: intl.formatMessage(translations.form),
-                          }),
-                })
-            },
-            [refetchForms, showSnackbar, intl],
-        ),
-    })
+    const { mutate: saveForm } = useUpsertFormMutation()
+    const { mutate: deleteForm } = useDeleteFormMutation()
 
     const onSave = useCallback(
-        (form: FormFormData) =>
+        (form: FormFormData) => {
             saveForm(form, {
+                onSuccess: () => {
+                    refetchForms()
+                    setEditInfo(undefined)
+                    showSnackbar({
+                        text: form.id
+                            ? intl.formatMessage(translations.changesSaved)
+                            : intl.formatMessage(translations.entityCreated, {
+                                  article: intl.formatMessage(translations.neutralArticle),
+                                  entity: intl.formatMessage(translations.form),
+                              }),
+                    })
+                },
                 onError: (error) => {
                     Alert.alert(
                         intl.formatMessage(translations.error),
@@ -92,9 +62,11 @@ export const useFormManagementLogic = () => {
                     )
                     console.error(`Unexpected error while saving a form: ${error.message}`)
                 },
-            }),
-        [saveForm, intl],
+            })
+        },
+        [saveForm, refetchForms, showSnackbar, intl],
     )
+
     const onClose = useCallback(() => setEditInfo(undefined), [setEditInfo])
 
     const onDelete = useCallback(
@@ -108,6 +80,15 @@ export const useFormManagementLogic = () => {
                 }),
                 onAccept: () =>
                     deleteForm(form.id, {
+                        onSuccess: () => {
+                            refetchForms()
+                            showSnackbar({
+                                text: intl.formatMessage(translations.entityDeleted, {
+                                    article: intl.formatMessage(translations.neutralArticle),
+                                    entity: intl.formatMessage(translations.form),
+                                }),
+                            })
+                        },
                         onError: (error) => {
                             Alert.alert(
                                 intl.formatMessage(translations.error),
@@ -120,10 +101,17 @@ export const useFormManagementLogic = () => {
                     }),
             })
         },
-        [showDialog, deleteForm, intl],
+        [showDialog, deleteForm, refetchForms, showSnackbar, intl],
     )
+
     const onEdit = useCallback((form: Form) => setEditInfo({ initialData: form }), [])
     const onCreate = useCallback(() => setEditInfo({}), [])
+    const onDesign = useCallback(
+        (formId: number, departmentId: number) => {
+            navigation.navigate(Route.FormDesigner, { formId, departmentId })
+        },
+        [navigation],
+    )
 
     useEffect(() => {
         if (!formsError && !departmentsError) return
@@ -145,5 +133,6 @@ export const useFormManagementLogic = () => {
         onCreate,
         onSave,
         onClose,
+        onDesign,
     }
 }

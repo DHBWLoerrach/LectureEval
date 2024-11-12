@@ -2,9 +2,10 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useIntl } from 'react-intl'
 import TabNavigator from '~/components/Navigation/components/TabNavigator'
-import { Page } from '~/enums/Page'
+import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
 import FormsView from '~/views/Forms'
+import Designer from '~/views/Management/Designer'
 import FormsManagement from '~/views/Management/Forms'
 
 const Navigation = () => {
@@ -20,13 +21,21 @@ const Navigation = () => {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name={Page.FormsView}
+                    name={Route.FormsView}
                     component={FormsView}
                 />
                 <Stack.Screen
-                    name={Page.FormsManagement}
+                    name={Route.FormsManagement}
                     component={FormsManagement}
-                    options={{ title: getPageTranslation(Page.FormsManagement, intl) }}
+                    options={{ title: getPageTranslation(Route.FormsManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.FormDesigner}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
+                    component={Designer}
+                    initialParams={{ formId: 0 }}
+                    options={{ title: getPageTranslation(Route.FormDesigner, intl) }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

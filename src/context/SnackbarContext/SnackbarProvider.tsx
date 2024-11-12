@@ -18,7 +18,12 @@ const SnackbarProvider = ({ children }: Props) => {
                 {snackbarInfo && (
                     <Snackbar
                         visible
+                        duration={4000}
                         onDismiss={onDismiss}
+                        action={{
+                            label: 'X',
+                            onPress: onDismiss,
+                        }}
                     >
                         {snackbarInfo.text}
                     </Snackbar>

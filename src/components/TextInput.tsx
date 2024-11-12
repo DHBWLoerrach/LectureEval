@@ -5,18 +5,33 @@ import { TextInput as BaseInput, HelperText } from 'react-native-paper'
 
 type Props = {
     name: string
-    label: string
+    label?: string
     helperText?: string
     rules?: UseControllerProps['rules']
+    disabled?: boolean
     /**
      * Whether or not the value of this field should be obscured.
      *
      * @default false
      */
     secureTextEntry?: boolean
+    /**
+     * Whether or not this field should allow multiple lines of text.
+     *
+     * @default false
+     */
+    multiline?: boolean
 }
 
-const TextInput = ({ label, helperText, name, rules, secureTextEntry = false }: Props) => {
+const TextInput = ({
+    label,
+    helperText,
+    name,
+    rules,
+    secureTextEntry = false,
+    multiline = false,
+    disabled,
+}: Props) => {
     const {
         field: { value, onChange },
         fieldState: { error },
@@ -29,6 +44,8 @@ const TextInput = ({ label, helperText, name, rules, secureTextEntry = false }: 
                 label={label}
                 mode='outlined'
                 error={!!error}
+                disabled={disabled}
+                multiline={multiline}
                 onChangeText={onChange}
                 secureTextEntry={secureTextEntry}
             />

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { Alert, ImageBackground, ScrollView, View } from 'react-native'
@@ -29,6 +29,8 @@ const LoginScreen = () => {
     } = form
 
     useEffect(() => {
+        if (!isDirty) return
+
         trigger()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [locale])

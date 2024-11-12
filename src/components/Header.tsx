@@ -1,13 +1,14 @@
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native'
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useIntl } from 'react-intl'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import { SegmentedButtons } from 'react-native-paper'
+import { ImageBackground, StyleSheet, View } from 'react-native'
+import { SegmentedButtons, Text } from 'react-native-paper'
+import { RFValue } from 'react-native-responsive-fontsize'
 import HeaderImage from '~/../assets/header.png'
 import SelectButton from '~/components/SelectButton'
 import { useLocale } from '~/context/LocaleContext'
 import { Locale } from '~/enums/Locale'
-import { Page } from '~/enums/Page'
+import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
 import { supabase } from '~/services/supabase'
 import { colors } from '~/styles/colors'
@@ -23,17 +24,14 @@ const styles = StyleSheet.create({
     },
     headerImage: {
         height: 130,
+        marginTop: 32,
     },
     headerText: {
         color: colors.white,
-        fontSize: 30,
+        fontSize: RFValue(24),
         fontWeight: 'bold',
         height: 60,
         textAlignVertical: 'center',
-    },
-    headerTop: {
-        backgroundColor: colors.white,
-        height: 35,
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
@@ -89,7 +87,6 @@ const Header = () => {
 
     return (
         <View>
-            <View style={styles.headerTop} />
             <ImageBackground
                 style={styles.headerImage}
                 source={HeaderImage}
@@ -98,7 +95,7 @@ const Header = () => {
                 <View style={styles.overlay} />
                 <View style={styles.element}>
                     <Text style={styles.headerText}>
-                        {getPageTranslation(route.name as Page, intl)}
+                        {getPageTranslation(route.name as Route, intl)}
                     </Text>
 
                     <SelectButton

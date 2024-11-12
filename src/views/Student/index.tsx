@@ -1,6 +1,6 @@
-import React from 'react'
 import { useIntl } from 'react-intl'
-import { ImageBackground, ScrollView, Text, View } from 'react-native'
+import { ImageBackground, ScrollView, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import HeaderImage from '~/../assets/header.png'
 import { translations } from '~/translations/translations'
 import { studentStyles } from './styles'

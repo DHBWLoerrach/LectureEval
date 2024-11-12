@@ -1,12 +1,14 @@
 import { PropsWithChildren, useCallback } from 'react'
 import { useIntl } from 'react-intl'
-import { Alert, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+// eslint-disable-next-line no-restricted-imports
+import { Alert, Linking, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import { translations } from '~/translations/translations'
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
         flex: 1,
+        flexDirection: 'row',
         justifyContent: 'center',
     },
     link: {

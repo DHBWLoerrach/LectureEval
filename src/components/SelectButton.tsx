@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Icon, IconButton, Modal, Portal, Text } from 'react-native-paper'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { Icon, IconButton, Modal, Portal, Text, TouchableRipple } from 'react-native-paper'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { colors } from '~/styles/colors'
 import { theme } from '~/styles/theme'
 
@@ -14,11 +15,11 @@ const styles = StyleSheet.create({
     modal: {
         backgroundColor: colors.white,
         borderRadius: 10,
-        paddingHorizontal: 20,
+        marginHorizontal: 20,
         padding: 20,
     },
     optionText: {
-        fontSize: 18,
+        fontSize: RFValue(16),
         lineHeight: 25,
         paddingLeft: 20,
     },
@@ -74,17 +75,16 @@ const SelectButton = ({ icon, options, onChange, children }: Props) => {
                         data={options}
                         keyExtractor={(item) => item.label}
                         renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => handleSelect(item.label)}
-                                style={styles.options}
-                            >
-                                <Icon
-                                    source={item.iconSource}
-                                    size={30}
-                                    theme={theme}
-                                />
-                                <Text style={styles.optionText}>{item.label}</Text>
-                            </TouchableOpacity>
+                            <TouchableRipple onPress={() => handleSelect(item.label)}>
+                                <View style={styles.options}>
+                                    <Icon
+                                        source={item.iconSource}
+                                        size={30}
+                                        theme={theme}
+                                    />
+                                    <Text style={styles.optionText}>{item.label}</Text>
+                                </View>
+                            </TouchableRipple>
                         )}
                     />
                 </Modal>
