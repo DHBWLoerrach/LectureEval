@@ -29,6 +29,8 @@ export const getPageTranslation = (page: Route, intl: IntlShape) => {
             return intl.formatMessage(translations.lecturerManagement)
         case Route.FormDesigner:
             return intl.formatMessage(translations.formDesigner)
+        case Route.DepartmentsManagement:
+            return intl.formatMessage(translations.departments)
         default:
             return never(page, `Unexpected page: ${page}. This should never happen.`)
     }

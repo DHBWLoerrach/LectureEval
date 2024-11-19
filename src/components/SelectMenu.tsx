@@ -30,9 +30,10 @@ type Props = {
     options: SelectOption[]
     helperText?: string
     rules?: UseControllerProps['rules']
+    disabled?: boolean
 }
 
-const SelectMenu = ({ name, rules, helperText, label, options }: Props) => {
+const SelectMenu = ({ name, rules, helperText, label, options, disabled }: Props) => {
     const [visible, setVisible] = useState(false)
 
     const {
@@ -40,15 +41,21 @@ const SelectMenu = ({ name, rules, helperText, label, options }: Props) => {
         fieldState: { error },
     } = useController({ name, rules })
 
-    const openModal = useCallback(() => setVisible(true), [setVisible])
+    const openModal = useCallback(() => {
+        if (disabled) return
+
+        setVisible(true)
+    }, [disabled])
     const closeModal = useCallback(() => setVisible(false), [setVisible])
 
     const handleSelect = useCallback(
         (value: number) => {
+            if (disabled) return
+
             onChange(value)
             closeModal()
         },
-        [closeModal, onChange],
+        [closeModal, disabled, onChange],
     )
 
     const displayValue = useMemo(
@@ -67,6 +74,7 @@ const SelectMenu = ({ name, rules, helperText, label, options }: Props) => {
                     openModal()
                     e.target.blur()
                 }}
+                disabled={disabled}
                 showSoftInputOnFocus={false}
                 right={
                     <TextInput.Icon

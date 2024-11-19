@@ -1,11 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { useCallback, useMemo } from 'react'
+import { useIntl } from 'react-intl'
 import { IconButton } from 'react-native-paper'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import { useAuth } from '~/context/AuthContext'
 import { Role } from '~/enums/Role'
 import { Route } from '~/enums/Route'
+import { getPageTranslation } from '~/helpers/getPageTranslation'
 import { colors } from '~/styles/colors'
 import LecturerView from '~/views/Lecturer'
 import LecturesView from '~/views/Lectures'
@@ -13,6 +15,7 @@ import ManagementOverview from '~/views/Management/Overview'
 import StudentView from '~/views/Student'
 
 const TabNavigator = () => {
+    const intl = useIntl()
     const { role } = useAuth()
     const Tab = createBottomTabNavigator()
 
@@ -76,12 +79,15 @@ const TabNavigator = () => {
             <Tab.Screen
                 name={Route.LecturesView}
                 component={LecturesView}
-                options={{ headerShown: false }}
+                options={{
+                    headerShown: false,
+                    tabBarLabel: getPageTranslation(Route.LecturesView, intl),
+                }}
             />
             <Tab.Screen
                 name={name}
                 component={component}
-                options={{ headerShown: false }}
+                options={{ headerShown: false, tabBarLabel: getPageTranslation(name, intl) }}
             />
         </Tab.Navigator>
     )

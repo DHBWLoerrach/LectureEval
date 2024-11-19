@@ -18,5 +18,6 @@ export enum Table {
     Roles = 'roles',
     Steps = 'steps',
     Students = 'students',
+    UserLocations = 'user_locations',
     UserRoles = 'user_roles',
 }

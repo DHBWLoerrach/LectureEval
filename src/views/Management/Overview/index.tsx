@@ -57,6 +57,11 @@ const ManagementOverview = () => {
                         onPress={navigateTo(Route.RatingManagement)}
                         icon='star-circle'
                     />
+                    <ListItem
+                        title={intl.formatMessage(translations.departments)}
+                        onPress={navigateTo(Route.DepartmentsManagement)}
+                        icon='home-city'
+                    />
                 </ListSection>
                 <ListSection title={intl.formatMessage(translations.users)}>
                     <ListItem

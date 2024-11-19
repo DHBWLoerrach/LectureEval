@@ -5,6 +5,7 @@ import TabNavigator from '~/components/Navigation/components/TabNavigator'
 import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
 import FormsView from '~/views/Forms'
+import DepartmentsManagement from '~/views/Management/Departments'
 import Designer from '~/views/Management/Designer'
 import FormsManagement from '~/views/Management/Forms'
 
@@ -28,6 +29,11 @@ const Navigation = () => {
                     name={Route.FormsManagement}
                     component={FormsManagement}
                     options={{ title: getPageTranslation(Route.FormsManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.DepartmentsManagement}
+                    component={DepartmentsManagement}
+                    options={{ title: getPageTranslation(Route.DepartmentsManagement, intl) }}
                 />
                 <Stack.Screen
                     name={Route.FormDesigner}

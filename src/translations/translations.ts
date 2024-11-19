@@ -224,4 +224,10 @@ export const translations = defineMessages({
     formNameExists: {
         defaultMessage: 'Ein Formular mit diesem Namen existiert bereits.',
     },
+    departments: {
+        defaultMessage: 'Studiengänge',
+    },
+    location: {
+        defaultMessage: 'Standort',
+    },
 })

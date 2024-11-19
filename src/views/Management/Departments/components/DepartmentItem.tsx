@@ -1,0 +1,66 @@
+import { useCallback } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Card, IconButton, Text } from 'react-native-paper'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { Department } from '~/types/Department'
+
+const styles = StyleSheet.create({
+    card: {
+        padding: 20,
+    },
+    row: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    title: {
+        fontSize: RFValue(19),
+        fontWeight: 'bold',
+        maxWidth: 200,
+        overflow: 'hidden',
+    },
+})
+
+type Props = {
+    department: Department
+    onEdit: (department: Department) => void
+    onDelete: (department: Department) => void
+}
+
+const DepartmentItem = ({ department, onDelete: onDeleteProp, onEdit: onEditProp }: Props) => {
+    const onEdit = useCallback(() => {
+        onEditProp(department)
+    }, [onEditProp, department])
+
+    const onDelete = useCallback(() => {
+        onDeleteProp(department)
+    }, [onDeleteProp, department])
+
+    return (
+        <Card
+            style={styles.card}
+            contentStyle={styles.row}
+        >
+            <View>
+                <Text
+                    style={styles.title}
+                    numberOfLines={1}
+                >
+                    {department.name}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <IconButton
+                    onPress={onEdit}
+                    icon='pencil'
+                />
+                <IconButton
+                    onPress={onDelete}
+                    icon='trash-can'
+                />
+            </View>
+        </Card>
+    )
+}
+
+export default DepartmentItem
