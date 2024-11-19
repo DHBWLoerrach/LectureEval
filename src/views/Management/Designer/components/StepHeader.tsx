@@ -46,7 +46,7 @@ const StepHeader = ({ maxSerial, step, onEdit: onEditProp, onDelete: onDeletePro
     const progress = useMemo(() => {
         if (!step) return 0.01
 
-        return step.serial / maxSerial
+        return Math.round((step.serial / maxSerial) * 100) / 100
     }, [step, maxSerial])
 
     const title = useMemo(() => {
@@ -81,7 +81,7 @@ const StepHeader = ({ maxSerial, step, onEdit: onEditProp, onDelete: onDeletePro
             <View style={styles.title}>
                 <Text
                     style={styles.heading}
-                    numberOfLines={1}
+                    numberOfLines={2}
                 >
                     {title}
                 </Text>

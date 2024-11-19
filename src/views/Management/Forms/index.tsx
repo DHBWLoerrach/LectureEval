@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
 import AddOrEditFormDialog from '~/views/Management/Forms/components/AddOrEditFormDialog'
 import FormItem from '~/views/Management/Forms/components/FormItem'
@@ -7,6 +7,7 @@ import { useFormManagementLogic } from '~/views/Management/Forms/hooks/useFormMa
 const styles = StyleSheet.create({
     content: {
         gap: 20,
+        marginBottom: 50,
         padding: 20,
     },
 })
@@ -30,18 +31,20 @@ const FormsManagement = () => {
             onFab={onCreate}
             loading={loading}
         >
-            <View style={styles.content}>
-                {forms?.map((form) => (
-                    <FormItem
-                        key={form.id}
-                        form={form}
-                        onEdit={onEdit}
-                        onDelete={onDelete}
-                        onDesign={onDesign}
-                        departments={departments ?? []}
-                    />
-                ))}
-            </View>
+            <ScrollView>
+                <View style={styles.content}>
+                    {forms?.map((form) => (
+                        <FormItem
+                            key={form.id}
+                            form={form}
+                            onEdit={onEdit}
+                            onDelete={onDelete}
+                            onDesign={onDesign}
+                            departments={departments ?? []}
+                        />
+                    ))}
+                </View>
+            </ScrollView>
             {editInfo && (
                 <AddOrEditFormDialog
                     forms={forms}

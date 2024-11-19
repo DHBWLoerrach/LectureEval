@@ -195,7 +195,7 @@ export const translations = defineMessages({
         defaultMessage: 'Zustimmen und weiter',
     },
     privacyStepSubTitle: {
-        defaultMessage: 'Bitte stimme den Datenschutzbestimmungen deiner Universität zu.',
+        defaultMessage: 'Bitte stimme den Datenschutzbestimmungen zu.',
     },
     agree: {
         defaultMessage: 'Stimme voll zu',
