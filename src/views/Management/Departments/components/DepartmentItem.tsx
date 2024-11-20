@@ -5,6 +5,9 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Department } from '~/types/Department'
 
 const styles = StyleSheet.create({
+    buttons: {
+        flexDirection: 'row',
+    },
     card: {
         padding: 20,
     },
@@ -13,8 +16,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    text: {
+        width: '65%',
+    },
     title: {
-        fontSize: RFValue(19),
+        fontSize: RFValue(17),
         fontWeight: 'bold',
         maxWidth: 200,
         overflow: 'hidden',
@@ -41,7 +47,7 @@ const DepartmentItem = ({ department, onDelete: onDeleteProp, onEdit: onEditProp
             style={styles.card}
             contentStyle={styles.row}
         >
-            <View>
+            <View style={styles.text}>
                 <Text
                     style={styles.title}
                     numberOfLines={1}
@@ -49,14 +55,18 @@ const DepartmentItem = ({ department, onDelete: onDeleteProp, onEdit: onEditProp
                     {department.name}
                 </Text>
             </View>
-            <View style={styles.row}>
+            <View style={styles.buttons}>
                 <IconButton
                     onPress={onEdit}
                     icon='pencil'
+                    size={20}
+                    mode='contained-tonal'
                 />
                 <IconButton
                     onPress={onDelete}
                     icon='trash-can'
+                    size={20}
+                    mode='contained-tonal'
                 />
             </View>
         </Card>

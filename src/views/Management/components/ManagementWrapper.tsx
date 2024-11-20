@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { FAB } from 'react-native-paper'
 import LoadingSpinner from '~/components/LoadingSpinner'
 
@@ -36,7 +36,7 @@ type Props = PropsWithChildren<{
 
 const ManagementWrapper = ({ children, fab = true, loading = false, onFab }: Props) => {
     return (
-        <ScrollView contentContainerStyle={styles.flexBox}>
+        <View style={styles.flexBox}>
             <View style={styles.flexBox}>
                 {loading ? (
                     <LoadingSpinner />
@@ -53,7 +53,7 @@ const ManagementWrapper = ({ children, fab = true, loading = false, onFab }: Pro
                     </View>
                 )}
             </View>
-        </ScrollView>
+        </View>
     )
 }
 

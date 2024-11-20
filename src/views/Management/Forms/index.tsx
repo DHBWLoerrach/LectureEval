@@ -1,4 +1,6 @@
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { useCallback } from 'react'
+import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
+import { Form } from '~/types/Form'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
 import AddOrEditFormDialog from '~/views/Management/Forms/components/AddOrEditFormDialog'
 import FormItem from '~/views/Management/Forms/components/FormItem'
@@ -7,7 +9,7 @@ import { useFormManagementLogic } from '~/views/Management/Forms/hooks/useFormMa
 const styles = StyleSheet.create({
     content: {
         gap: 20,
-        marginBottom: 50,
+        paddingBottom: 100,
         padding: 20,
     },
 })
@@ -26,25 +28,32 @@ const FormsManagement = () => {
         onDesign,
     } = useFormManagementLogic()
 
+    const renderItem = useCallback<ListRenderItem<Form>>(
+        ({ item }) => {
+            return (
+                <FormItem
+                    form={item}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    onDesign={onDesign}
+                    departments={departments ?? []}
+                />
+            )
+        },
+        [departments, onDelete, onDesign, onEdit],
+    )
+
     return (
         <ManagementWrapper
             onFab={onCreate}
             loading={loading}
         >
-            <ScrollView>
-                <View style={styles.content}>
-                    {forms?.map((form) => (
-                        <FormItem
-                            key={form.id}
-                            form={form}
-                            onEdit={onEdit}
-                            onDelete={onDelete}
-                            onDesign={onDesign}
-                            departments={departments ?? []}
-                        />
-                    ))}
-                </View>
-            </ScrollView>
+            <FlatList
+                contentContainerStyle={styles.content}
+                data={forms}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+            />
             {editInfo && (
                 <AddOrEditFormDialog
                     forms={forms}

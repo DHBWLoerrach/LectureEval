@@ -6,6 +6,9 @@ import { Department } from '~/types/Department'
 import { Form } from '~/types/Form'
 
 const styles = StyleSheet.create({
+    buttons: {
+        flexDirection: 'row',
+    },
     card: {
         padding: 20,
     },
@@ -19,11 +22,12 @@ const styles = StyleSheet.create({
         maxWidth: 170,
         overflow: 'hidden',
     },
+    text: {
+        maxWidth: '50%',
+    },
     title: {
-        fontSize: RFValue(19),
+        fontSize: RFValue(17),
         fontWeight: 'bold',
-        maxWidth: 170,
-        overflow: 'hidden',
     },
 })
 
@@ -66,27 +70,38 @@ const FormItem = ({
             style={styles.card}
             contentStyle={styles.row}
         >
-            <View>
+            <View style={styles.text}>
                 <Text
                     style={styles.title}
                     numberOfLines={1}
                 >
                     {form.name}
                 </Text>
-                <Text style={styles.subtitle}>{department?.name}</Text>
+                <Text
+                    style={styles.subtitle}
+                    numberOfLines={1}
+                >
+                    {department?.name}
+                </Text>
             </View>
-            <View style={styles.row}>
+            <View style={styles.buttons}>
                 <IconButton
                     onPress={onEdit}
                     icon='pencil'
+                    size={20}
+                    mode='contained-tonal'
                 />
                 <IconButton
                     onPress={onDesign}
                     icon='magic-staff'
+                    size={20}
+                    mode='contained-tonal'
                 />
                 <IconButton
                     onPress={onDelete}
                     icon='trash-can'
+                    size={20}
+                    mode='contained-tonal'
                 />
             </View>
         </Card>
