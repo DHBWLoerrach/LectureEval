@@ -2,13 +2,15 @@ import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { StyleSheet } from 'react-native'
-import { Button, Dialog, Portal } from 'react-native-paper'
+import { Dialog, Portal } from 'react-native-paper'
+import Button from '~/components/Button'
 import SelectMenu from '~/components/SelectMenu'
 import SwitchInput from '~/components/SwitchInput'
 import TextInput from '~/components/TextInput'
 import { useLocale } from '~/context/LocaleContext'
 import { getQuestionTypeTranslation } from '~/helpers/getQuestionTypeTranslation'
 import { useQuestionTypesQuery } from '~/queries/QuestionTypes/useQuestionTypesQuery'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Question } from '~/types/Question'
 import { QuestionFormData } from '~/views/Management/Designer/types/QuestionFormData'
@@ -78,6 +80,7 @@ const AddOrEditQuestionDialog = ({ editInfo, onClose, onSave }: Props) => {
                 <Dialog
                     visible
                     onDismiss={onClose}
+                    style={globalStyles.dialog}
                 >
                     <Dialog.Title>{title}</Dialog.Title>
                     <Dialog.Content style={styles.content}>

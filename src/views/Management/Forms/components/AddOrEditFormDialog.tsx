@@ -2,10 +2,12 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { StyleSheet } from 'react-native'
-import { Button, Dialog, Portal } from 'react-native-paper'
+import { Dialog, Portal } from 'react-native-paper'
+import Button from '~/components/Button'
 import SelectMenu from '~/components/SelectMenu'
 import TextInput from '~/components/TextInput'
 import { useLocale } from '~/context/LocaleContext'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 import { Form } from '~/types/Form'
@@ -93,6 +95,7 @@ const AddOrEditFormDialog = ({ forms, onClose, onSave, initialData, departments 
             <Dialog
                 visible
                 onDismiss={onClose}
+                style={globalStyles.dialog}
             >
                 <FormProvider {...form}>
                     <Dialog.Title>{title}</Dialog.Title>

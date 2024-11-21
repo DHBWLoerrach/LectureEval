@@ -60,13 +60,11 @@ const DepartmentItem = ({ department, onDelete: onDeleteProp, onEdit: onEditProp
                     onPress={onEdit}
                     icon='pencil'
                     size={20}
-                    mode='contained-tonal'
                 />
                 <IconButton
                     onPress={onDelete}
                     icon='trash-can'
                     size={20}
-                    mode='contained-tonal'
                 />
             </View>
         </Card>

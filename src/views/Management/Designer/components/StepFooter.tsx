@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl'
 import { StyleSheet, View } from 'react-native'
-import { Button } from 'react-native-paper'
+import Button from '~/components/Button'
 import { translations } from '~/translations/translations'
 
 const styles = StyleSheet.create({
@@ -27,14 +27,25 @@ const StepFooter = ({ editable, isFirst, isLast, onNext, onPrev }: Props) => {
 
     return (
         <View style={styles.container}>
-            <Button
-                mode='contained'
-                icon='chevron-left'
-                onPress={onPrev}
-                disabled={isFirst}
-            >
-                {intl.formatMessage(translations.back)}
-            </Button>
+            {isFirst && (
+                <Button
+                    mode='contained'
+                    icon='chevron-left'
+                    onPress={onPrev}
+                    disabled={true}
+                >
+                    {intl.formatMessage(translations.back)}
+                </Button>
+            )}
+            {!isFirst && (
+                <Button
+                    mode='contained'
+                    icon='chevron-left'
+                    onPress={onPrev}
+                >
+                    {intl.formatMessage(translations.back)}
+                </Button>
+            )}
             <Button
                 mode='contained'
                 icon={editable && isLast ? 'plus' : 'chevron-right'}

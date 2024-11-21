@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { Alert, ImageBackground, ScrollView, View } from 'react-native'
-import { Button, Card, SegmentedButtons, Text } from 'react-native-paper'
+import { Card, SegmentedButtons, Text } from 'react-native-paper'
 import HeaderImage from '~/../assets/header.png'
+import Button from '~/components/Button'
 import Link from '~/components/Link'
 import TextInput from '~/components/TextInput'
 import { useLocale } from '~/context/LocaleContext'
@@ -115,8 +116,8 @@ const LoginScreen = () => {
                             <View style={loginStyles.buttonContainer}>
                                 <Button
                                     mode='contained'
-                                    disabled={!isDirty}
                                     onPress={handleSubmit(login)}
+                                    disabled={!isDirty}
                                 >
                                     {intl.formatMessage(translations.loginTitle)}
                                 </Button>
@@ -124,7 +125,10 @@ const LoginScreen = () => {
                         </FormProvider>
                     </View>
                     <View style={loginStyles.footer}>
-                        <Card contentStyle={loginStyles.card}>
+                        <Card
+                            contentStyle={loginStyles.card}
+                            mode='contained'
+                        >
                             <Link href='https://dhbw-loerrach.de/impressum'>
                                 {intl.formatMessage(translations.imprint)}
                             </Link>

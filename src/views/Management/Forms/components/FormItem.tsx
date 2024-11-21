@@ -69,6 +69,7 @@ const FormItem = ({
         <Card
             style={styles.card}
             contentStyle={styles.row}
+            mode='contained'
         >
             <View style={styles.text}>
                 <Text
@@ -89,19 +90,16 @@ const FormItem = ({
                     onPress={onEdit}
                     icon='pencil'
                     size={20}
-                    mode='contained-tonal'
                 />
                 <IconButton
                     onPress={onDesign}
                     icon='magic-staff'
                     size={20}
-                    mode='contained-tonal'
                 />
                 <IconButton
                     onPress={onDelete}
                     icon='trash-can'
                     size={20}
-                    mode='contained-tonal'
                 />
             </View>
         </Card>

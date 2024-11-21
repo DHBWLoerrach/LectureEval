@@ -1,8 +1,20 @@
 import { PropsWithChildren, useCallback, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import { Portal, Snackbar } from 'react-native-paper'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { SnackbarContext, SnackbarInfo } from '~/context/SnackbarContext'
+import { colors } from '~/styles/colors'
 
 type Props = PropsWithChildren
+
+const styles = StyleSheet.create({
+    label: {
+        fontFamily: 'monospace',
+        fontSize: RFValue(18),
+        lineHeight: RFValue(18),
+        textAlign: 'center',
+    },
+})
 
 const SnackbarProvider = ({ children }: Props) => {
     const [snackbarInfo, setSnackbarInfo] = useState<SnackbarInfo>()
@@ -21,8 +33,10 @@ const SnackbarProvider = ({ children }: Props) => {
                         duration={4000}
                         onDismiss={onDismiss}
                         action={{
-                            label: 'X',
+                            label: 'x',
                             onPress: onDismiss,
+                            textColor: colors.white,
+                            labelStyle: styles.label,
                         }}
                     >
                         {snackbarInfo.text}

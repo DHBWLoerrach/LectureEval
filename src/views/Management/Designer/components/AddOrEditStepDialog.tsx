@@ -2,9 +2,11 @@ import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { StyleSheet } from 'react-native'
-import { Button, Dialog, Portal } from 'react-native-paper'
+import { Dialog, Portal } from 'react-native-paper'
+import Button from '~/components/Button'
 import TextInput from '~/components/TextInput'
 import { useLocale } from '~/context/LocaleContext'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { StepFormData } from '~/views/Management/Designer/types/StepFormData'
 
@@ -64,6 +66,7 @@ const AddOrEditStepDialog = ({ editInfo, onClose, onSave }: Props) => {
             <Dialog
                 visible
                 onDismiss={onClose}
+                style={globalStyles.dialog}
             >
                 <FormProvider {...form}>
                     <Dialog.Title>{title}</Dialog.Title>

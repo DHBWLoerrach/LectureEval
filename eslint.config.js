@@ -89,7 +89,7 @@ module.exports = tslint.config(
                     paths: [
                         {
                             name: 'react-native-paper',
-                            importNames: ['TextInput', 'Switch'],
+                            importNames: ['TextInput', 'Switch', 'Button'],
                             message: 'Please use our self written wrapper instead.',
                         },
                         {

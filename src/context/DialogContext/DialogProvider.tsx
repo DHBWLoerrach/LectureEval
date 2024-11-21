@@ -1,9 +1,11 @@
 import { PropsWithChildren, useCallback, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { StyleSheet } from 'react-native'
-import { Button, Dialog, Portal, Text } from 'react-native-paper'
+import { Dialog, Portal, Text } from 'react-native-paper'
 import { RFValue } from 'react-native-responsive-fontsize'
+import Button from '~/components/Button'
 import { DialogContext, DialogInfo } from '~/context/DialogContext'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 
 const styles = StyleSheet.create({
@@ -37,6 +39,7 @@ const DialogProvider = ({ children }: Props) => {
                     <Dialog
                         visible
                         dismissable={false}
+                        style={globalStyles.dialog}
                     >
                         <Dialog.Title>{dialogInfo.title}</Dialog.Title>
                         <Dialog.Content style={styles.content}>

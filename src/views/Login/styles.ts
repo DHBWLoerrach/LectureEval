@@ -9,6 +9,8 @@ export const loginStyles = StyleSheet.create({
     },
     card: {
         alignItems: 'center',
+        backgroundColor: colors.secondary,
+        borderRadius: 10,
         flexDirection: 'row',
         paddingHorizontal: 10,
         paddingVertical: 20,
