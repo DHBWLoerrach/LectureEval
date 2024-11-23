@@ -8,6 +8,8 @@ import FormsView from '~/views/Forms'
 import DepartmentsManagement from '~/views/Management/Departments'
 import Designer from '~/views/Management/Designer'
 import FormsManagement from '~/views/Management/Forms'
+import LecturersManagement from '~/views/Management/Lecturers'
+import StudentsManagement from '~/views/Management/Students'
 
 const Navigation = () => {
     const intl = useIntl()
@@ -42,6 +44,16 @@ const Navigation = () => {
                     component={Designer}
                     initialParams={{ formId: 0 }}
                     options={{ title: getPageTranslation(Route.FormDesigner, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.StudentManagement}
+                    component={StudentsManagement}
+                    options={{ title: getPageTranslation(Route.StudentManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.LecturerManagement}
+                    component={LecturersManagement}
+                    options={{ title: getPageTranslation(Route.LecturerManagement, intl) }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

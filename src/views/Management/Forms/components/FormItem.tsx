@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     card: {
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
     },
     row: {
         alignItems: 'center',

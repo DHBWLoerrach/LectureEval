@@ -28,17 +28,17 @@ export const useDepartmentManagementLogic = () => {
     const [editInfo, setEditInfo] = useState<{ initialData?: Department }>()
 
     const onSave = useCallback(
-        (form: DepartmentFormData) => {
-            saveDepartment(form, {
+        (department: DepartmentFormData) => {
+            saveDepartment(department, {
                 onSuccess: () => {
                     refetchDepartments()
                     setEditInfo(undefined)
                     showSnackbar({
-                        text: form.id
+                        text: department.id
                             ? intl.formatMessage(translations.changesSaved)
                             : intl.formatMessage(translations.entityCreated, {
                                   article: intl.formatMessage(translations.neutralArticle),
-                                  entity: intl.formatMessage(translations.form),
+                                  entity: intl.formatMessage(translations.department),
                               }),
                     })
                 },
@@ -66,7 +66,7 @@ export const useDepartmentManagementLogic = () => {
         (department: Department) => {
             showDialog({
                 title: intl.formatMessage(translations.deleteEntityHeader, {
-                    entity: intl.formatMessage(translations.form),
+                    entity: intl.formatMessage(translations.department),
                 }),
                 description: intl.formatMessage(translations.deleteEntityDescription, {
                     name: department.name,
@@ -78,7 +78,7 @@ export const useDepartmentManagementLogic = () => {
                             showSnackbar({
                                 text: intl.formatMessage(translations.entityDeleted, {
                                     article: intl.formatMessage(translations.neutralArticle),
-                                    entity: intl.formatMessage(translations.form),
+                                    entity: intl.formatMessage(translations.department),
                                 }),
                             })
                         },

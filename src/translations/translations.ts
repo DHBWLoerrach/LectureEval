@@ -230,4 +230,7 @@ export const translations = defineMessages({
     location: {
         defaultMessage: 'Standort',
     },
+    search: {
+        defaultMessage: 'Suche',
+    },
 })
