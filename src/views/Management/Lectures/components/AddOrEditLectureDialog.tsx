@@ -10,26 +10,35 @@ import { useLocale } from '~/context/LocaleContext'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
-import { Form } from '~/types/Form'
-import { FormFormData } from '~/views/Management/Forms/types/FormFormData'
+import { Lecture } from '~/types/Lecture'
+import { Semester } from '~/types/Semester'
+import { LectureFormData } from '~/views/Management/Lectures/types/LectureFormData'
 
 type Props = {
-    forms: Form[] | undefined
-    onSave: (formData: FormFormData) => void
+    lectures: Lecture[] | undefined
+    onSave: (formData: LectureFormData) => void
     onClose: () => void
-    initialData?: Form
+    initialData?: Lecture
     departments: Department[]
+    semesters: Semester[]
 }
 
 const styles = StyleSheet.create({
     content: { gap: 10 },
 })
 
-const AddOrEditFormDialog = ({ forms, onClose, onSave, initialData, departments }: Props) => {
+const AddOrEditLectureDialog = ({
+    lectures,
+    onClose,
+    onSave,
+    initialData,
+    departments,
+    semesters,
+}: Props) => {
     const intl = useIntl()
     const { locale } = useLocale()
 
-    const form = useForm<FormFormData>({
+    const form = useForm<LectureFormData>({
         defaultValues: initialData,
     })
     const {
@@ -50,15 +59,15 @@ const AddOrEditFormDialog = ({ forms, onClose, onSave, initialData, departments 
         () =>
             initialData
                 ? intl.formatMessage(translations.editEntityHeader, {
-                      entity: intl.formatMessage(translations.form),
+                      entity: intl.formatMessage(translations.lecture),
                   })
                 : intl.formatMessage(translations.createEntityHeader, {
-                      entity: intl.formatMessage(translations.form),
+                      entity: intl.formatMessage(translations.lecture),
                   }),
         [initialData, intl],
     )
 
-    const options = useMemo(() => {
+    const departmentOptions = useMemo(() => {
         return (
             departments?.map((dep) => ({
                 label: dep.name,
@@ -67,27 +76,41 @@ const AddOrEditFormDialog = ({ forms, onClose, onSave, initialData, departments 
         )
     }, [departments])
 
+    const semesterOptions = useMemo(() => {
+        return (
+            semesters?.map((sem) => ({
+                label: sem.name,
+                value: sem.id,
+            })) ?? []
+        )
+    }, [semesters])
+
     const validateName = useCallback(
         (name: string) => {
             const departmentID = watch('departmentID')
+            const semesterID = watch('semesterID')
 
-            const nameTaken = forms?.reduce((exists, form) => {
-                if (form.name.toLowerCase().localeCompare(name.toLowerCase()) !== 0) return exists
+            const nameTaken = lectures?.reduce((exists, lecture) => {
+                if (lecture.name.toLowerCase().localeCompare(name.toLowerCase()) !== 0)
+                    return exists
 
-                // The form itself should be allowed to have its name
-                if (form.id === initialData?.id) return exists
+                // The lecture itself should be allowed to have its name
+                if (lecture.name === initialData?.name) return exists
 
-                // Forms may have the same name if they are in different departments
-                if (form.departmentID !== departmentID) return exists
+                // Lectures may have the same name if they are in different departments
+                if (lecture.departmentID !== departmentID) return exists
+
+                // Lectures may have the same name if they are in different semesters
+                if (lecture.semesterID !== semesterID) return exists
 
                 return true
             }, false)
 
             if (!nameTaken) return
 
-            return intl.formatMessage(translations.formNameExists)
+            return intl.formatMessage(translations.lectureNameExists)
         },
-        [forms, initialData?.id, intl, watch],
+        [watch, lectures, intl, initialData?.name],
     )
 
     return (
@@ -111,7 +134,13 @@ const AddOrEditFormDialog = ({ forms, onClose, onSave, initialData, departments 
                         <SelectMenu
                             name='departmentID'
                             label={intl.formatMessage(translations.department)}
-                            options={options}
+                            options={departmentOptions}
+                            rules={{ required: intl.formatMessage(translations.required) }}
+                        />
+                        <SelectMenu
+                            name='semesterID'
+                            label={intl.formatMessage(translations.semester)}
+                            options={semesterOptions}
                             rules={{ required: intl.formatMessage(translations.required) }}
                         />
                     </Dialog.Content>
@@ -130,4 +159,4 @@ const AddOrEditFormDialog = ({ forms, onClose, onSave, initialData, departments 
     )
 }
 
-export default AddOrEditFormDialog
+export default AddOrEditLectureDialog

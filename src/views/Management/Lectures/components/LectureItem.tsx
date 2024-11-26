@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Card, IconButton, Text } from 'react-native-paper'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Form } from '~/types/Form'
+import { Lecture } from '~/types/Lecture'
 
 const styles = StyleSheet.create({
     buttons: {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     text: {
-        maxWidth: '50%',
+        maxWidth: '70%',
     },
     title: {
         fontSize: RFValue(17),
@@ -28,29 +28,19 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
-    form: Form
-    onEdit: (form: Form) => void
-    onDelete: (form: Form) => void
-    onDesign: (form: Form) => void
+    lecture: Lecture
+    onEdit: (lecture: Lecture) => void
+    onDelete: (lecture: Lecture) => void
 }
 
-const FormItem = ({
-    form,
-    onEdit: onEditProp,
-    onDelete: onDeleteProp,
-    onDesign: onDesignProp,
-}: Props) => {
+const LectureItem = ({ lecture, onEdit: onEditProp, onDelete: onDeleteProp }: Props) => {
     const onEdit = useCallback(() => {
-        onEditProp(form)
-    }, [onEditProp, form])
+        onEditProp(lecture)
+    }, [onEditProp, lecture])
 
     const onDelete = useCallback(() => {
-        onDeleteProp(form)
-    }, [onDeleteProp, form])
-
-    const onDesign = useCallback(() => {
-        onDesignProp(form)
-    }, [onDesignProp, form])
+        onDeleteProp(lecture)
+    }, [onDeleteProp, lecture])
 
     return (
         <Card
@@ -63,18 +53,13 @@ const FormItem = ({
                     style={styles.title}
                     numberOfLines={1}
                 >
-                    {form.name}
+                    {lecture.name}
                 </Text>
             </View>
             <View style={styles.buttons}>
                 <IconButton
                     onPress={onEdit}
                     icon='pencil'
-                    size={20}
-                />
-                <IconButton
-                    onPress={onDesign}
-                    icon='magic-staff'
                     size={20}
                 />
                 <IconButton
@@ -87,4 +72,4 @@ const FormItem = ({
     )
 }
 
-export default FormItem
+export default LectureItem

@@ -6,17 +6,13 @@ import { colors } from '~/styles/colors'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
-import AddOrEditFormDialog from '~/views/Management/Forms/components/AddOrEditFormDialog'
-import DepartmentFormGroup from '~/views/Management/Forms/components/DepartmentFormGroup'
-import { useFormFilterLogic } from '~/views/Management/Forms/hooks/useFormFilterLogic'
-import { useFormManagementLogic } from '~/views/Management/Forms/hooks/useFormManagementLogic'
-
+import AddOrEditLectureDialog from '~/views/Management/Lectures/components/AddOrEditLectureDialog'
+import DepartmentLectureGroup from '~/views/Management/Lectures/components/DepartmentLectureGroup'
+import { useLectureFilterLogic } from '~/views/Management/Lectures/hooks/useLectureFilterLogic'
+import { useLectureManagementLogic } from '~/views/Management/Lectures/hooks/useLectureManagementLogic'
 const styles = StyleSheet.create({
-    content: {
-        gap: 20,
+    list: {
         paddingBottom: 100,
-        padding: 20,
-        paddingTop: 0,
     },
     search: {
         backgroundColor: colors.tertiary,
@@ -25,40 +21,41 @@ const styles = StyleSheet.create({
     },
 })
 
-const FormsManagement = () => {
+const LecturesManagement = () => {
     const intl = useIntl()
 
     const {
-        forms,
+        lectures,
         loading,
         editInfo,
         departments,
+        semesters,
         onCreate,
         onDelete,
         onEdit,
         onSave,
         onClose,
-        onDesign,
-    } = useFormManagementLogic()
+    } = useLectureManagementLogic()
 
-    const { filteredForms, search, setSearch } = useFormFilterLogic({ forms: forms ?? [] })
+    const { filteredLectures, search, setSearch } = useLectureFilterLogic({
+        lectures: lectures ?? [],
+    })
 
     const renderItem = useCallback<ListRenderItem<Department>>(
         ({ item }) => {
             return (
-                <DepartmentFormGroup
+                <DepartmentLectureGroup
                     department={item}
-                    forms={filteredForms}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    onDesign={onDesign}
+                    lectures={filteredLectures}
                     searching={search.length > 0}
+                    semesters={semesters ?? []}
                 />
             )
         },
-        [filteredForms, onDelete, onDesign, onEdit, search.length],
+        [filteredLectures, onDelete, onEdit, search.length, semesters],
     )
-
     return (
         <ManagementWrapper
             onFab={onCreate}
@@ -71,16 +68,17 @@ const FormsManagement = () => {
                 placeholder={intl.formatMessage(translations.search)}
             />
             <FlatList<Department>
-                contentContainerStyle={styles.content}
                 data={departments}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(dep) => dep.id.toString()}
+                contentContainerStyle={styles.list}
             />
             {editInfo && (
-                <AddOrEditFormDialog
-                    forms={forms}
+                <AddOrEditLectureDialog
+                    lectures={lectures}
                     onSave={onSave}
                     onClose={onClose}
+                    semesters={semesters ?? []}
                     departments={departments ?? []}
                     initialData={editInfo.initialData}
                 />
@@ -89,4 +87,4 @@ const FormsManagement = () => {
     )
 }
 
-export default FormsManagement
+export default LecturesManagement

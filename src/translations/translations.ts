@@ -233,4 +233,13 @@ export const translations = defineMessages({
     search: {
         defaultMessage: 'Suche',
     },
+    lecture: {
+        defaultMessage: 'Vorlesung',
+    },
+    semester: {
+        defaultMessage: 'Semester',
+    },
+    lectureNameExists: {
+        defaultMessage: 'Eine Vorlesung mit diesem Namen existiert bereits.',
+    },
 })

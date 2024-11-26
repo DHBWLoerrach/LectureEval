@@ -13,6 +13,7 @@ import { useLecturerFilterLogic } from '~/views/Management/Lecturers/hooks/useLe
 const styles = StyleSheet.create({
     content: {
         padding: 20,
+        paddingBottom: 100,
         paddingTop: 10,
     },
     search: {
@@ -46,7 +47,7 @@ const LecturersManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList
+            <FlatList<Lecturer>
                 data={filteredLecturers}
                 renderItem={renderGroup}
                 keyExtractor={(item) => item.id.toString()}

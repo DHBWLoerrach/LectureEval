@@ -70,7 +70,8 @@ const AddOrEditDepartmentDialog = ({ departments, onClose, onSave, initialData }
     const validateName = useCallback(
         (name: string) => {
             const nameTaken = departments?.reduce((exists, department) => {
-                if (department.name.localeCompare(name)) return exists
+                if (department.name.toLowerCase().localeCompare(name.toLowerCase()) !== 0)
+                    return exists
 
                 // The form itself should be allowed to have its name
                 if (department.id === initialData?.id) return exists

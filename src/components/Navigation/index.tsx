@@ -9,6 +9,7 @@ import DepartmentsManagement from '~/views/Management/Departments'
 import Designer from '~/views/Management/Designer'
 import FormsManagement from '~/views/Management/Forms'
 import LecturersManagement from '~/views/Management/Lecturers'
+import LecturesManagement from '~/views/Management/Lectures'
 import StudentsManagement from '~/views/Management/Students'
 
 const Navigation = () => {
@@ -54,6 +55,11 @@ const Navigation = () => {
                     name={Route.LecturerManagement}
                     component={LecturersManagement}
                     options={{ title: getPageTranslation(Route.LecturerManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.LectureManagement}
+                    component={LecturesManagement}
+                    options={{ title: getPageTranslation(Route.LectureManagement, intl) }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

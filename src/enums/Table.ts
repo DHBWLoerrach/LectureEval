@@ -16,6 +16,7 @@ export enum Table {
     Questions = 'questions',
     QuestionTypes = 'question_types',
     Roles = 'roles',
+    Semesters = 'semesters',
     Steps = 'steps',
     Students = 'students',
     UserLocations = 'user_locations',

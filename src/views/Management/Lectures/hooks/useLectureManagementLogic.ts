@@ -1,28 +1,24 @@
-import { ParamListBase, useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useCallback, useEffect, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
 import { useDialog } from '~/context/DialogContext'
 import { useSnackbar } from '~/context/SnackbarContext'
-import { Route } from '~/enums/Route'
 import { useDepartmentsQuery } from '~/queries/Departments/useDepartmentsQuery'
-import { useDeleteFormMutation } from '~/queries/Forms/useDeleteFormMutation'
-import { useFormsQuery } from '~/queries/Forms/useFormsQuery'
-import { useUpsertFormMutation } from '~/queries/Forms/useUpsertFormMutation'
+import { useDeleteLectureMutation } from '~/queries/Lectures/useDeleteLectureMutation'
+import { useLecturesQuery } from '~/queries/Lectures/useLecturesQuery'
+import { useUpsertLectureMutation } from '~/queries/Lectures/useUpsertLectureMutation'
+import { useSemestersQuery } from '~/queries/Semesters/useSemestersQuery'
 import { translations } from '~/translations/translations'
-import { Form } from '~/types/Form'
-import { FormFormData } from '~/views/Management/Forms/types/FormFormData'
+import { Lecture } from '~/types/Lecture'
+import { LectureFormData } from '~/views/Management/Lectures/types/LectureFormData'
 
-export const useFormManagementLogic = () => {
+export const useLectureManagementLogic = () => {
     const intl = useIntl()
-
-    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
     const showDialog = useDialog()
     const showSnackbar = useSnackbar()
 
-    const [editInfo, setEditInfo] = useState<{ initialData?: Form }>()
+    const [editInfo, setEditInfo] = useState<{ initialData?: Lecture }>()
 
     const {
         data: departments,
@@ -31,27 +27,33 @@ export const useFormManagementLogic = () => {
     } = useDepartmentsQuery()
 
     const {
-        data: forms,
-        isLoading: formsLoading,
-        error: formsError,
-        refetch: refetchForms,
-    } = useFormsQuery()
+        data: lectures,
+        isLoading: lecturesLoading,
+        error: lecturesError,
+        refetch: refetchLectures,
+    } = useLecturesQuery()
 
-    const { mutate: saveForm } = useUpsertFormMutation()
-    const { mutate: deleteForm } = useDeleteFormMutation()
+    const {
+        data: semesters,
+        isLoading: semestersLoading,
+        error: semestersError,
+    } = useSemestersQuery()
+
+    const { mutate: saveLecture } = useUpsertLectureMutation()
+    const { mutate: deleteLecture } = useDeleteLectureMutation()
 
     const onSave = useCallback(
-        (form: FormFormData) => {
-            saveForm(form, {
+        (lecture: LectureFormData) => {
+            saveLecture(lecture, {
                 onSuccess: () => {
-                    refetchForms()
+                    refetchLectures()
                     setEditInfo(undefined)
                     showSnackbar({
-                        text: form.id
+                        text: lecture.name
                             ? intl.formatMessage(translations.changesSaved)
                             : intl.formatMessage(translations.entityCreated, {
-                                  article: intl.formatMessage(translations.neutralArticle),
-                                  entity: intl.formatMessage(translations.form),
+                                  article: intl.formatMessage(translations.femaleArticle),
+                                  entity: intl.formatMessage(translations.lecture),
                               }),
                     })
                 },
@@ -60,32 +62,32 @@ export const useFormManagementLogic = () => {
                         intl.formatMessage(translations.error),
                         intl.formatMessage(translations.errorDescription),
                     )
-                    console.error(`Unexpected error while saving a form: ${error.message}`)
+                    console.error(`Unexpected error while saving a lecture: ${error.message}`)
                 },
             })
         },
-        [saveForm, refetchForms, showSnackbar, intl],
+        [saveLecture, refetchLectures, showSnackbar, intl],
     )
 
     const onClose = useCallback(() => setEditInfo(undefined), [setEditInfo])
 
     const onDelete = useCallback(
-        (form: Form) => {
+        (lecture: Lecture) => {
             showDialog({
                 title: intl.formatMessage(translations.deleteEntityHeader, {
-                    entity: intl.formatMessage(translations.form),
+                    entity: intl.formatMessage(translations.lecture),
                 }),
                 description: intl.formatMessage(translations.deleteEntityDescription, {
-                    name: form.name,
+                    name: lecture.name,
                 }),
                 onAccept: () =>
-                    deleteForm(form.id, {
+                    deleteLecture(lecture.id, {
                         onSuccess: () => {
-                            refetchForms()
+                            refetchLectures()
                             showSnackbar({
                                 text: intl.formatMessage(translations.entityDeleted, {
-                                    article: intl.formatMessage(translations.neutralArticle),
-                                    entity: intl.formatMessage(translations.form),
+                                    article: intl.formatMessage(translations.femaleArticle),
+                                    entity: intl.formatMessage(translations.lecture),
                                 }),
                             })
                         },
@@ -95,47 +97,40 @@ export const useFormManagementLogic = () => {
                                 intl.formatMessage(translations.errorDescription),
                             )
                             console.error(
-                                `Unexpected error while deleting a form: ${error.message}`,
+                                `Unexpected error while deleting a lecture: ${error.message}`,
                             )
                         },
                     }),
             })
         },
-        [showDialog, deleteForm, refetchForms, showSnackbar, intl],
+        [showDialog, deleteLecture, refetchLectures, showSnackbar, intl],
     )
 
-    const onEdit = useCallback((form: Form) => setEditInfo({ initialData: form }), [])
+    const onEdit = useCallback((lecture: Lecture) => setEditInfo({ initialData: lecture }), [])
     const onCreate = useCallback(() => setEditInfo({}), [])
-    const onDesign = useCallback(
-        (form: Form) => {
-            navigation.navigate(Route.FormDesigner, {
-                formId: form.id,
-                departmentId: form.departmentID,
-            })
-        },
-        [navigation],
-    )
 
     useEffect(() => {
-        if (!formsError && !departmentsError) return
+        if (!lecturesError && !departmentsError && !semestersError) return
 
         Alert.alert(
             intl.formatMessage(translations.error),
             intl.formatMessage(translations.errorDescription),
         )
-        console.error(formsError?.message ?? departmentsError?.message)
-    }, [formsError, departmentsError, intl])
+        console.error(
+            lecturesError?.message ?? departmentsError?.message ?? semestersError?.message,
+        )
+    }, [lecturesError, departmentsError, intl, semestersError])
 
     return {
-        forms,
+        lectures,
         editInfo,
         departments,
-        loading: formsLoading || departmentsLoading,
+        semesters,
+        loading: lecturesLoading || departmentsLoading || semestersLoading,
         onDelete,
         onEdit,
         onCreate,
         onSave,
         onClose,
-        onDesign,
     }
 }

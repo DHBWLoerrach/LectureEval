@@ -13,6 +13,9 @@ import StudentGroup from '~/views/Management/Students/components/StudentGroup'
 import { useStudentFilterLogic } from '~/views/Management/Students/hooks/useStudentFilterLogic'
 
 const styles = StyleSheet.create({
+    list: {
+        paddingBottom: 100,
+    },
     search: {
         backgroundColor: colors.tertiary,
         margin: 20,
@@ -65,10 +68,11 @@ const StudentsManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList
+            <FlatList<Course>
                 data={courses}
                 renderItem={renderGroup}
                 keyExtractor={(item) => item.id.toString()}
+                contentContainerStyle={styles.list}
             />
         </ManagementWrapper>
     )

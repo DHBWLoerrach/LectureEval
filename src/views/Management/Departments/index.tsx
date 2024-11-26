@@ -59,7 +59,7 @@ const DepartmentsManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList
+            <FlatList<Department>
                 contentContainerStyle={styles.content}
                 data={filteredDepartments}
                 renderItem={renderItem}
