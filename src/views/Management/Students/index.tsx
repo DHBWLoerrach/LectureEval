@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useIntl } from 'react-intl'
-import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { Searchbar } from 'react-native-paper'
 import { useCoursesQuery } from '~/queries/Courses/useCoursesQuery'
 import { useStudentsQuery } from '~/queries/Students/useStudentsQuery'
@@ -11,12 +11,6 @@ import { Student } from '~/types/Student'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
 import StudentGroup from '~/views/Management/Students/components/StudentGroup'
 import { useStudentFilterLogic } from '~/views/Management/Students/hooks/useStudentFilterLogic'
-
-const styles = StyleSheet.create({
-    list: {
-        paddingBottom: 100,
-    },
-})
 
 const StudentsManagement = () => {
     const intl = useIntl()
@@ -67,7 +61,7 @@ const StudentsManagement = () => {
                 data={courses}
                 renderItem={renderGroup}
                 keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={styles.list}
+                contentContainerStyle={globalStyles.list}
             />
         </ManagementWrapper>
     )

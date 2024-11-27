@@ -38,6 +38,11 @@ const ManagementOverview = () => {
             <ScrollView contentContainerStyle={styles.content}>
                 <ListSection title={intl.formatMessage(translations.entities)}>
                     <ListItem
+                        title={intl.formatMessage(translations.departments)}
+                        onPress={navigateTo(Route.DepartmentsManagement)}
+                        icon='home-city'
+                    />
+                    <ListItem
                         title={intl.formatMessage(translations.courses)}
                         onPress={navigateTo(Route.CourseManagement)}
                         icon='account-group'
@@ -56,11 +61,6 @@ const ManagementOverview = () => {
                         title={intl.formatMessage(translations.ratings)}
                         onPress={navigateTo(Route.RatingManagement)}
                         icon='star-circle'
-                    />
-                    <ListItem
-                        title={intl.formatMessage(translations.departments)}
-                        onPress={navigateTo(Route.DepartmentsManagement)}
-                        icon='home-city'
                     />
                 </ListSection>
                 <ListSection title={intl.formatMessage(translations.users)}>

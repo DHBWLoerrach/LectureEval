@@ -266,4 +266,10 @@ export const translations = defineMessages({
     notSet: {
         defaultMessage: 'Nicht gesetzt',
     },
+    course: {
+        defaultMessage: 'Kurs',
+    },
+    courseNameExists: {
+        defaultMessage: 'Ein Kurs mit diesem Namen existiert bereits.',
+    },
 })

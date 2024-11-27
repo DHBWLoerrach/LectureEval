@@ -13,7 +13,7 @@ import { useLecturesLogic } from '~/views/Lectures/hooks/useLecturesLogic'
 
 const styles = StyleSheet.create({
     listSection: {
-        paddingBottom: 280,
+        paddingBottom: 260,
         paddingHorizontal: 20,
     },
 })

@@ -3,6 +3,9 @@ import { colors } from '~/styles/colors'
 
 export const globalStyles = StyleSheet.create({
     dialog: { backgroundColor: colors.white },
+    list: {
+        paddingBottom: 100,
+    },
     listAccordion: {
         borderRadius: 10,
     },
@@ -18,7 +21,7 @@ export const globalStyles = StyleSheet.create({
         padding: 3,
     },
     listSection: {
-        paddingBottom: 350,
+        paddingBottom: 320,
         paddingHorizontal: 20,
     },
     scrollView: {

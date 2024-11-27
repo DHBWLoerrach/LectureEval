@@ -6,45 +6,34 @@ import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
-import AddOrEditLectureDialog from '~/views/Management/Lectures/components/AddOrEditLectureDialog'
-import DepartmentLectureGroup from '~/views/Management/Lectures/components/DepartmentLectureGroup'
-import { useLectureFilterLogic } from '~/views/Management/Lectures/hooks/useLectureFilterLogic'
-import { useLectureManagementLogic } from '~/views/Management/Lectures/hooks/useLectureManagementLogic'
+import AddOrEditCourseDialog from '~/views/Management/Courses/components/AddOrEditCourseDialog'
+import DepartmentCourseGroup from '~/views/Management/Courses/components/DepartmentCourseGroup'
+import { useCourseFilterLogic } from '~/views/Management/Courses/hooks/useCourseFilterLogic'
+import { useCourseManagementLogic } from '~/views/Management/Courses/hooks/useCourseManagementLogic'
 
-const LecturesManagement = () => {
+const CoursesManagement = () => {
     const intl = useIntl()
 
-    const {
-        lectures,
-        loading,
-        editInfo,
-        departments,
-        semesters,
-        onCreate,
-        onDelete,
-        onEdit,
-        onSave,
-        onClose,
-    } = useLectureManagementLogic()
+    const { courses, loading, editInfo, departments, onCreate, onDelete, onEdit, onSave, onClose } =
+        useCourseManagementLogic()
 
-    const { filteredLectures, search, setSearch } = useLectureFilterLogic({
-        lectures: lectures ?? [],
+    const { filteredCourses, search, setSearch } = useCourseFilterLogic({
+        courses: courses ?? [],
     })
 
     const renderItem = useCallback<ListRenderItem<Department>>(
         ({ item }) => {
             return (
-                <DepartmentLectureGroup
+                <DepartmentCourseGroup
                     department={item}
+                    courses={filteredCourses}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    lectures={filteredLectures}
                     searching={search.length > 0}
-                    semesters={semesters ?? []}
                 />
             )
         },
-        [filteredLectures, onDelete, onEdit, search.length, semesters],
+        [filteredCourses, onDelete, onEdit, search.length],
     )
     return (
         <ManagementWrapper
@@ -64,11 +53,10 @@ const LecturesManagement = () => {
                 contentContainerStyle={globalStyles.list}
             />
             {editInfo && (
-                <AddOrEditLectureDialog
-                    lectures={lectures}
+                <AddOrEditCourseDialog
+                    courses={courses}
                     onSave={onSave}
                     onClose={onClose}
-                    semesters={semesters ?? []}
                     departments={departments ?? []}
                     initialData={editInfo.initialData}
                 />
@@ -77,4 +65,4 @@ const LecturesManagement = () => {
     )
 }
 
-export default LecturesManagement
+export default CoursesManagement

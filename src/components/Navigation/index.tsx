@@ -5,6 +5,7 @@ import TabNavigator from '~/components/Navigation/components/TabNavigator'
 import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
 import FormsView from '~/views/Forms'
+import CoursesManagement from '~/views/Management/Courses'
 import DepartmentsManagement from '~/views/Management/Departments'
 import Designer from '~/views/Management/Designer'
 import FormsManagement from '~/views/Management/Forms'
@@ -60,6 +61,11 @@ const Navigation = () => {
                     name={Route.LectureManagement}
                     component={LecturesManagement}
                     options={{ title: getPageTranslation(Route.LectureManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.CourseManagement}
+                    component={CoursesManagement}
+                    options={{ title: getPageTranslation(Route.CourseManagement, intl) }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
