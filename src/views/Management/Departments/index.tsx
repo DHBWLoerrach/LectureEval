@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
 import { Searchbar } from 'react-native-paper'
-import { colors } from '~/styles/colors'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
@@ -17,11 +17,6 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
         padding: 20,
         paddingTop: 0,
-    },
-    search: {
-        backgroundColor: colors.tertiary,
-        margin: 20,
-        marginBottom: 10,
     },
 })
 
@@ -54,7 +49,7 @@ const DepartmentsManagement = () => {
             loading={loading}
         >
             <Searchbar
-                style={styles.search}
+                style={globalStyles.searchbar}
                 value={search}
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}

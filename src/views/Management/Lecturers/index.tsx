@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl'
 import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
 import { Searchbar } from 'react-native-paper'
 import { useLecturersQuery } from '~/queries/Lecturers/useLecturersQuery'
-import { colors } from '~/styles/colors'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Lecturer } from '~/types/Lecturer'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
@@ -15,11 +15,6 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingBottom: 100,
         paddingTop: 10,
-    },
-    search: {
-        backgroundColor: colors.tertiary,
-        margin: 20,
-        marginBottom: 10,
     },
 })
 
@@ -42,7 +37,7 @@ const LecturersManagement = () => {
             loading={studentsLoading}
         >
             <Searchbar
-                style={styles.search}
+                style={globalStyles.searchbar}
                 value={search}
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}

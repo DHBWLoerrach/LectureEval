@@ -242,4 +242,28 @@ export const translations = defineMessages({
     lectureNameExists: {
         defaultMessage: 'Eine Vorlesung mit diesem Namen existiert bereits.',
     },
+    lecturesSearch: {
+        defaultMessage: 'Vorlesungssuche',
+    },
+    myLectures: {
+        defaultMessage: 'Meine Vorlesungen',
+    },
+    allLectures: {
+        defaultMessage: 'Alle Vorlesungen',
+    },
+    rating: {
+        defaultMessage: 'Bewertung',
+    },
+    stars: {
+        defaultMessage: 'Sterne',
+    },
+    difficulty: {
+        defaultMessage: 'Schwierigkeit',
+    },
+    noUserRole: {
+        defaultMessage: 'Keine Benutzerrolle',
+    },
+    notSet: {
+        defaultMessage: 'Nicht gesetzt',
+    },
 })
