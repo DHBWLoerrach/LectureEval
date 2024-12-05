@@ -21,7 +21,7 @@ export const useLocationQuery = ({ locationId }: Props) => {
     }, [locationId])
 
     return useQuery<Location>({
-        queryKey: ['locationQuery'],
+        queryKey: ['locationQuery', locationId],
         queryFn,
         enabled: !!locationId,
     })

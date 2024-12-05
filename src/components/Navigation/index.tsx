@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl'
 import TabNavigator from '~/components/Navigation/components/TabNavigator'
 import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
+import Detail from '~/views/Detail'
 import FormsView from '~/views/Forms'
 import CoursesManagement from '~/views/Management/Courses'
 import DepartmentsManagement from '~/views/Management/Departments'
@@ -66,6 +67,13 @@ const Navigation = () => {
                     name={Route.CourseManagement}
                     component={CoursesManagement}
                     options={{ title: getPageTranslation(Route.CourseManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.DetailView}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
+                    component={Detail}
+                    options={{ title: getPageTranslation(Route.DetailView, intl) }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

@@ -9,4 +9,5 @@ export const colors = {
     tertiary: '#dedede',
     white: '#ffffff',
     black: '#000000',
+    transparent: 'transparent',
 }

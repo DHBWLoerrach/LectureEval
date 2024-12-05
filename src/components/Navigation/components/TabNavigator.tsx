@@ -3,6 +3,7 @@ import { ParamListBase, RouteProp } from '@react-navigation/native'
 import { useCallback, useMemo } from 'react'
 import { useIntl } from 'react-intl'
 import { IconButton } from 'react-native-paper'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import { useAuth } from '~/context/AuthContext'
 import { Role } from '~/enums/Role'
@@ -18,6 +19,7 @@ const TabNavigator = () => {
     const intl = useIntl()
     const { role } = useAuth()
     const Tab = createBottomTabNavigator()
+    const insets = useSafeAreaInsets()
 
     const getIcon = useCallback((route: string) => {
         switch (route) {
@@ -72,6 +74,7 @@ const TabNavigator = () => {
                         iconColor={color}
                     />
                 ),
+                tabBarItemStyle: { paddingBottom: insets.bottom + 5 },
                 tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.secondary,
             })}

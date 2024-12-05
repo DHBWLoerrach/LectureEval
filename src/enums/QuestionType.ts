@@ -5,4 +5,5 @@
 export enum QuestionType {
     Rating = 1,
     Text = 2,
+    Difficulty = 3,
 }

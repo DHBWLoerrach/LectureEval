@@ -2,27 +2,27 @@ import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { Table } from '~/enums/Table'
 import { supabase } from '~/services/supabase'
-import { Department } from '~/types/Department'
+import { Lecturer } from '~/types/Lecturer'
 
 type Props = {
-    departmentId: number | undefined
+    lecturerId: number | undefined
 }
 
-export const useDepartmentQuery = ({ departmentId }: Props) => {
+export const useLecturerQuery = ({ lecturerId }: Props) => {
     const queryFn = useCallback(async () => {
         const { data } = await supabase
-            .from(Table.Departments)
+            .from(Table.Lecturers)
             .select('*')
-            .eq('id', departmentId)
+            .eq('id', lecturerId)
             .single()
             .throwOnError()
 
         return data
-    }, [departmentId])
+    }, [lecturerId])
 
-    return useQuery<Department>({
-        queryKey: ['departmentQuery', departmentId],
+    return useQuery<Lecturer>({
+        queryKey: ['lecturerQuery', lecturerId],
         queryFn,
-        enabled: !!departmentId,
+        enabled: !!lecturerId,
     })
 }

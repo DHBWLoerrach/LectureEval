@@ -9,7 +9,7 @@ import LoadingSpinner from '~/components/LoadingSpinner'
 import { useLocale } from '~/context/LocaleContext'
 import { Locale } from '~/enums/Locale'
 import { useDeepLTranslationMutation } from '~/queries/DeepL/useDeepLTranslationMutation'
-import { useLocationQuery } from '~/queries/Location/useLocationQuery'
+import { useLocationQuery } from '~/queries/Locations/useLocationQuery'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 

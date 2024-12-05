@@ -10,6 +10,7 @@ export enum Route {
     ManagementView = 'managementView',
     LecturesView = 'lecturesView',
     FormsView = 'formsView',
+    DetailView = 'detailView',
     CourseManagement = 'courseManagement',
     LectureManagement = 'lectureManagement',
     FormsManagement = 'formsManagement',

@@ -8,13 +8,15 @@ export const getPageTranslation = (page: Route, intl: IntlShape) => {
         case Route.StudentView:
             return '//TODO'
         case Route.LecturerView:
-            return '//TODO'
+            return intl.formatMessage(translations.results)
         case Route.ManagementView:
             return intl.formatMessage(translations.management)
         case Route.LecturesView:
             return intl.formatMessage(translations.lectures)
         case Route.FormsView:
             return intl.formatMessage(translations.forms)
+        case Route.DetailView:
+            return intl.formatMessage(translations.details)
         case Route.CourseManagement:
             return intl.formatMessage(translations.courseManagement)
         case Route.LectureManagement:

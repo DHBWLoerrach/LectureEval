@@ -12,7 +12,7 @@ export const useLocationsQuery = () => {
     }, [])
 
     return useQuery<Location[]>({
-        queryKey: ['locationQuery'],
+        queryKey: ['locationsQuery'],
         queryFn,
     })
 }

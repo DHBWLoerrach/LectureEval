@@ -5,24 +5,27 @@ import { supabase } from '~/services/supabase'
 import { Department } from '~/types/Department'
 
 type Props = {
-    departmentId: number | undefined
+    departmentIDs: number[] | undefined
 }
 
-export const useDepartmentQuery = ({ departmentId }: Props) => {
+export const useDepartmentsByIDQuery = ({ departmentIDs }: Props) => {
     const queryFn = useCallback(async () => {
+        if (!departmentIDs || departmentIDs.length === 0) {
+            return []
+        }
+
         const { data } = await supabase
             .from(Table.Departments)
             .select('*')
-            .eq('id', departmentId)
-            .single()
+            .in('id', departmentIDs)
             .throwOnError()
 
-        return data
-    }, [departmentId])
+        return data ?? []
+    }, [departmentIDs])
 
-    return useQuery<Department>({
-        queryKey: ['departmentQuery', departmentId],
+    return useQuery<Department[]>({
+        queryKey: ['departmentsByIDQuery', departmentIDs],
         queryFn,
-        enabled: !!departmentId,
+        enabled: !!departmentIDs,
     })
 }

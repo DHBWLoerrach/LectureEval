@@ -221,6 +221,9 @@ export const translations = defineMessages({
     questionTypeText: {
         defaultMessage: 'Freitext',
     },
+    questionTypeDifficulty: {
+        defaultMessage: 'Schwierigkeit',
+    },
     formNameExists: {
         defaultMessage: 'Ein Formular mit diesem Namen existiert bereits.',
     },
@@ -271,5 +274,20 @@ export const translations = defineMessages({
     },
     courseNameExists: {
         defaultMessage: 'Ein Kurs mit diesem Namen existiert bereits.',
+    },
+    showDetails: {
+        defaultMessage: 'mehr anzeigen',
+    },
+    details: {
+        defaultMessage: 'Details',
+    },
+    questions: {
+        defaultMessage: 'Fragen',
+    },
+    answers: {
+        defaultMessage: 'Antworten',
+    },
+    star: {
+        defaultMessage: 'Stern',
     },
 })
