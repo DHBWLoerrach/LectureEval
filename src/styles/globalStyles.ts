@@ -1,7 +1,13 @@
 import { StyleSheet } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { colors } from '~/styles/colors'
 
 export const globalStyles = StyleSheet.create({
+    card: {
+        marginBottom: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+    },
     dialog: { backgroundColor: colors.white },
     list: {
         paddingBottom: 100,
@@ -35,5 +41,12 @@ export const globalStyles = StyleSheet.create({
     segmentedButtons: {
         paddingHorizontal: 20,
         paddingVertical: 10,
+    },
+    subtitle: {
+        fontSize: RFValue(14),
+    },
+    title: {
+        fontSize: RFValue(17),
+        fontWeight: 'bold',
     },
 })

@@ -1,14 +1,9 @@
 import { StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-paper'
-import { RFValue } from 'react-native-responsive-fontsize'
+import { globalStyles } from '~/styles/globalStyles'
 import { Lecturer } from '~/types/Lecturer'
 
 const styles = StyleSheet.create({
-    card: {
-        marginBottom: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
     row: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -16,10 +11,6 @@ const styles = StyleSheet.create({
     },
     text: {
         maxWidth: '100%',
-    },
-    title: {
-        fontSize: RFValue(17),
-        fontWeight: 'bold',
     },
 })
 
@@ -30,13 +21,13 @@ type Props = {
 const LecturerItem = ({ lecturer }: Props) => {
     return (
         <Card
-            style={styles.card}
+            style={globalStyles.card}
             contentStyle={styles.row}
             mode='contained'
         >
             <View style={styles.text}>
                 <Text
-                    style={styles.title}
+                    style={globalStyles.title}
                     numberOfLines={1}
                 >
                     {lecturer.firstName} {lecturer.lastName}

@@ -21,17 +21,19 @@ const TabNavigator = () => {
     const Tab = createBottomTabNavigator()
     const insets = useSafeAreaInsets()
 
-    const getIcon = useCallback((route: string) => {
+    const getIcon = useCallback((route: string, focused: boolean) => {
         switch (route) {
             case Route.LecturesView:
-                return 'home'
+                return focused ? 'home' : 'home-outline'
 
             case Route.StudentView:
+                return focused ? 'star' : 'star-outline'
+
             case Route.LecturerView:
-                return 'compass-outline'
+                return focused ? 'compass' : 'compass-outline'
 
             case Route.ManagementView:
-                return 'cog'
+                return focused ? 'cog' : 'cog-outline'
 
             default:
                 throw new Error(`Invalid Route: ${route}`)
@@ -67,9 +69,9 @@ const TabNavigator = () => {
     return (
         <Tab.Navigator
             screenOptions={({ route }: { route: RouteProp<ParamListBase, string> }) => ({
-                tabBarIcon: ({ size, color }) => (
+                tabBarIcon: ({ size, color, focused }) => (
                     <IconButton
-                        icon={getIcon(route.name)}
+                        icon={getIcon(route.name, focused)}
                         size={size}
                         iconColor={color}
                     />

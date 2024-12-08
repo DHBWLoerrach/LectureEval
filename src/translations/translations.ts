@@ -248,11 +248,11 @@ export const translations = defineMessages({
     lecturesSearch: {
         defaultMessage: 'Vorlesungssuche',
     },
-    myLectures: {
-        defaultMessage: 'Meine Vorlesungen',
+    my: {
+        defaultMessage: 'Meine',
     },
-    allLectures: {
-        defaultMessage: 'Alle Vorlesungen',
+    all: {
+        defaultMessage: 'Alle',
     },
     rating: {
         defaultMessage: 'Bewertung',
@@ -289,5 +289,17 @@ export const translations = defineMessages({
     },
     star: {
         defaultMessage: 'Stern',
+    },
+    rated: {
+        defaultMessage: 'Bewertet',
+    },
+    pending: {
+        defaultMessage: 'Ausstehend',
+    },
+    noPendingRatings: {
+        defaultMessage: 'Du hast keine ausstehenden Bewertungen.',
+    },
+    noRatedLectures: {
+        defaultMessage: 'Du hast noch keine Vorlesungen bewertet.',
     },
 })

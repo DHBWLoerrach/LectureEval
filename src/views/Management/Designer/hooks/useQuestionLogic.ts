@@ -107,7 +107,13 @@ export const useQuestionLogic = ({ step }: Props) => {
                     onClose()
                     refetchQuestions()
                 },
-                onError: (error) => console.log(error),
+                onError: (error) => {
+                    Alert.alert(
+                        intl.formatMessage(translations.error),
+                        intl.formatMessage(translations.errorDescription),
+                    )
+                    console.error(`Unexpected error while deleting a form: ${error.message}`)
+                },
             })
         },
         [saveQuestion, showSnackbar, editInfo?.question?.id, intl, onClose, refetchQuestions],

@@ -6,9 +6,10 @@ import { Lecturer } from '~/types/Lecturer'
 
 type Props = {
     userId: string | undefined
+    enabled?: boolean
 }
 
-export const useLecturerByUIDQuery = ({ userId }: Props) => {
+export const useLecturerByUserQuery = ({ userId, enabled }: Props) => {
     const queryFn = useCallback(async () => {
         const { data } = await supabase
             .from(Table.Lecturers)
@@ -21,8 +22,8 @@ export const useLecturerByUIDQuery = ({ userId }: Props) => {
     }, [userId])
 
     return useQuery<Lecturer>({
-        queryKey: ['lecturerByUIDQuery', userId],
+        queryKey: ['lecturerByUserQuery', userId],
         queryFn,
-        enabled: !!userId,
+        enabled: enabled && !!userId,
     })
 }

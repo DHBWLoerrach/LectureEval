@@ -22,5 +22,6 @@ export const useCourseAssignmentsByLectureQuery = ({ lectureID }: Props) => {
     return useQuery<CourseAssignment[]>({
         queryKey: ['courseAssignmentsByLectureQuery', lectureID],
         queryFn,
+        enabled: !!lectureID,
     })
 }

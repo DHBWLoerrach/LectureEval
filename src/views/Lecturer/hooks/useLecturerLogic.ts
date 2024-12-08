@@ -8,7 +8,7 @@ import { useCourseAssignmentsByLecturerQuery } from '~/queries/CourseAssignments
 import { useCoursesByIDQuery } from '~/queries/Courses/useCoursesByIDQuery'
 import { useDepartmentsByIDQuery } from '~/queries/Departments/useDepartmentsByIDQuery'
 import { useFormValuesByAssignmentsQuery } from '~/queries/FormValues/useFormValuesByAssignmentsQuery'
-import { useLecturerByUIDQuery } from '~/queries/Lecturers/useLecturerByUIDQuery'
+import { useLecturerByUserQuery } from '~/queries/Lecturers/useLecturerByUserQuery'
 import { useLecturesByIDQuery } from '~/queries/Lectures/useLecturesByIDQuery'
 import { useQuestionsByIDQuery } from '~/queries/Questions/useQuestionsByIDQuery'
 import { useSemestersByIDQuery } from '~/queries/Semesters/useSemestersByIDQuery'
@@ -24,7 +24,7 @@ export const useLecturerLogic = () => {
         data: lecturer,
         isLoading: lecturerLoading,
         error: lecturerError,
-    } = useLecturerByUIDQuery({ userId })
+    } = useLecturerByUserQuery({ userId })
 
     const {
         data: courseAssignments,

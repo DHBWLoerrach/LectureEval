@@ -1,17 +1,12 @@
 import { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Card, IconButton, Text } from 'react-native-paper'
-import { RFValue } from 'react-native-responsive-fontsize'
+import { globalStyles } from '~/styles/globalStyles'
 import { Form } from '~/types/Form'
 
 const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
-    },
-    card: {
-        marginBottom: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 5,
     },
     row: {
         alignItems: 'center',
@@ -20,10 +15,6 @@ const styles = StyleSheet.create({
     },
     text: {
         maxWidth: '50%',
-    },
-    title: {
-        fontSize: RFValue(17),
-        fontWeight: 'bold',
     },
 })
 
@@ -54,13 +45,13 @@ const FormItem = ({
 
     return (
         <Card
-            style={styles.card}
+            style={globalStyles.card}
             contentStyle={styles.row}
             mode='contained'
         >
             <View style={styles.text}>
                 <Text
-                    style={styles.title}
+                    style={globalStyles.title}
                     numberOfLines={1}
                 >
                     {form.name}

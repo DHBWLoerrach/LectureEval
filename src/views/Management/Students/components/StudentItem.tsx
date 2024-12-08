@@ -1,20 +1,11 @@
 import { StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-paper'
-import { RFValue } from 'react-native-responsive-fontsize'
+import { globalStyles } from '~/styles/globalStyles'
 import { Student } from '~/types/Student'
 
 const styles = StyleSheet.create({
-    card: {
-        marginBottom: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
     text: {
         maxWidth: '100%',
-    },
-    title: {
-        fontSize: RFValue(17),
-        fontWeight: 'bold',
     },
 })
 
@@ -25,12 +16,12 @@ type Props = {
 const StudentItem = ({ student }: Props) => {
     return (
         <Card
-            style={styles.card}
+            style={globalStyles.card}
             mode='contained'
         >
             <View style={styles.text}>
                 <Text
-                    style={styles.title}
+                    style={globalStyles.title}
                     numberOfLines={1}
                 >
                     {student.firstName} {student.lastName}
