@@ -22,13 +22,16 @@ const Navigation = () => {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen
-                    name='Start'
+                    name={Route.Start}
                     component={TabNavigator}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name={Route.FormsView}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
                     component={FormsView}
+                    options={{ title: getPageTranslation(Route.FormsView, intl) }}
                 />
                 <Stack.Screen
                     name={Route.FormsManagement}

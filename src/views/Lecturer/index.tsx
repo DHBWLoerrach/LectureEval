@@ -41,37 +41,42 @@ const LecturerView = () => {
     )
 
     const renderItem = useCallback(
-        ({ item: lecture }: { item: Lecture }) => (
-            <View style={globalStyles.listAccordionWrapper}>
-                <List.Accordion
-                    title={lecture.name}
-                    titleStyle={globalStyles.listAccordionTitle}
-                    style={globalStyles.listAccordion}
-                    description={`${intl.formatMessage(translations.rating)}: ${
-                        lecture.rating !== null
-                            ? `${lecture.rating} ${intl.formatMessage(translations.stars)}`
-                            : intl.formatMessage(translations.notSet)
-                    }`}
-                >
-                    <List.Item
-                        title={
-                            departmentMap[lecture.departmentID] ??
-                            intl.formatMessage(translations.notSet)
-                        }
-                        description={
-                            semesterMap[lecture.semesterID] ??
-                            intl.formatMessage(translations.notSet)
-                        }
-                    />
-                    <FlatList
-                        data={courseAssignments}
-                        keyExtractor={(courseAssignment) => courseAssignment.id.toString()}
-                        renderItem={renderCourseItem}
-                        contentContainerStyle={styles.listSection}
-                    />
-                </List.Accordion>
-            </View>
-        ),
+        ({ item: lecture }: { item: Lecture }) => {
+            const filteredCourseAssignments = courseAssignments?.filter(
+                (courseAssignment) => courseAssignment.lectureID === lecture.id,
+            )
+            return (
+                <View style={globalStyles.listAccordionWrapper}>
+                    <List.Accordion
+                        title={lecture.name}
+                        titleStyle={globalStyles.listAccordionTitle}
+                        style={globalStyles.listAccordion}
+                        description={`${intl.formatMessage(translations.rating)}: ${
+                            lecture.rating !== null
+                                ? `${lecture.rating} ${intl.formatMessage(translations.stars)}`
+                                : intl.formatMessage(translations.notSet)
+                        }`}
+                    >
+                        <List.Item
+                            title={
+                                departmentMap[lecture.departmentID] ??
+                                intl.formatMessage(translations.notSet)
+                            }
+                            description={
+                                semesterMap[lecture.semesterID] ??
+                                intl.formatMessage(translations.notSet)
+                            }
+                        />
+                        <FlatList
+                            data={filteredCourseAssignments}
+                            keyExtractor={(courseAssignment) => courseAssignment.id.toString()}
+                            renderItem={renderCourseItem}
+                            contentContainerStyle={styles.listSection}
+                        />
+                    </List.Accordion>
+                </View>
+            )
+        },
         [departmentMap, semesterMap, courseAssignments, renderCourseItem, intl],
     )
 

@@ -11,6 +11,8 @@ export const getQuestionTypeTranslation = (type: QuestionType, intl: IntlShape) 
             return intl.formatMessage(translations.questionTypeText)
         case QuestionType.Difficulty:
             return intl.formatMessage(translations.questionTypeDifficulty)
+        case QuestionType.Result:
+            return intl.formatMessage(translations.questionTypeResult)
         default:
             return never(type, `Unexpected questionType: ${type}. This should never happen.`)
     }

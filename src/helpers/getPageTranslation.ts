@@ -5,6 +5,8 @@ import { translations } from '~/translations/translations'
 
 export const getPageTranslation = (page: Route, intl: IntlShape) => {
     switch (page) {
+        case Route.Start:
+            return intl.formatMessage(translations.start)
         case Route.StudentView:
             return intl.formatMessage(translations.ratings)
         case Route.LecturerView:
@@ -14,7 +16,7 @@ export const getPageTranslation = (page: Route, intl: IntlShape) => {
         case Route.LecturesView:
             return intl.formatMessage(translations.lectures)
         case Route.FormsView:
-            return intl.formatMessage(translations.forms)
+            return intl.formatMessage(translations.rating)
         case Route.DetailView:
             return intl.formatMessage(translations.details)
         case Route.CourseManagement:

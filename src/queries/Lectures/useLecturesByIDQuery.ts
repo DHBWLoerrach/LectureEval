@@ -8,24 +8,24 @@ type Props = {
     lectureIDs: number[] | undefined
 }
 
-export const useLecturesByIDQuery = ({ lectureIDs: lectureIds }: Props) => {
+export const useLecturesByIDQuery = ({ lectureIDs }: Props) => {
     const queryFn = useCallback(async () => {
-        if (!lectureIds || lectureIds.length === 0) {
+        if (!lectureIDs || lectureIDs.length === 0) {
             return []
         }
 
         const { data } = await supabase
             .from(Table.Lectures)
             .select('*')
-            .in('id', lectureIds)
+            .in('id', lectureIDs)
             .throwOnError()
 
         return data ?? []
-    }, [lectureIds])
+    }, [lectureIDs])
 
     return useQuery<Lecture[]>({
-        queryKey: ['lecturesByIDQuery', lectureIds],
+        queryKey: ['lecturesByIDQuery', lectureIDs],
         queryFn,
-        enabled: !!lectureIds,
+        enabled: !!lectureIDs && lectureIDs.length > 0,
     })
 }

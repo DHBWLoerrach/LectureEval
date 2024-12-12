@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
+import { useSnackbar } from '~/context/SnackbarContext'
 import { QuestionType } from '~/enums/QuestionType'
-import { convertToFiveStars } from '~/helpers/convertToFiveStars'
+import { roundRating } from '~/helpers/roundRating'
 import { useFormValuesByAssignmentQuery } from '~/queries/FormValues/useFormValuesByAssignmentQuery'
 import { useQuestionsByIDQuery } from '~/queries/Questions/useQuestionsByIDQuery'
 import { translations } from '~/translations/translations'
@@ -10,6 +11,7 @@ import { useDetailsFilterLogic } from '~/views/Detail/hooks/useDetailsFilterLogi
 
 export const useDetailsLogic = (courseAssignmentID: number) => {
     const intl = useIntl()
+    const showSnackbar = useSnackbar()
 
     const {
         data: formValues,
@@ -56,7 +58,7 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
                     const average =
                         intValues.length > 0
                             ? questionType === QuestionType.Rating
-                                ? convertToFiveStars(
+                                ? roundRating(
                                       intValues.reduce((sum, num) => sum + num, 0) /
                                           intValues.length,
                                   )
@@ -111,6 +113,14 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
         () => formValuesLoading || questionsLoading,
         [formValuesLoading, questionsLoading],
     )
+
+    useEffect(() => {
+        if (!isLoading && (!questions || questions.length === 0)) {
+            showSnackbar({
+                text: intl.formatMessage(translations.noRatings),
+            })
+        }
+    }, [intl, questions, isLoading, showSnackbar])
 
     return {
         isLoading,

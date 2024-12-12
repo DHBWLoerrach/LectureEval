@@ -5,6 +5,7 @@
  * To get translated display values, please use `~/helpers/getPageTranslation.ts`.
  */
 export enum Route {
+    Start = 'Start',
     StudentView = 'studentView',
     LecturerView = 'lecturerView',
     ManagementView = 'managementView',

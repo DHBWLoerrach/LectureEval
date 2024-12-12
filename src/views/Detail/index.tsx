@@ -40,7 +40,10 @@ const Detail = ({ route }: Props) => {
     const renderQuestionItem = useCallback(
         ({ item: question }: { item: Question }) => {
             const formattedString = () => {
-                if (question.typeID === QuestionType.Rating) {
+                if (
+                    question.typeID === QuestionType.Rating ||
+                    question.typeID === QuestionType.Result
+                ) {
                     return `${intl.formatMessage(translations.rating)}: ${
                         ratingAverages[question.id] !== null &&
                         typeof ratingAverages[question.id] === 'number'
@@ -55,7 +58,7 @@ const Detail = ({ route }: Props) => {
                             : intl.formatMessage(translations.notSet)
                     }`
                 }
-                return `${intl.formatMessage(translations.rating)}: ${intl.formatMessage(translations.notSet)}`
+                return undefined
             }
 
             return (
@@ -67,6 +70,12 @@ const Detail = ({ route }: Props) => {
                         description={formattedString()}
                     >
                         {question.typeID === QuestionType.Rating && (
+                            <RatingItem
+                                question={question}
+                                questionFormValues={questionFormValues}
+                            />
+                        )}
+                        {question.typeID === QuestionType.Result && (
                             <RatingItem
                                 question={question}
                                 questionFormValues={questionFormValues}

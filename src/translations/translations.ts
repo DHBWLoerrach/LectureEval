@@ -224,6 +224,9 @@ export const translations = defineMessages({
     questionTypeDifficulty: {
         defaultMessage: 'Schwierigkeit',
     },
+    questionTypeResult: {
+        defaultMessage: 'Gesamtbewertung',
+    },
     formNameExists: {
         defaultMessage: 'Ein Formular mit diesem Namen existiert bereits.',
     },
@@ -301,5 +304,35 @@ export const translations = defineMessages({
     },
     noRatedLectures: {
         defaultMessage: 'Du hast noch keine Vorlesungen bewertet.',
+    },
+    submit: {
+        defaultMessage: 'Abgeben',
+    },
+    easy: {
+        defaultMessage: 'leicht',
+    },
+    hard: {
+        defaultMessage: 'schwer',
+    },
+    good: {
+        defaultMessage: 'sehr gut',
+    },
+    bad: {
+        defaultMessage: 'sehr schlecht',
+    },
+    saveFormTitle: {
+        defaultMessage: 'Formular absenden?',
+    },
+    saveFormDescription: {
+        defaultMessage: 'Nach dem Absenden können keine Änderungen mehr gemacht werden.',
+    },
+    formSaved: {
+        defaultMessage: 'Das Formular wurde gespeichert.',
+    },
+    start: {
+        defaultMessage: 'Start',
+    },
+    noRatings: {
+        defaultMessage: 'In diesem Kurs wurden noch keine Bewertungen abgegeben.',
     },
 })

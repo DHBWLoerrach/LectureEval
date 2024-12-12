@@ -26,6 +26,6 @@ export const useQuestionsByIDQuery = ({ questionIDs }: Props) => {
     return useQuery<Question[]>({
         queryKey: ['questionsByIDQuery', questionIDs],
         queryFn,
-        enabled: !!questionIDs,
+        enabled: !!questionIDs && questionIDs.length > 0,
     })
 }

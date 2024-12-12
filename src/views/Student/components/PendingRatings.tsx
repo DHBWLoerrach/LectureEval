@@ -1,8 +1,11 @@
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
 // eslint-disable-next-line no-restricted-imports
 import { FlatList, ListRenderItem, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Card, IconButton, Text } from 'react-native-paper'
+import { Route } from '~/enums/Route'
 import { LectureAssignment } from '~/queries/CourseAssignments/useAssignedLecturesForCourseQuery'
 import { colors } from '~/styles/colors'
 import { globalStyles } from '~/styles/globalStyles'
@@ -37,10 +40,18 @@ const styles = StyleSheet.create({
 
 const PendingRatings = ({ semesters, lectures }: Props) => {
     const intl = useIntl()
+    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
-    const onPress = useCallback(() => {
-        // TODO Open form
-    }, [])
+    const onPress = useCallback(
+        (assignment: LectureAssignment) => {
+            if (!assignment) return
+
+            navigation.navigate(Route.FormsView, {
+                assignment,
+            })
+        },
+        [navigation],
+    )
 
     const renderItem = useCallback<ListRenderItem<LectureAssignment>>(
         ({ item }) => (
@@ -48,7 +59,7 @@ const PendingRatings = ({ semesters, lectures }: Props) => {
                 style={globalStyles.card}
                 mode='contained'
             >
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity onPress={() => onPress(item)}>
                     <View style={styles.row}>
                         <View style={styles.text}>
                             <Text
@@ -63,7 +74,7 @@ const PendingRatings = ({ semesters, lectures }: Props) => {
                         </View>
                         <IconButton
                             icon='chevron-right'
-                            onPress={onPress}
+                            onPress={() => onPress(item)}
                         />
                     </View>
                 </TouchableOpacity>

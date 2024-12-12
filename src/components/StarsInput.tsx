@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useController, UseControllerProps } from 'react-hook-form'
 import { useIntl } from 'react-intl'
 import { StyleSheet, View } from 'react-native'
@@ -8,6 +9,14 @@ import { translations } from '~/translations/translations'
 
 type Props = {
     name: string
+    /**
+     * Indicates if the Question is of Type 'Difficulty'.
+     */
+    isDifficulty?: boolean
+    /**
+     * Indicates if the Question monitors the overall result.
+     */
+    isResult?: boolean
     label?: string
     helperText?: string
     rules?: UseControllerProps['rules']
@@ -15,7 +24,7 @@ type Props = {
     /**
      * Amount of stars to display
      *
-     * @default 6
+     * @default 5
      */
     amount?: number
 }
@@ -41,8 +50,20 @@ const styles = StyleSheet.create({
     },
 })
 
-const StarsInput = ({ label, name, amount, helperText, rules, disabled }: Props) => {
+const StarsInput = ({
+    label,
+    name,
+    amount,
+    helperText,
+    rules,
+    disabled,
+    isDifficulty = false,
+    isResult = false,
+}: Props) => {
     const intl = useIntl()
+    if (isDifficulty && isResult) {
+        throw new Error('Can not be both, result and difficulty')
+    }
 
     const {
         field: { value, onChange },
@@ -52,25 +73,59 @@ const StarsInput = ({ label, name, amount, helperText, rules, disabled }: Props)
         rules,
     })
 
+    const defaultAmount = useMemo(() => (isDifficulty ? 3 : 5), [isDifficulty])
+
+    const starButtons = useMemo(() => {
+        return Array.from({ length: amount || defaultAmount }, (_, i) => {
+            const key = i + 1
+
+            return (
+                <IconButton
+                    key={key}
+                    size={40}
+                    disabled={disabled}
+                    style={styles.starButton}
+                    onPress={() => onChange(key)}
+                    iconColor={value >= key ? colors.primary : undefined}
+                    icon={
+                        isDifficulty
+                            ? value >= key
+                                ? 'alert-circle'
+                                : 'alert-circle-outline'
+                            : value >= key
+                              ? 'star'
+                              : 'star-outline'
+                    }
+                />
+            )
+        })
+    }, [amount, defaultAmount, disabled, value, onChange, isDifficulty])
+
+    const leftText = useMemo(() => {
+        if (isResult) {
+            return intl.formatMessage(translations.bad)
+        }
+        return isDifficulty
+            ? intl.formatMessage(translations.easy)
+            : intl.formatMessage(translations.disagree)
+    }, [isResult, isDifficulty, intl])
+
+    const rightText = useMemo(() => {
+        if (isResult) {
+            return intl.formatMessage(translations.good)
+        }
+        return isDifficulty
+            ? intl.formatMessage(translations.hard)
+            : intl.formatMessage(translations.agree)
+    }, [isResult, isDifficulty, intl])
+
     return (
         <View>
             {label && <Text style={styles.label}>{label}</Text>}
-            <View style={styles.starContainer}>
-                {Array.from({ length: amount || 6 }, (_, i) => (
-                    <IconButton
-                        key={i}
-                        size={40}
-                        disabled={disabled}
-                        style={styles.starButton}
-                        onPress={() => onChange(i)}
-                        iconColor={value >= i ? colors.primary : undefined}
-                        icon={value >= i ? 'star' : 'star-outline'}
-                    />
-                ))}
-            </View>
+            <View style={styles.starContainer}>{starButtons}</View>
             <View style={styles.textContainer}>
-                <Text>{intl.formatMessage(translations.agree)}</Text>
-                <Text>{intl.formatMessage(translations.disagree)}</Text>
+                <Text>{leftText}</Text>
+                <Text>{rightText}</Text>
             </View>
             {(helperText || error) && (
                 <HelperText
