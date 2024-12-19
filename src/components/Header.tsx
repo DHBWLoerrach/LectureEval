@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     },
     headerImage: {
         height: 130,
-        marginTop: 28,
     },
     headerText: {
         color: colors.white,

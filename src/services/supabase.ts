@@ -11,11 +11,15 @@ import { createClient } from '@supabase/supabase-js'
  * - `persistSession`: Persists the session across app restarts.
  * - `detectSessionInUrl`: Disables session detection in the URL.
  */
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-        storage: AsyncStorage,
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: false,
+export const supabase = createClient(
+    process.env.SUPABASE_URL ?? supabaseUrl,
+    process.env.SUPABASE_ANON_KEY ?? supabaseAnonKey,
+    {
+        auth: {
+            storage: AsyncStorage,
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: false,
+        },
     },
-})
+)

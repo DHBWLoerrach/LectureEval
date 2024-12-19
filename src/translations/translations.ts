@@ -305,6 +305,16 @@ export const translations = defineMessages({
     noRatedLectures: {
         defaultMessage: 'Du hast noch keine Vorlesungen bewertet.',
     },
+    noConnection: {
+        defaultMessage: 'Keine Verbindung',
+    },
+    noConnectionDesc: {
+        defaultMessage:
+            'Es konnte keine Verbindung zum Server hergestellt werden, bitte prüfe deine Netzwerkverbindung.',
+    },
+    retry: {
+        defaultMessage: 'Erneut versuchen',
+    },
     submit: {
         defaultMessage: 'Abgeben',
     },

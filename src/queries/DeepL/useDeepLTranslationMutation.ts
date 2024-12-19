@@ -22,7 +22,7 @@ export const useDeepLTranslationMutation = () => {
             },
             {
                 headers: {
-                    Authorization: `DeepL-Auth-Key ${deeplApiKey}`,
+                    Authorization: `DeepL-Auth-Key ${process.env.DEEPL_API_KEY ?? deeplApiKey}`,
                     'Content-Type': 'application/json',
                 },
             },

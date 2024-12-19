@@ -15,12 +15,12 @@ import TextItem from '~/views/Detail/components/TextItem'
 import { useDetailsLogic } from '~/views/Detail/hooks/useDetailsLogic'
 import styles from '~/views/Detail/styles'
 
-type RouteParams = {
+export type DetailRouteParams = {
     courseAssignmentID: number
 }
 
 type Props = {
-    route: Route<RouteEnum.DetailView, RouteParams>
+    route: Route<RouteEnum.DetailView, DetailRouteParams>
 }
 
 const Detail = ({ route }: Props) => {

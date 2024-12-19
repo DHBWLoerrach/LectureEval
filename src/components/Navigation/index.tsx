@@ -4,19 +4,32 @@ import { useIntl } from 'react-intl'
 import TabNavigator from '~/components/Navigation/components/TabNavigator'
 import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
-import Detail from '~/views/Detail'
+import Detail, { DetailRouteParams } from '~/views/Detail'
 import FormsView from '~/views/Forms'
 import CoursesManagement from '~/views/Management/Courses'
 import DepartmentsManagement from '~/views/Management/Departments'
-import Designer from '~/views/Management/Designer'
+import Designer, { DesignerRouteParams } from '~/views/Management/Designer'
 import FormsManagement from '~/views/Management/Forms'
 import LecturersManagement from '~/views/Management/Lecturers'
 import LecturesManagement from '~/views/Management/Lectures'
 import StudentsManagement from '~/views/Management/Students'
 
+type NavigationParamList = {
+    [Route.Start]: undefined
+    [Route.FormsView]: undefined
+    [Route.FormsManagement]: undefined
+    [Route.DepartmentsManagement]: undefined
+    [Route.FormDesigner]: DesignerRouteParams
+    [Route.StudentManagement]: undefined
+    [Route.LecturerManagement]: undefined
+    [Route.LectureManagement]: undefined
+    [Route.CourseManagement]: undefined
+    [Route.DetailView]: DetailRouteParams
+}
+
 const Navigation = () => {
     const intl = useIntl()
-    const Stack = createNativeStackNavigator()
+    const Stack = createNativeStackNavigator<NavigationParamList>()
 
     return (
         <NavigationContainer>
@@ -45,8 +58,6 @@ const Navigation = () => {
                 />
                 <Stack.Screen
                     name={Route.FormDesigner}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
                     component={Designer}
                     initialParams={{ formId: 0 }}
                     options={{ title: getPageTranslation(Route.FormDesigner, intl) }}
@@ -73,8 +84,6 @@ const Navigation = () => {
                 />
                 <Stack.Screen
                     name={Route.DetailView}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
                     component={Detail}
                     options={{ title: getPageTranslation(Route.DetailView, intl) }}
                 />

@@ -9,13 +9,13 @@ import StepFooter from '~/views/Management/Designer/components/StepFooter'
 import StepHeader from '~/views/Management/Designer/components/StepHeader'
 import { useStepLogic } from '~/views/Management/Designer/hooks/useStepLogic'
 
-type RouteParams = {
+export type DesignerRouteParams = {
     formId: number
     departmentId: number
 }
 
 type Props = {
-    route: Route<RouteEnum.FormDesigner, RouteParams>
+    route: Route<RouteEnum.FormDesigner, DesignerRouteParams>
 }
 
 const style = StyleSheet.create({

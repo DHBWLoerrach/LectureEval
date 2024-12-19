@@ -1,10 +1,27 @@
+import NetInfo from '@react-native-community/netinfo'
+import { useEffect, useState } from 'react'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import Navigation from '~/components/Navigation'
 import { useAuth } from '~/context/AuthContext'
 import LoginView from '~/views/Login'
+import NoConnection from '~/views/NoConnection'
 
 const Main = () => {
     const { session, isLoading } = useAuth()
+
+    const [isConnected, setIsConnected] = useState(true)
+
+    useEffect(() => {
+        const unsubscribe = NetInfo.addEventListener((state) => {
+            if (state.isInternetReachable === null) return
+
+            setIsConnected(state.isInternetReachable)
+        })
+
+        return () => unsubscribe()
+    }, [])
+
+    if (!isConnected) return <NoConnection />
 
     if (isLoading) return <LoadingSpinner />
 
