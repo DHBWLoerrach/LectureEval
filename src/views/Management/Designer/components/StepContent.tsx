@@ -2,6 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import LoadingSpinner from '~/components/LoadingSpinner'
+import { globalStyles } from '~/styles/globalStyles'
 import { Step } from '~/types/Step'
 import AddOrEditQuestionDialog from '~/views/Management/Designer/components/AddOrEditQuestionDialog'
 import Question from '~/views/Management/Designer/components/Question'
@@ -17,9 +18,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 30,
     },
-    container: {
-        flex: 1,
-    },
 })
 
 const StepContent = ({ step }: Props) => {
@@ -33,7 +31,7 @@ const StepContent = ({ step }: Props) => {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={globalStyles.flexBox}>
             <FormProvider {...form}>
                 <View>
                     {questions?.map((question) => (

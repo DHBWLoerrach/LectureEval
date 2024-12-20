@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
 import { useAuth } from '~/context/AuthContext'
 import { QuestionType } from '~/enums/QuestionType'
-import { roundRating } from '~/helpers/roundRating'
+import { roundToTwoDigits } from '~/helpers/roundToTwoDigits'
 import { useCourseAssignmentsByLecturerQuery } from '~/queries/CourseAssignments/useCourseAssignmentsByLecturerQuery'
 import { useCoursesByIDQuery } from '~/queries/Courses/useCoursesByIDQuery'
 import { useDepartmentsByIDQuery } from '~/queries/Departments/useDepartmentsByIDQuery'
@@ -141,7 +141,7 @@ export const useLecturerLogic = () => {
                     const average =
                         intValues.length > 0
                             ? questionType === QuestionType.Rating
-                                ? roundRating(
+                                ? roundToTwoDigits(
                                       intValues.reduce((sum, num) => sum + num, 0) /
                                           intValues.length,
                                   )

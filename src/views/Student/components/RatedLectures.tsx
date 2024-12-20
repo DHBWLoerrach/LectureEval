@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-paper'
+import { useQueryOnFocus } from '~/hooks/useQueryOnFocus'
 import { LectureAssignment } from '~/queries/CourseAssignments/useAssignedLecturesForCourseQuery'
 import { colors } from '~/styles/colors'
 import { globalStyles } from '~/styles/globalStyles'
@@ -29,6 +30,8 @@ const styles = StyleSheet.create({
 })
 
 const RatedLectures = ({ semesters, lectures }: Props) => {
+    useQueryOnFocus()
+
     const intl = useIntl()
 
     const renderItem = useCallback<ListRenderItem<LectureAssignment>>(
@@ -38,7 +41,10 @@ const RatedLectures = ({ semesters, lectures }: Props) => {
                 mode='contained'
             >
                 <View>
-                    <Text numberOfLines={1}>
+                    <Text
+                        style={globalStyles.title}
+                        numberOfLines={1}
+                    >
                         {item.lecture.name} ({item.lecturer.lastName})
                     </Text>
                     <Text style={globalStyles.subtitle}>

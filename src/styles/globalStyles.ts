@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { colors } from '~/styles/colors'
 
+/**
+ * Commonly used styles to be reused accorss the app to maintain consistency and avoid duplication.
+ */
 export const globalStyles = StyleSheet.create({
     card: {
         marginBottom: 10,
@@ -14,6 +17,9 @@ export const globalStyles = StyleSheet.create({
         paddingBottom: 100,
         padding: 20,
         paddingTop: 0,
+    },
+    flexBox: {
+        flex: 1,
     },
     list: {
         paddingBottom: 100,
@@ -36,8 +42,13 @@ export const globalStyles = StyleSheet.create({
         paddingBottom: 320,
         paddingHorizontal: 20,
     },
-    scrollView: {
+    noDataContainer: {
         flex: 1,
+        justifyContent: 'center',
+    },
+    noDataText: {
+        color: colors.secondary,
+        textAlign: 'center',
     },
     searchbar: {
         backgroundColor: colors.tertiary,

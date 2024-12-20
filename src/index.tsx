@@ -12,6 +12,11 @@ const Main = () => {
     const [isConnected, setIsConnected] = useState(true)
 
     useEffect(() => {
+        /**
+         * Check whether or not the user has an internet connection.
+         *
+         * If the user is not connected to the internet, the NoConnection component will be displayed.
+         */
         const unsubscribe = NetInfo.addEventListener((state) => {
             if (state.isInternetReachable === null) return
 

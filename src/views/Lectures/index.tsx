@@ -1,10 +1,11 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
 import { FlatList, StyleSheet, View } from 'react-native'
-import { List, Searchbar, SegmentedButtons } from 'react-native-paper'
+import { List, Searchbar, SegmentedButtons, Text } from 'react-native-paper'
 import Header from '~/components/Header'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import { LectureType } from '~/enums/LectureType'
+import { useQueryOnFocus } from '~/hooks/useQueryOnFocus'
 import { globalStyles } from '~/styles/globalStyles'
 import { theme } from '~/styles/theme'
 import { translations } from '~/translations/translations'
@@ -13,12 +14,14 @@ import { useLecturesLogic } from '~/views/Lectures/hooks/useLecturesLogic'
 
 const styles = StyleSheet.create({
     listSection: {
-        paddingBottom: 260,
+        paddingBottom: 20,
         paddingHorizontal: 20,
     },
 })
 
 const LecturesView = () => {
+    useQueryOnFocus()
+
     const {
         lectureView,
         setLectureView,
@@ -73,7 +76,7 @@ const LecturesView = () => {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <View>
+        <View style={globalStyles.flexBox}>
             <Header />
             <View>
                 {showButton && (
@@ -92,12 +95,22 @@ const LecturesView = () => {
                     placeholder={intl.formatMessage(translations.search)}
                 />
             </View>
-            <FlatList
-                data={searchedLectures}
-                keyExtractor={(lecture) => lecture.id.toString()}
-                renderItem={renderItem}
-                contentContainerStyle={showButton ? globalStyles.listSection : styles.listSection}
-            />
+            {searchedLectures.length === 0 ? (
+                <View style={globalStyles.noDataContainer}>
+                    <Text style={globalStyles.noDataText}>
+                        {intl.formatMessage(translations.noData)}
+                    </Text>
+                </View>
+            ) : (
+                <FlatList
+                    data={searchedLectures}
+                    keyExtractor={(lecture) => lecture.id.toString()}
+                    renderItem={renderItem}
+                    contentContainerStyle={
+                        showButton ? globalStyles.listSection : styles.listSection
+                    }
+                />
+            )}
         </View>
     )
 }

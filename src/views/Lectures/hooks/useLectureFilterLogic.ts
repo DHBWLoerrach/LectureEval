@@ -14,6 +14,8 @@ export const useLectureFilterLogic = ({ lectures, departments }: Props) => {
     const searchedLectures = useMemo(() => {
         return lectures.filter((lecture) => {
             const matchesName = lecture.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+
+            // Lecture names need to be unique per department
             const department = departments.find((dept) =>
                 dept.name.toLowerCase().startsWith(debouncedSearch.toLowerCase()),
             )

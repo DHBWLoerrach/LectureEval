@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FAB } from 'react-native-paper'
 import LoadingSpinner from '~/components/LoadingSpinner'
+import { globalStyles } from '~/styles/globalStyles'
 
 const styles = StyleSheet.create({
     fab: {
@@ -9,9 +10,6 @@ const styles = StyleSheet.create({
         margin: 24,
         position: 'absolute',
         right: 0,
-    },
-    flexBox: {
-        flex: 1,
     },
 })
 
@@ -36,12 +34,12 @@ type Props = PropsWithChildren<{
 
 const ManagementWrapper = ({ children, fab = true, loading = false, onFab }: Props) => {
     return (
-        <View style={styles.flexBox}>
-            <View style={styles.flexBox}>
+        <View style={globalStyles.flexBox}>
+            <View style={globalStyles.flexBox}>
                 {loading ? (
                     <LoadingSpinner />
                 ) : (
-                    <View style={styles.flexBox}>
+                    <View style={globalStyles.flexBox}>
                         {children}
                         {fab && (
                             <FAB

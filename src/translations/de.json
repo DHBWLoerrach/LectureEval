@@ -71,6 +71,7 @@
   "next": "Weiter",
   "noConnection": "Keine Verbindung",
   "noConnectionDesc": "Es konnte keine Verbindung zum Server hergestellt werden, bitte prüfe deine Netzwerkverbindung.",
+  "noData": "Keine Daten vorhanden",
   "noOptions": "Keine Optionen vorhanden",
   "noPendingRatings": "Du hast keine ausstehenden Bewertungen.",
   "noRatedLectures": "Du hast noch keine Vorlesungen bewertet.",

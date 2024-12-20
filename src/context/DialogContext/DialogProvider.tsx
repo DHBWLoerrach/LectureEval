@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
 
 type Props = PropsWithChildren
 
+/**
+ * Provides a simple hook to show a dialog with a title and description without the need to pass the dialog info through props.
+ */
 const DialogProvider = ({ children }: Props) => {
     const intl = useIntl()
     const [dialogInfo, setDialogInfo] = useState<DialogInfo>()

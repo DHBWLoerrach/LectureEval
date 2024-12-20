@@ -79,6 +79,7 @@ export const useStepLogic = ({ assignment }: Props) => {
 
         setActiveStep(steps?.find((s) => s.serial === activeStep.serial + 1))
     }, [activeStep, steps])
+
     const onPrev = useCallback(() => {
         if (!activeStep) return
 
@@ -108,15 +109,21 @@ export const useStepLogic = ({ assignment }: Props) => {
                     onSuccess: () => {
                         updateLectureRating({ lecture: assignment.lecture })
 
-                        deletePendingRating({
-                            courseAssignmentId: assignment.id,
-                            studentId: student.id,
-                        })
+                        deletePendingRating(
+                            {
+                                courseAssignmentId: assignment.id,
+                                studentId: student.id,
+                            },
+                            {
+                                onSuccess: () => {
+                                    showSnackbar({
+                                        text: intl.formatMessage(translations.formSaved),
+                                    })
 
-                        showSnackbar({
-                            text: intl.formatMessage(translations.formSaved),
-                        })
-                        navigation.navigate(Route.Start)
+                                    navigation.navigate(Route.Start)
+                                },
+                            },
+                        )
                     },
                 },
             )

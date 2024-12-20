@@ -8,6 +8,10 @@ import enMessages from '~/translations/en.json'
 
 type Props = PropsWithChildren
 
+/**
+ * Provides the current locale and the ability to change it.
+ * Configures intl with the current locale to provide messages in the selected language.
+ */
 const LocaleProvider = ({ children }: Props) => {
     const [locale, setLocale] = useState<Locale>(Locale.DE)
 

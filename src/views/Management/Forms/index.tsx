@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
-import { FlatList, ListRenderItem } from 'react-native'
-import { Searchbar } from 'react-native-paper'
+import { FlatList, ListRenderItem, View } from 'react-native'
+import { Searchbar, Text } from 'react-native-paper'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
@@ -56,12 +56,20 @@ const FormsManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList<Department>
-                contentContainerStyle={globalStyles.flatListContent}
-                data={departments}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
+            {filteredForms.length === 0 ? (
+                <View style={globalStyles.noDataContainer}>
+                    <Text style={globalStyles.noDataText}>
+                        {intl.formatMessage(translations.noData)}
+                    </Text>
+                </View>
+            ) : (
+                <FlatList<Department>
+                    contentContainerStyle={globalStyles.flatListContent}
+                    data={departments}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            )}
             {editInfo && (
                 <AddOrEditFormDialog
                     forms={forms}

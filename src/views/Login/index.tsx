@@ -10,6 +10,7 @@ import TextInput from '~/components/TextInput'
 import { useLocale } from '~/context/LocaleContext'
 import { Locale } from '~/enums/Locale'
 import { supabase } from '~/services/supabase'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { loginStyles } from '~/views/Login/styles'
 
@@ -78,7 +79,7 @@ const LoginScreen = () => {
     )
 
     return (
-        <View style={loginStyles.container}>
+        <View style={globalStyles.flexBox}>
             <ScrollView contentContainerStyle={loginStyles.scrollContent}>
                 <ImageBackground
                     style={loginStyles.header}

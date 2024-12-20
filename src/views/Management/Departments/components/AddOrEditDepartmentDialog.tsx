@@ -6,16 +6,16 @@ import { Dialog, Portal } from 'react-native-paper'
 import Button from '~/components/Button'
 import SelectMenu from '~/components/SelectMenu'
 import TextInput from '~/components/TextInput'
-import { useAuth } from '~/context/AuthContext'
 import { useLocale } from '~/context/LocaleContext'
 import { useLocationsQuery } from '~/queries/Locations/useLocationsQuery'
-import { useUserLocationsQuery } from '~/queries/UserLocations/useUserLocationsQuery'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
+import { UserLocation } from '~/types/UserLocation'
 import { DepartmentFormData } from '~/views/Management/Departments/types/DepartmentFormData'
 
 type Props = {
+    location: UserLocation
     departments: Department[] | undefined
     onSave: (departmentData: DepartmentFormData) => void
     onClose: () => void
@@ -26,20 +26,22 @@ const styles = StyleSheet.create({
     content: { gap: 10 },
 })
 
-const AddOrEditDepartmentDialog = ({ departments, onClose, onSave, initialData }: Props) => {
+const AddOrEditDepartmentDialog = ({
+    location,
+    departments,
+    onClose,
+    onSave,
+    initialData,
+}: Props) => {
     const intl = useIntl()
-    const { session } = useAuth()
     const { locale } = useLocale()
 
     const { data: locations } = useLocationsQuery()
-    const { data: userLocation } = useUserLocationsQuery({
-        userId: session?.user.id,
-    })
 
     const form = useForm<DepartmentFormData>({
         defaultValues: {
             ...initialData,
-            locationId: userLocation?.locationId,
+            locationId: location.locationId,
         },
     })
     const {

@@ -1,17 +1,20 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
+import { useAuth } from '~/context/AuthContext'
 import { useDialog } from '~/context/DialogContext'
 import { useSnackbar } from '~/context/SnackbarContext'
 import { useDeleteDepartmentMutation } from '~/queries/Departments/useDeleteDepartmentMutation'
 import { useDepartmentsQuery } from '~/queries/Departments/useDepartmentsQuery'
 import { useUpsertDepartmentMutation } from '~/queries/Departments/useUpsertDepartmentMutation'
+import { useUserLocationsQuery } from '~/queries/UserLocations/useUserLocationsQuery'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 import { DepartmentFormData } from '~/views/Management/Departments/types/DepartmentFormData'
 
 export const useDepartmentManagementLogic = () => {
     const intl = useIntl()
+    const { session } = useAuth()
 
     const showDialog = useDialog()
     const showSnackbar = useSnackbar()
@@ -19,11 +22,20 @@ export const useDepartmentManagementLogic = () => {
     const {
         data: departments,
         isLoading: departmentsLoading,
+        error: departmentsError,
         refetch: refetchDepartments,
     } = useDepartmentsQuery()
 
     const { mutate: saveDepartment } = useUpsertDepartmentMutation()
     const { mutate: deleteDepartment } = useDeleteDepartmentMutation()
+
+    const {
+        data: userLocation,
+        isLoading: userLocationLoading,
+        error: userLocationError,
+    } = useUserLocationsQuery({
+        userId: session?.user.id,
+    })
 
     const [editInfo, setEditInfo] = useState<{ initialData?: Department }>()
 
@@ -97,8 +109,29 @@ export const useDepartmentManagementLogic = () => {
         [showDialog, intl, deleteDepartment, refetchDepartments, showSnackbar],
     )
 
+    const loading = useMemo(
+        () => departmentsLoading || userLocationLoading,
+        [departmentsLoading, userLocationLoading],
+    )
+
+    const error = useMemo(
+        () => departmentsError || userLocationError,
+        [departmentsError, userLocationError],
+    )
+
+    useEffect(() => {
+        if (!error) return
+
+        Alert.alert(
+            intl.formatMessage(translations.error),
+            intl.formatMessage(translations.errorDescription),
+        )
+
+        console.error(error.message)
+    }, [error, intl])
+
     return {
-        loading: departmentsLoading,
+        loading,
         onEdit,
         onSave,
         onClose,
@@ -106,5 +139,6 @@ export const useDepartmentManagementLogic = () => {
         onCreate,
         editInfo,
         departments,
+        userLocation,
     }
 }

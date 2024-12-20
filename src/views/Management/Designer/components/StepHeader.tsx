@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl'
 import { StyleSheet, View } from 'react-native'
 import { IconButton, ProgressBar, Text } from 'react-native-paper'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { roundToTwoDigits } from '~/helpers/roundToTwoDigits'
 import { translations } from '~/translations/translations'
 import { Step } from '~/types/Step'
 
@@ -26,8 +27,8 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: RFValue(14),
         fontWeight: 'bold',
-        maxWidth: 250,
         overflow: 'hidden',
+        width: '75%',
     },
     subHeading: {
         fontSize: RFValue(14),
@@ -46,7 +47,7 @@ const StepHeader = ({ maxSerial, step, onEdit: onEditProp, onDelete: onDeletePro
     const progress = useMemo(() => {
         if (!step) return 0.01
 
-        return Math.round((step.serial / maxSerial) * 100) / 100
+        return roundToTwoDigits(step.serial / maxSerial)
     }, [step, maxSerial])
 
     const title = useMemo(() => {

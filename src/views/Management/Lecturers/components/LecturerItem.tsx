@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     text: {
-        maxWidth: '100%',
+        width: '100%',
     },
 })
 

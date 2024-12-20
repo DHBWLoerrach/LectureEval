@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { SegmentedButtons } from 'react-native-paper'
 import Header from '~/components/Header'
 import LoadingSpinner from '~/components/LoadingSpinner'
@@ -10,12 +10,6 @@ import RatedLectures from '~/views/Student/components/RatedLectures'
 import { useStudentViewLogic } from '~/views/Student/hooks/useStudentViewLogic'
 import { StudentViewType } from '~/views/Student/types/StudentViewType'
 
-const styles = StyleSheet.create({
-    flexBox: {
-        flex: 1,
-    },
-})
-
 const StudentView = () => {
     const [currentView, setCurrentView] = useState(StudentViewType.PendingRatings)
 
@@ -25,7 +19,7 @@ const StudentView = () => {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <View style={styles.flexBox}>
+        <View style={globalStyles.flexBox}>
             <View>
                 <Header />
                 <SegmentedButtons

@@ -372,4 +372,7 @@ export const translations = defineMessages({
     noOptions: {
         defaultMessage: 'Keine Optionen vorhanden',
     },
+    noData: {
+        defaultMessage: 'Keine Daten vorhanden',
+    },
 })

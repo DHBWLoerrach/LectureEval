@@ -71,6 +71,7 @@
   "next": "Next",
   "noConnection": "No connection",
   "noConnectionDesc": "Please check your internet connection and try again.",
+  "noData": "No data available",
   "noOptions": "No options available",
   "noPendingRatings": "You do not have any pending ratings.",
   "noRatedLectures": "You have not rated any lectures yet.",

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
 import { QuestionType } from '~/enums/QuestionType'
-import { roundRating } from '~/helpers/roundRating'
+import { roundToTwoDigits } from '~/helpers/roundToTwoDigits'
 import { useCourseAssignmentsByLectureQuery } from '~/queries/CourseAssignments/useCourseAssignmentsByLectureQuery'
 import { useFormValuesByAssignmentsQuery } from '~/queries/FormValues/useFormValuesByAssignmentsQuery'
 import { useUpsertLectureMutation } from '~/queries/Lectures/useUpsertLectureMutation'
@@ -57,7 +57,7 @@ export const useUpdateLectureRating = () => {
                 return acc + parseInt(formValue.value)
             }, 0)
 
-            return roundRating(typeSum / typeValues.length)
+            return roundToTwoDigits(typeSum / typeValues.length)
         },
         [formValues, questionTypeMap, questions],
     )

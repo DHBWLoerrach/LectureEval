@@ -54,6 +54,8 @@ const DepartmentFormGroup = ({
         [onDelete, onDesign, onEdit],
     )
 
+    if (departmentForms.length === 0) return null
+
     return (
         <View style={styles.content}>
             <TouchableRipple onPress={() => setExpanded(!expanded)}>

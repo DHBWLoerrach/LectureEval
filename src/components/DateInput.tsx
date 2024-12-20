@@ -1,4 +1,10 @@
 import RNDateTimePicker from '@react-native-community/datetimepicker'
+import { formatInTimeZone } from 'date-fns-tz'
+import { isAfter } from 'date-fns/isAfter'
+import { isEqual } from 'date-fns/isEqual'
+import { isValid } from 'date-fns/isValid'
+import { parse } from 'date-fns/parse'
+import { startOfDay } from 'date-fns/startOfDay'
 import { useCallback, useState } from 'react'
 import { useController, UseControllerProps } from 'react-hook-form'
 import { useIntl } from 'react-intl'
@@ -35,19 +41,11 @@ const DateInput = ({ label, helperText, name, rules, disabled, defaultValue }: P
             ...rules,
             validate: (value) => {
                 // Validate the format and that the date is today or in the future
-                const isValidDate = (() => {
-                    const [day, month, year] = value.split('.').map(Number)
-                    const date = new Date(year, month - 1, day)
-                    const today = new Date()
-                    today.setHours(0, 0, 0, 0) // Normalize to midnight for comparison
+                const today = startOfDay(new Date())
+                const date = startOfDay(parse(value, 'dd.MM.yyyy', new Date()))
 
-                    return (
-                        date.getDate() === day &&
-                        date.getMonth() === month - 1 &&
-                        date.getFullYear() === year &&
-                        date >= today // Ensure date is today or in the future
-                    )
-                })()
+                const isValidDate = isValid(date) && (isEqual(date, today) || isAfter(date, today))
+
                 return isValidDate || intl.formatMessage(translations.invalidDate)
             },
         },
@@ -58,8 +56,8 @@ const DateInput = ({ label, helperText, name, rules, disabled, defaultValue }: P
 
     const handleDateChange = useCallback(
         (value: Date) => {
-            const formattedDate = value.toLocaleDateString('de-DE')
-            onChange(formattedDate)
+            const date = formatInTimeZone(value, 'Europe/Berlin', 'dd.MM.yyyy')
+            onChange(date)
         },
         [onChange],
     )

@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: RFValue(17),
         fontWeight: 'bold',
-        maxWidth: 200,
         overflow: 'hidden',
     },
 })

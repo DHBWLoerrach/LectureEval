@@ -34,8 +34,6 @@ const CourseFormReleaseGroup = ({ onDelete, onEdit, course, assignments, searchi
         [assignments, course],
     )
 
-    const todaysDate = useMemo(() => new Date().toLocaleDateString('de-DE'), [])
-
     const renderItem = useCallback<ListRenderItem<CourseAssignmentWithLecture>>(
         ({ item }) => {
             return (
@@ -43,11 +41,10 @@ const CourseFormReleaseGroup = ({ onDelete, onEdit, course, assignments, searchi
                     assignment={item}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    todaysDate={todaysDate}
                 />
             )
         },
-        [onDelete, onEdit, todaysDate],
+        [onDelete, onEdit],
     )
 
     // Don't show anything if no course assignments are found

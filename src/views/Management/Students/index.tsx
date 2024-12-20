@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { useIntl } from 'react-intl'
-import { FlatList, ListRenderItem } from 'react-native'
-import { Searchbar } from 'react-native-paper'
+import { FlatList, ListRenderItem, View } from 'react-native'
+import { Searchbar, Text } from 'react-native-paper'
 import { useCoursesQuery } from '~/queries/Courses/useCoursesQuery'
 import { useStudentsQuery } from '~/queries/Students/useStudentsQuery'
 import { globalStyles } from '~/styles/globalStyles'
@@ -57,12 +57,20 @@ const StudentsManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList<Course>
-                data={courses}
-                renderItem={renderGroup}
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={globalStyles.list}
-            />
+            {filteredStudents.length === 0 ? (
+                <View style={globalStyles.noDataContainer}>
+                    <Text style={globalStyles.noDataText}>
+                        {intl.formatMessage(translations.noData)}
+                    </Text>
+                </View>
+            ) : (
+                <FlatList<Course>
+                    data={courses}
+                    renderItem={renderGroup}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={globalStyles.list}
+                />
+            )}
         </ManagementWrapper>
     )
 }

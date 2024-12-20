@@ -5,7 +5,7 @@ import { Student } from '~/types/Student'
 
 const styles = StyleSheet.create({
     text: {
-        maxWidth: '100%',
+        width: '100%',
     },
 })
 

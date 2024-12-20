@@ -11,9 +11,18 @@ export type CourseAssignmentWithLecture = CourseAssignment & {
 
 export const useCourseAssignmentsWithLectureQuery = () => {
     const queryFn = useCallback(async () => {
-        const response = await supabase.from(Table.CourseAssignments).select('*, lectures(*)')
+        const response = await supabase
+            .from(Table.CourseAssignments)
+            // Join data from other tables
+            .select('*, lectures(*)')
+            .throwOnError()
 
         return (
+            /**
+             * supabase joins are not typed correctly and are returned as an array of elements
+             * however we know that it will always be exactly one element
+             * so we map over the array and cast the joined values to the correct types
+             */
             response.data?.map(
                 (assignment): CourseAssignmentWithLecture => ({
                     id: assignment.id,

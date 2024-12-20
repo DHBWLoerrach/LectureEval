@@ -42,7 +42,7 @@ const DepartmentFormReleaseGroup = ({
 }: Props) => {
     const [expanded, setExpanded] = useState(true)
 
-    const DepartmentAssignments = useMemo(
+    const departmentAssignments = useMemo(
         () => assignments.filter((l) => l.lecture.departmentID === department.id),
         [department, assignments],
     )
@@ -54,16 +54,16 @@ const DepartmentFormReleaseGroup = ({
                     course={item}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    assignments={DepartmentAssignments}
+                    assignments={departmentAssignments}
                     searching={searching}
                 />
             )
         },
-        [DepartmentAssignments, onDelete, onEdit, searching],
+        [departmentAssignments, onDelete, onEdit, searching],
     )
 
     // Don't show anything if no course assignments are found
-    if (DepartmentAssignments.length === 0) return null
+    if (departmentAssignments.length === 0) return null
 
     return (
         <View style={styles.content}>

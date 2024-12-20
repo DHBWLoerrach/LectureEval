@@ -6,12 +6,16 @@ type AuthContextProps = {
     session: Session | undefined
     role: Role | undefined
     isLoading: boolean
+    signOut: () => void
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     session: undefined,
     role: undefined,
     isLoading: false,
+    signOut: () => {
+        //
+    },
 })
 
 /**

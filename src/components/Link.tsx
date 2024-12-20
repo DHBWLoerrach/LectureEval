@@ -20,6 +20,11 @@ type Props = PropsWithChildren<{
     href: string
 }>
 
+/**
+ * A custom Link component for React Native, as there is no native `<a>` tag in React Native.\
+ * This component uses `TouchableOpacity` and `Text` from `react-native-paper` to create a link-like behavior.\
+ * It attempts to open the provided URL using the `Linking` API and shows an alert if the URL cannot be opened.
+ */
 const Link = ({ href, children }: Props) => {
     const intl = useIntl()
 

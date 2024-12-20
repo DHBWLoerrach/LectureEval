@@ -15,9 +15,6 @@ export const loginStyles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 20,
     },
-    container: {
-        flex: 1,
-    },
     footer: {
         padding: 30,
     },

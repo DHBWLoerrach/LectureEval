@@ -1,11 +1,9 @@
 import { Session } from '@supabase/supabase-js'
-import { useQuery } from '@tanstack/react-query'
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert, AppState } from 'react-native'
 import { AuthContext } from '~/context/AuthContext'
-import { Role } from '~/enums/Role'
-import { Table } from '~/enums/Table'
+import { useRoleByUserQuery } from '~/queries/UserRoles/useRoleByUserQuery'
 import { supabase } from '~/services/supabase'
 import { translations } from '~/translations/translations'
 
@@ -32,6 +30,26 @@ const AuthProvider = ({ children }: Props) => {
     const [sessionLoading, setSessionLoading] = useState(true)
     const [session, setSession] = useState<Session>()
 
+    /**
+     * Signs out the current user and clears the session.
+     */
+    const signOut = useCallback(() => {
+        setSession(undefined)
+        supabase.auth.signOut()
+    }, [])
+
+    /**
+     * Fetches the role of the current user.
+     */
+    const {
+        data: role,
+        error: roleError,
+        isLoading: roleLoading,
+    } = useRoleByUserQuery({ userID: session?.user.id })
+
+    /**
+     * Fetches the user's session from the database and ensures that session changes are propagated correctly.
+     */
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session ?? undefined)
@@ -42,32 +60,6 @@ const AuthProvider = ({ children }: Props) => {
             setSession(session ?? undefined)
         })
     }, [])
-
-    const {
-        data: role,
-        isLoading: roleLoading,
-        error: roleError,
-    } = useQuery<Role>({
-        queryKey: [Table.Roles],
-        queryFn: useCallback(async () => {
-            const { data } = await supabase
-                .from(Table.UserRoles)
-                .select('role')
-                .eq('user', session?.user.id)
-                .throwOnError()
-                .single()
-
-            const { data: role } = await supabase
-                .from(Table.Roles)
-                .select('name')
-                .eq('id', data?.role)
-                .throwOnError()
-                .single()
-
-            return role?.name
-        }, [session]),
-        enabled: !!session,
-    })
 
     useEffect(() => {
         if (!roleError) return
@@ -85,7 +77,9 @@ const AuthProvider = ({ children }: Props) => {
     const isLoading = useMemo(() => sessionLoading || roleLoading, [sessionLoading, roleLoading])
 
     return (
-        <AuthContext.Provider value={{ session, role, isLoading }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ session, role, isLoading, signOut }}>
+            {children}
+        </AuthContext.Provider>
     )
 }
 

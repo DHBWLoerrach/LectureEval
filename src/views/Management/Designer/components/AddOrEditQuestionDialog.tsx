@@ -95,6 +95,9 @@ const AddOrEditQuestionDialog = ({ editInfo, onClose, onSave }: Props) => {
                             label={intl.formatMessage(translations.questionType)}
                             name='typeID'
                             options={typeOptions}
+                            rules={{
+                                required: intl.formatMessage(translations.required),
+                            }}
                         />
                         <SwitchInput
                             label={intl.formatMessage(translations.required)}

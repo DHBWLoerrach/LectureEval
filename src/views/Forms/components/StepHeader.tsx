@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl'
 import { StyleSheet, View } from 'react-native'
 import { ProgressBar, Text } from 'react-native-paper'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { roundToTwoDigits } from '~/helpers/roundToTwoDigits'
 import { translations } from '~/translations/translations'
 import { Step } from '~/types/Step'
 
@@ -19,8 +20,8 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: RFValue(14),
         fontWeight: 'bold',
-        maxWidth: 250,
         overflow: 'hidden',
+        width: '100%',
     },
     subHeading: {
         fontSize: RFValue(14),
@@ -36,10 +37,15 @@ const styles = StyleSheet.create({
 const StepHeader = ({ maxSerial, step }: Props) => {
     const intl = useIntl()
 
+    /**
+     * Calculate the progress of the current step based on the max serial number.
+     * If the step is not set, return 0.01 to avoid division by zero.
+     * Otherwise, calculate the progress based on the current step's serial number.
+     */
     const progress = useMemo(() => {
         if (!step) return 0.01
 
-        return Math.round((step.serial / maxSerial) * 100) / 100
+        return roundToTwoDigits(step.serial / maxSerial)
     }, [step, maxSerial])
 
     const title = useMemo(() => {

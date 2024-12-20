@@ -1,9 +1,10 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
 import { FlatList, View } from 'react-native'
-import { List, Searchbar } from 'react-native-paper'
+import { List, Searchbar, Text } from 'react-native-paper'
 import Header from '~/components/Header'
 import LoadingSpinner from '~/components/LoadingSpinner'
+import { useQueryOnFocus } from '~/hooks/useQueryOnFocus'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { CourseAssignment } from '~/types/CourseAssignment'
@@ -12,7 +13,12 @@ import CourseItem from '~/views/Lecturer/components/CourseItem'
 import { useLecturerLogic } from '~/views/Lecturer/hooks/useLecturerLogic'
 import styles from '~/views/Lecturer/styles'
 
+/**
+ * This component displays a lecturer's view with searchable lectures, course assignments, and ratings using dynamic lists and custom hooks.
+ */
 const LecturerView = () => {
+    useQueryOnFocus()
+
     const {
         search,
         setSearch,
@@ -83,7 +89,7 @@ const LecturerView = () => {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <View>
+        <View style={globalStyles.flexBox}>
             <Header />
             <View>
                 <Searchbar
@@ -93,12 +99,20 @@ const LecturerView = () => {
                     placeholder={intl.formatMessage(translations.search)}
                 />
             </View>
-            <FlatList
-                data={searchedLectures}
-                keyExtractor={(lecture) => lecture.id.toString()}
-                renderItem={renderItem}
-                contentContainerStyle={styles.listSection}
-            />
+            {searchedLectures.length === 0 ? (
+                <View style={globalStyles.noDataContainer}>
+                    <Text style={globalStyles.noDataText}>
+                        {intl.formatMessage(translations.noData)}
+                    </Text>
+                </View>
+            ) : (
+                <FlatList
+                    data={searchedLectures}
+                    keyExtractor={(lecture) => lecture.id.toString()}
+                    renderItem={renderItem}
+                    contentContainerStyle={styles.listSection}
+                />
+            )}
         </View>
     )
 }

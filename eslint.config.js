@@ -97,6 +97,11 @@ module.exports = tslint.config(
                             importNames: ['TouchableOpacity', 'Text', 'ActivityIndicator'],
                             message: 'Please use equivalent from `react-native-paper` instead.',
                         },
+                        {
+                            name: 'date-fns',
+                            message:
+                                'Please import specific date-fns modules directly (e.g., "date-fns/startOfDay" instead of "date-fns").',
+                        },
                     ],
                 },
             ],

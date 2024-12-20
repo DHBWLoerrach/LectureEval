@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
-import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
-import { Searchbar } from 'react-native-paper'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
+import { Searchbar, Text } from 'react-native-paper'
 import { useLecturersQuery } from '~/queries/Lecturers/useLecturersQuery'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
@@ -42,12 +42,20 @@ const LecturersManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList<Lecturer>
-                data={filteredLecturers}
-                renderItem={renderGroup}
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={styles.content}
-            />
+            {filteredLecturers.length === 0 ? (
+                <View style={globalStyles.noDataContainer}>
+                    <Text style={globalStyles.noDataText}>
+                        {intl.formatMessage(translations.noData)}
+                    </Text>
+                </View>
+            ) : (
+                <FlatList<Lecturer>
+                    data={filteredLecturers}
+                    renderItem={renderGroup}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={styles.content}
+                />
+            )}
         </ManagementWrapper>
     )
 }

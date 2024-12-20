@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import Header from '~/components/Header'
 import { Route } from '~/enums/Route'
+import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import ListItem from '~/views/Management/Overview/components/ListItem'
 import ListSection from '~/views/Management/Overview/components/ListSection'
@@ -14,9 +15,6 @@ const styles = StyleSheet.create({
         flex: 1,
         gap: 30,
         padding: 20,
-    },
-    flexBox: {
-        flex: 1,
     },
 })
 
@@ -33,7 +31,7 @@ const ManagementOverview = () => {
     )
 
     return (
-        <View style={styles.flexBox}>
+        <View style={globalStyles.flexBox}>
             <Header />
             <ScrollView contentContainerStyle={styles.content}>
                 <ListSection title={intl.formatMessage(translations.entities)}>

@@ -5,7 +5,7 @@ import TabNavigator from '~/components/Navigation/components/TabNavigator'
 import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
 import Detail, { DetailRouteParams } from '~/views/Detail'
-import FormsView from '~/views/Forms'
+import FormsView, { FormsRouteParams } from '~/views/Forms'
 import CoursesManagement from '~/views/Management/Courses'
 import DepartmentsManagement from '~/views/Management/Departments'
 import Designer, { DesignerRouteParams } from '~/views/Management/Designer'
@@ -17,7 +17,7 @@ import StudentsManagement from '~/views/Management/Students'
 
 type NavigationParamList = {
     [Route.Start]: undefined
-    [Route.FormsView]: undefined
+    [Route.FormsView]: FormsRouteParams
     [Route.FormsManagement]: undefined
     [Route.DepartmentsManagement]: undefined
     [Route.FormDesigner]: DesignerRouteParams
@@ -43,8 +43,6 @@ const Navigation = () => {
                 />
                 <Stack.Screen
                     name={Route.FormsView}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
                     component={FormsView}
                     options={{ title: getPageTranslation(Route.FormsView, intl) }}
                 />

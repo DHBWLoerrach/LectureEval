@@ -1,11 +1,18 @@
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { isAfter } from 'date-fns/isAfter'
+import { isBefore } from 'date-fns/isBefore'
+import { isEqual } from 'date-fns/isEqual'
+import { isValid } from 'date-fns/isValid'
+import { parse } from 'date-fns/parse'
+import { startOfDay } from 'date-fns/startOfDay'
 import { useCallback, useMemo } from 'react'
 import { useIntl } from 'react-intl'
 // eslint-disable-next-line no-restricted-imports
 import { FlatList, ListRenderItem, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Card, IconButton, Text } from 'react-native-paper'
 import { Route } from '~/enums/Route'
+import { useQueryOnFocus } from '~/hooks/useQueryOnFocus'
 import { LectureAssignment } from '~/queries/CourseAssignments/useAssignedLecturesForCourseQuery'
 import { colors } from '~/styles/colors'
 import { globalStyles } from '~/styles/globalStyles'
@@ -34,18 +41,35 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     text: {
-        maxWidth: '89%',
+        width: '89%',
     },
 })
 
 const PendingRatings = ({ semesters, lectures }: Props) => {
+    useQueryOnFocus()
+
     const intl = useIntl()
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
-    const today = useMemo(() => new Date().toLocaleDateString('de-DE'), [])
+    const today = useMemo(() => startOfDay(new Date()), [])
 
     const activeLectures = useMemo(
-        () => lectures.filter((l) => l.releaseDate <= today && l.recallDate >= today),
+        () =>
+            lectures.filter((l) => {
+                let release = parse(l.releaseDate, 'dd.MM.yyyy', new Date())
+                let recall = parse(l.recallDate, 'dd.MM.yyyy', new Date())
+
+                if (!isValid(release) || !isValid(recall)) return false
+
+                release = startOfDay(release)
+                recall = startOfDay(recall)
+
+                const active =
+                    (isEqual(release, today) || isAfter(today, release)) &&
+                    (isEqual(recall, today) || isBefore(today, recall))
+
+                return active
+            }),
         [lectures, today],
     )
 

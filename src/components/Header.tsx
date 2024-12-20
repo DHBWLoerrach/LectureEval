@@ -6,11 +6,11 @@ import { SegmentedButtons, Text } from 'react-native-paper'
 import { RFValue } from 'react-native-responsive-fontsize'
 import HeaderImage from '~/../assets/header.png'
 import SelectButton from '~/components/SelectButton'
+import { useAuth } from '~/context/AuthContext'
 import { useLocale } from '~/context/LocaleContext'
 import { Locale } from '~/enums/Locale'
 import { Route } from '~/enums/Route'
 import { getPageTranslation } from '~/helpers/getPageTranslation'
-import { supabase } from '~/services/supabase'
 import { colors } from '~/styles/colors'
 import { translations } from '~/translations/translations'
 
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
 
 const Header = () => {
     const intl = useIntl()
+    const { signOut } = useAuth()
     const { locale, setLocale } = useLocale()
 
     const route = useRoute<RouteProp<ParamListBase, string>>()
@@ -63,11 +64,9 @@ const Header = () => {
 
     const onOptionChange = useCallback(
         (selectedOption: string) => {
-            if (selectedOption === intl.formatMessage(translations.logout)) {
-                supabase.auth.signOut()
-            }
+            if (selectedOption === intl.formatMessage(translations.logout)) signOut()
         },
-        [intl],
+        [intl, signOut],
     )
 
     const buttons = useMemo(

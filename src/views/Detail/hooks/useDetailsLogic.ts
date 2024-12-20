@@ -3,11 +3,12 @@ import { useIntl } from 'react-intl'
 import { Alert } from 'react-native'
 import { useSnackbar } from '~/context/SnackbarContext'
 import { QuestionType } from '~/enums/QuestionType'
-import { roundRating } from '~/helpers/roundRating'
+import { never } from '~/helpers/never'
+import { roundToTwoDigits } from '~/helpers/roundToTwoDigits'
 import { useFormValuesByAssignmentQuery } from '~/queries/FormValues/useFormValuesByAssignmentQuery'
 import { useQuestionsByIDQuery } from '~/queries/Questions/useQuestionsByIDQuery'
 import { translations } from '~/translations/translations'
-import { useDetailsFilterLogic } from '~/views/Detail/hooks/useDetailsFilterLogic'
+import { Question } from '~/types/Question'
 
 export const useDetailsLogic = (courseAssignmentID: number) => {
     const intl = useIntl()
@@ -47,6 +48,9 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
         )
     }, [formValues, questions])
 
+    /**
+     * Get the average value for each question based on a given QuestionType
+     */
     const getFormValueAverages = useCallback(
         (questionType: QuestionType) => {
             return Object.fromEntries(
@@ -58,7 +62,7 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
                     const average =
                         intValues.length > 0
                             ? questionType === QuestionType.Rating
-                                ? roundRating(
+                                ? roundToTwoDigits(
                                       intValues.reduce((sum, num) => sum + num, 0) /
                                           intValues.length,
                                   )
@@ -81,6 +85,35 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
         [getFormValueAverages],
     )
 
+    const getFormattedString = useCallback(
+        (question: Question) => {
+            switch (question.typeID) {
+                case QuestionType.Rating:
+                case QuestionType.Result: {
+                    const baseString = intl.formatMessage(translations.rating)
+                    const value = ratingAverages[question.id]
+
+                    return value !== null && typeof value === 'number'
+                        ? `${baseString}: ${value} ${intl.formatMessage(translations.stars)}`
+                        : `${baseString}: ${intl.formatMessage(translations.notSet)}`
+                }
+                case QuestionType.Difficulty: {
+                    const baseString = intl.formatMessage(translations.difficulty)
+                    const value = difficultyAverages[question.id]
+
+                    return value !== null && typeof value === 'number'
+                        ? `${baseString}: ${value}/3`
+                        : `${baseString}: ${intl.formatMessage(translations.notSet)}`
+                }
+                case QuestionType.Text:
+                    return undefined
+                default:
+                    return never(question.typeID, `Unexpected question type: ${question.typeID}`)
+            }
+        },
+        [difficultyAverages, intl, ratingAverages],
+    )
+
     const questionFormValues = useMemo(() => {
         return Object.fromEntries(
             Object.entries(groupedByQuestion).map(([questionID, values]) => {
@@ -88,10 +121,6 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
             }),
         )
     }, [groupedByQuestion])
-
-    const { searchedDetails, search, setSearch } = useDetailsFilterLogic({
-        questions: questions ?? [],
-    })
 
     const error = useMemo(
         () => formValuesError ?? questionsError,
@@ -123,12 +152,9 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
     }, [intl, questions, isLoading, showSnackbar])
 
     return {
+        questions,
         isLoading,
-        searchedDetails,
-        search,
-        setSearch,
-        ratingAverages,
-        difficultyAverages,
+        getFormattedString,
         questionFormValues,
     }
 }

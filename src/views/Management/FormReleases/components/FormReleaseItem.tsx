@@ -1,3 +1,9 @@
+import { isAfter } from 'date-fns/isAfter'
+import { isBefore } from 'date-fns/isBefore'
+import { isEqual } from 'date-fns/isEqual'
+import { isValid } from 'date-fns/isValid'
+import { parse } from 'date-fns/parse'
+import { startOfDay } from 'date-fns/startOfDay'
 import { useCallback, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Card, IconButton, Text } from 'react-native-paper'
@@ -35,15 +41,9 @@ type Props = {
     assignment: CourseAssignmentWithLecture
     onEdit: (assignment: CourseAssignment) => void
     onDelete: (assignment: CourseAssignmentWithLecture) => void
-    todaysDate: string
 }
 
-const FormReleaseItem = ({
-    assignment,
-    onEdit: onEditProp,
-    onDelete: onDeleteProp,
-    todaysDate,
-}: Props) => {
+const FormReleaseItem = ({ assignment, onEdit: onEditProp, onDelete: onDeleteProp }: Props) => {
     const onEdit = useCallback(() => {
         onEditProp(assignment)
     }, [onEditProp, assignment])
@@ -52,13 +52,23 @@ const FormReleaseItem = ({
         onDeleteProp(assignment)
     }, [onDeleteProp, assignment])
 
-    const cardStyle = useMemo(
-        () =>
-            assignment.releaseDate <= todaysDate && todaysDate <= assignment.recallDate
-                ? styles.activeCard
-                : styles.inactiveCard,
-        [assignment, todaysDate],
-    )
+    const today = useMemo(() => startOfDay(new Date()), [])
+
+    const cardStyle = useMemo(() => {
+        let release = parse(assignment.releaseDate, 'dd.MM.yyyy', new Date())
+        let recall = parse(assignment.recallDate, 'dd.MM.yyyy', new Date())
+
+        if (!isValid(release) || !isValid(recall)) return styles.inactiveCard
+
+        release = startOfDay(release)
+        recall = startOfDay(recall)
+
+        const active =
+            (isEqual(release, today) || isAfter(today, release)) &&
+            (isEqual(recall, today) || isBefore(today, recall))
+
+        return active ? styles.activeCard : styles.inactiveCard
+    }, [assignment, today])
 
     return (
         <Card

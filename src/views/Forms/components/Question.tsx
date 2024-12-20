@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl'
 import { StyleSheet, View } from 'react-native'
 import { Divider, Text } from 'react-native-paper'
 import { RFValue } from 'react-native-responsive-fontsize'
+import DifficultyInput from '~/components/DifficultyInput'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import StarsInput from '~/components/StarsInput'
 import TextInput from '~/components/TextInput'
@@ -78,8 +79,7 @@ const Question = ({ question }: Props) => {
                 />
             )}
             {question.typeID === QuestionType.Difficulty && (
-                <StarsInput
-                    isDifficulty
+                <DifficultyInput
                     name={question.id.toString()}
                     rules={{ required: intl.formatMessage(translations.required) }}
                 />

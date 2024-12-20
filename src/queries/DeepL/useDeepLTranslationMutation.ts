@@ -7,6 +7,13 @@ type Props = {
     text: string
 }
 
+/**
+ * This query is used to translate a text from German to English using the DeepL API.
+ *
+ * To use this query, you need to provide a valid DeepL API key in the .env file.
+ *
+ * For more information on how to use the DeepL API see the official documentation: https://developers.deepl.com/docs
+ */
 export const useDeepLTranslationMutation = () => {
     const mutationFn = useCallback(async ({ text }: Props) => {
         const { data } = await axios.post(

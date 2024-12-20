@@ -1,3 +1,17 @@
+/**
+ * This is a custom eslint rule to ensure that direct fontSize values are not used.
+ * Instead, RFValue or RFPercentage, which is more responsive, should be used.
+ *
+ * Example of incorrect code for this rule:
+ * const styles = {
+ *    fontSize: 16,
+ * };
+ *
+ * Example of correct code for this rule:
+ * const styles = {
+ *    fontSize: RFValue(16),
+ * };
+ */
 module.exports = {
     meta: {
         type: 'problem',
@@ -22,6 +36,7 @@ module.exports = {
                         node.value.type === 'Literal' &&
                         typeof node.value.value === 'number'
                     ) {
+                        // If a direct fontSize value is found, report it as an error
                         context.report({
                             node,
                             messageId: 'avoidDirectFontSize',

@@ -36,7 +36,7 @@ type Props = ComponentProps<typeof BaseButton>
  * </Button>
  * ```
  */
-// TODO: Remove this component once the issue is resolved.
+// TODO: Remove this component once the issue in react-native-paper is resolved.
 const Button = ({ children, disabled, ...props }: Props) => {
     const uuid = useMemo(() => v4(), [])
 

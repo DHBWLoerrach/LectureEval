@@ -9,23 +9,24 @@ import { translations } from '~/translations/translations'
 
 type Props = {
     name: string
-    /**
-     * Indicates if the Question monitors the overall result.
-     */
-    isResult?: boolean
     label?: string
     helperText?: string
     rules?: UseControllerProps['rules']
     disabled?: boolean
     /**
-     * Amount of stars to display
+     * Amount of icons to display
      *
-     * @default 5
+     * @default 3
      */
     amount?: number
 }
 
 const styles = StyleSheet.create({
+    iconContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
     label: {
         fontSize: RFPercentage(16),
         fontWeight: 'bold',
@@ -34,11 +35,6 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
     },
-    starContainer: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
     textContainer: {
         alignItems: 'center',
         flexDirection: 'row',
@@ -46,15 +42,7 @@ const styles = StyleSheet.create({
     },
 })
 
-const StarsInput = ({
-    label,
-    name,
-    amount = 5,
-    helperText,
-    rules,
-    disabled,
-    isResult = false,
-}: Props) => {
+const DifficultyInput = ({ label, name, amount = 3, helperText, rules, disabled }: Props) => {
     const intl = useIntl()
 
     const {
@@ -65,7 +53,7 @@ const StarsInput = ({
         rules,
     })
 
-    const starButtons = useMemo(() => {
+    const iconButtons = useMemo(() => {
         return Array.from({ length: amount }, (_, i) => {
             const key = i + 1
 
@@ -77,31 +65,19 @@ const StarsInput = ({
                     style={styles.starButton}
                     onPress={() => onChange(key)}
                     iconColor={value >= key ? colors.primary : undefined}
-                    icon={value >= key ? 'star' : 'star-outline'}
+                    icon={value >= key ? 'alert-circle' : 'alert-circle-outline'}
                 />
             )
         })
     }, [amount, disabled, value, onChange])
 
-    const leftText = useMemo(() => {
-        if (isResult) return intl.formatMessage(translations.bad)
-
-        return intl.formatMessage(translations.disagree)
-    }, [isResult, intl])
-
-    const rightText = useMemo(() => {
-        if (isResult) return intl.formatMessage(translations.good)
-
-        return intl.formatMessage(translations.agree)
-    }, [isResult, intl])
-
     return (
         <View>
             {label && <Text style={styles.label}>{label}</Text>}
-            <View style={styles.starContainer}>{starButtons}</View>
+            <View style={styles.iconContainer}>{iconButtons}</View>
             <View style={styles.textContainer}>
-                <Text>{leftText}</Text>
-                <Text>{rightText}</Text>
+                <Text>{intl.formatMessage(translations.easy)}</Text>
+                <Text>{intl.formatMessage(translations.hard)}</Text>
             </View>
             {(helperText || error) && (
                 <HelperText
@@ -116,4 +92,4 @@ const StarsInput = ({
     )
 }
 
-export default StarsInput
+export default DifficultyInput

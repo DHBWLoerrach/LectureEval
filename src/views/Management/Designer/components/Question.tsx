@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     label: {
-        fontSize: RFValue(13),
+        fontSize: RFValue(12),
         fontWeight: 'bold',
+        maxWidth: '70%',
     },
 })
 

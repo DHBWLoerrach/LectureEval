@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     },
 })
 
+/**
+ * Manages a snackbar notification system using context, allowing child components to display and dismiss snackbars with a centralized state.
+ */
 const SnackbarProvider = ({ children }: Props) => {
     const [snackbarInfo, setSnackbarInfo] = useState<SnackbarInfo>()
 

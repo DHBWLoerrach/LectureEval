@@ -33,6 +33,8 @@ const StudentGroup = ({ searching, course, students }: Props) => {
         return <StudentItem student={item} />
     }, [])
 
+    if (students.length === 0) return null
+
     return (
         <View style={styles.content}>
             <TouchableRipple onPress={() => setExpanded(!expanded)}>

@@ -23,9 +23,8 @@ const CourseItem = ({ courseAssignment, courseMap, ratingAverages, difficultyAve
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
     const navigateTo = useCallback(
-        (page: Route, courseAssignmentID: number) => {
-            return () => navigation.navigate(page, { courseAssignmentID: courseAssignmentID })
-        },
+        (page: Route, courseAssignmentID: number) => () =>
+            navigation.navigate(page, { courseAssignmentID: courseAssignmentID }),
         [navigation],
     )
 

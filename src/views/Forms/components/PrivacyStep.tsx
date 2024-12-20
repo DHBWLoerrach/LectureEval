@@ -45,6 +45,9 @@ const style = StyleSheet.create({
     },
 })
 
+/**
+ * Displays a privacy notice for the form (first step) with a link to the privacy policy and a button to accept and continue.
+ */
 const PrivacyStep = ({ department, onNext }: Props) => {
     const intl = useIntl()
     const { locale } = useLocale()

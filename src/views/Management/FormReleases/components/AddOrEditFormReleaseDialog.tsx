@@ -1,3 +1,8 @@
+import { isAfter } from 'date-fns/isAfter'
+import { isEqual } from 'date-fns/isEqual'
+import { isValid } from 'date-fns/isValid'
+import { parse } from 'date-fns/parse'
+import { startOfDay } from 'date-fns/startOfDay'
 import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useIntl } from 'react-intl'
@@ -56,12 +61,19 @@ const AddOrEditFormReleaseDialog = ({
     const selectedCourseID = watch('courseID')
     const selectedLectureID = watch('lectureID')
 
-    const today = useMemo(() => new Date().toLocaleDateString('de-DE'), [])
+    const today = useMemo(() => startOfDay(new Date()), [])
 
-    const alreadyReleased = useMemo(
-        () => !!initialData && initialData.releaseDate <= today,
-        [initialData, today],
-    )
+    const alreadyReleased = useMemo(() => {
+        if (!initialData) return false
+
+        let releaseDate = parse(initialData.releaseDate, 'dd.MM.yyyy', new Date())
+
+        if (!isValid(releaseDate)) return false
+
+        releaseDate = startOfDay(releaseDate)
+
+        return isEqual(releaseDate, today) || isAfter(today, releaseDate)
+    }, [initialData, today])
 
     useEffect(() => {
         if (!isDirty) return
@@ -96,6 +108,7 @@ const AddOrEditFormReleaseDialog = ({
 
         if (!departmentID) return []
 
+        // If a lecture has been selected only allow combinations of courses that are not already assigned
         const existingAssignments = selectedLectureID
             ? (assignments?.filter((ass) => ass.lectureID === selectedLectureID) ?? [])
             : []
@@ -105,14 +118,16 @@ const AddOrEditFormReleaseDialog = ({
                 ?.filter(
                     (course) =>
                         course?.departmentID === departmentID &&
-                        !existingAssignments.find((ass) => ass.courseID === course.id),
+                        !existingAssignments.find(
+                            (ass) => ass.id !== initialData?.id && ass.courseID === course.id,
+                        ),
                 ) // Filter courses by departmentID
                 .map((sem) => ({
                     label: sem.name,
                     value: sem.id,
                 })) ?? []
         )
-    }, [courses, selectedFormID, forms, assignments, selectedLectureID])
+    }, [courses, selectedFormID, forms, assignments, selectedLectureID, initialData?.id])
 
     const { data: lectures, isLoading: lecturesLoading, error: lecturesError } = useLecturesQuery()
     const lectureOptions = useMemo(() => {
@@ -120,8 +135,11 @@ const AddOrEditFormReleaseDialog = ({
 
         if (!departmentID) return []
 
+        // If a course has been selected only allow combinations of lectures that are not already assigned
         const existingAssignments = selectedCourseID
-            ? (assignments?.filter((ass) => ass.courseID === selectedCourseID) ?? [])
+            ? (assignments?.filter(
+                  (ass) => ass.id !== initialData?.id && ass.courseID === selectedCourseID,
+              ) ?? [])
             : []
 
         return (
@@ -136,7 +154,7 @@ const AddOrEditFormReleaseDialog = ({
                     value: lecture.id,
                 })) ?? []
         )
-    }, [lectures, selectedFormID, forms, assignments, selectedCourseID])
+    }, [lectures, selectedFormID, forms, assignments, selectedCourseID, initialData?.id])
 
     const {
         data: lecturers,

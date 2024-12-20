@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
-import { FlatList, ListRenderItem } from 'react-native'
-import { Searchbar } from 'react-native-paper'
+import { FlatList, ListRenderItem, View } from 'react-native'
+import { Searchbar, Text } from 'react-native-paper'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
@@ -14,8 +14,17 @@ import { useDepartmentManagementLogic } from '~/views/Management/Departments/hoo
 const DepartmentsManagement = () => {
     const intl = useIntl()
 
-    const { editInfo, departments, loading, onEdit, onClose, onSave, onCreate, onDelete } =
-        useDepartmentManagementLogic()
+    const {
+        editInfo,
+        departments,
+        loading,
+        userLocation,
+        onEdit,
+        onClose,
+        onSave,
+        onCreate,
+        onDelete,
+    } = useDepartmentManagementLogic()
 
     const { search, filteredDepartments, setSearch } = useDepartmentFilterLogic({
         departments: departments ?? [],
@@ -45,16 +54,25 @@ const DepartmentsManagement = () => {
                 onChangeText={setSearch}
                 placeholder={intl.formatMessage(translations.search)}
             />
-            <FlatList<Department>
-                contentContainerStyle={globalStyles.flatListContent}
-                data={filteredDepartments}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
-            {editInfo && (
+            {filteredDepartments.length === 0 ? (
+                <View style={globalStyles.noDataContainer}>
+                    <Text style={globalStyles.noDataText}>
+                        {intl.formatMessage(translations.noData)}
+                    </Text>
+                </View>
+            ) : (
+                <FlatList<Department>
+                    contentContainerStyle={globalStyles.flatListContent}
+                    data={filteredDepartments}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            )}
+            {editInfo && !!userLocation && (
                 <AddOrEditDepartmentDialog
                     onSave={onSave}
                     onClose={onClose}
+                    location={userLocation}
                     departments={departments ?? []}
                     initialData={editInfo.initialData}
                 />

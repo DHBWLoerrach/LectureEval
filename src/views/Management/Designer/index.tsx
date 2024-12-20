@@ -1,7 +1,8 @@
 import { Route } from '@react-navigation/native'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import LoadingSpinner from '~/components/LoadingSpinner'
 import { Route as RouteEnum } from '~/enums/Route'
+import { globalStyles } from '~/styles/globalStyles'
 import AddOrEditStepDialog from '~/views/Management/Designer/components/AddOrEditStepDialog'
 import PrivacyStep from '~/views/Management/Designer/components/PrivacyStep'
 import StepContent from '~/views/Management/Designer/components/StepContent'
@@ -17,12 +18,6 @@ export type DesignerRouteParams = {
 type Props = {
     route: Route<RouteEnum.FormDesigner, DesignerRouteParams>
 }
-
-const style = StyleSheet.create({
-    flexBox: {
-        flex: 1,
-    },
-})
 
 const Designer = ({ route }: Props) => {
     const {
@@ -44,7 +39,7 @@ const Designer = ({ route }: Props) => {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <View style={style.flexBox}>
+        <View style={globalStyles.flexBox}>
             <StepHeader
                 onEdit={onEdit}
                 onDelete={onDelete}

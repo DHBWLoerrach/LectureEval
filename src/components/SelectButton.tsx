@@ -38,6 +38,9 @@ type Props = {
     children?: React.ReactNode
 }
 
+/**
+ * A component to open a select modal with options and custom content
+ */
 const SelectButton = ({ icon, options, onChange, children }: Props) => {
     const [visible, setVisible] = useState(false)
 

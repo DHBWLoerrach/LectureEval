@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     text: {
-        maxWidth: '50%',
+        width: '50%',
     },
 })
 
