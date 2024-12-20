@@ -4,4 +4,6 @@ export type CourseAssignment = {
     lecturerID: number
     courseID: number
     formID: number
+    releaseDate: string
+    recallDate: string
 }

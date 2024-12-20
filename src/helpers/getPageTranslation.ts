@@ -25,8 +25,8 @@ export const getPageTranslation = (page: Route, intl: IntlShape) => {
             return intl.formatMessage(translations.lectureManagement)
         case Route.FormsManagement:
             return intl.formatMessage(translations.formsManagement)
-        case Route.RatingManagement:
-            return intl.formatMessage(translations.ratingManagement)
+        case Route.FormReleaseManagement:
+            return intl.formatMessage(translations.formReleasesManagement)
         case Route.StudentManagement:
             return intl.formatMessage(translations.studentManagement)
         case Route.LecturerManagement:

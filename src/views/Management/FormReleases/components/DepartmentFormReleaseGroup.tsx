@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { Icon, Text, TouchableRipple } from 'react-native-paper'
+import { CourseAssignmentWithLecture } from '~/queries/CourseAssignments/useCourseAssignmentsWithLectureQuery'
+import { Course } from '~/types/Course'
+import { CourseAssignment } from '~/types/CourseAssignment'
 import { Department } from '~/types/Department'
-import { Lecture } from '~/types/Lecture'
-import { Semester } from '~/types/Semester'
-import SemesterLectureGroup from '~/views/Management/Lectures/components/SemesterLectureGroup'
+import CourseFormGroup from '~/views/Management/FormReleases/components/CourseFormReleaseGroup'
 
 const styles = StyleSheet.create({
     content: {
@@ -23,46 +24,46 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
-    onEdit: (lecture: Lecture) => void
-    onDelete: (lecture: Lecture) => void
-    semesters: Semester[]
+    onEdit: (assignment: CourseAssignment) => void
+    onDelete: (assignment: CourseAssignmentWithLecture) => void
+    courses: Course[]
     department: Department
-    lectures: Lecture[]
+    assignments: CourseAssignmentWithLecture[]
     searching: boolean
 }
 
-const DepartmentLectureGroup = ({
+const DepartmentFormReleaseGroup = ({
     department,
-    lectures,
+    assignments,
     onDelete,
     onEdit,
     searching,
-    semesters,
+    courses,
 }: Props) => {
     const [expanded, setExpanded] = useState(true)
 
-    const departmentLectures = useMemo(
-        () => lectures.filter((l) => l.departmentID === department.id),
-        [department, lectures],
+    const DepartmentAssignments = useMemo(
+        () => assignments.filter((l) => l.lecture.departmentID === department.id),
+        [department, assignments],
     )
 
-    const renderItem = useCallback<ListRenderItem<Semester>>(
+    const renderItem = useCallback<ListRenderItem<Course>>(
         ({ item }) => {
             return (
-                <SemesterLectureGroup
-                    semester={item}
+                <CourseFormGroup
+                    course={item}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    lectures={departmentLectures}
+                    assignments={DepartmentAssignments}
                     searching={searching}
                 />
             )
         },
-        [departmentLectures, onDelete, onEdit, searching],
+        [DepartmentAssignments, onDelete, onEdit, searching],
     )
 
-    // Don't show anything if no lectures are found
-    if (departmentLectures.length === 0) return null
+    // Don't show anything if no course assignments are found
+    if (DepartmentAssignments.length === 0) return null
 
     return (
         <View style={styles.content}>
@@ -76,8 +77,8 @@ const DepartmentLectureGroup = ({
                 </View>
             </TouchableRipple>
             {(expanded || searching) && (
-                <FlatList<Semester>
-                    data={semesters}
+                <FlatList<Course>
+                    data={courses}
                     contentContainerStyle={styles.list}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
@@ -87,4 +88,4 @@ const DepartmentLectureGroup = ({
     )
 }
 
-export default DepartmentLectureGroup
+export default DepartmentFormReleaseGroup

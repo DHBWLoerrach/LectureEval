@@ -6,7 +6,11 @@ import { Department } from '~/types/Department'
 
 export const useDepartmentsQuery = () => {
     const queryFn = useCallback(async () => {
-        const { data } = await supabase.from(Table.Departments).select('*').throwOnError()
+        const { data } = await supabase
+            .from(Table.Departments)
+            .select('*')
+            .order('name', { ascending: true })
+            .throwOnError()
 
         return data ?? []
     }, [])

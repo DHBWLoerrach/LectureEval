@@ -6,7 +6,11 @@ import { Form } from '~/types/Form'
 
 export const useFormsQuery = () => {
     const queryFn = useCallback(async () => {
-        const { data } = await supabase.from(Table.Forms).select('*').throwOnError()
+        const { data } = await supabase
+            .from(Table.Forms)
+            .select('*')
+            .order('name', { ascending: true })
+            .throwOnError()
 
         return data ?? []
     }, [])

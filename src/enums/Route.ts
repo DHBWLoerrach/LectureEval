@@ -15,7 +15,7 @@ export enum Route {
     CourseManagement = 'courseManagement',
     LectureManagement = 'lectureManagement',
     FormsManagement = 'formsManagement',
-    RatingManagement = 'ratingManagement',
+    FormReleaseManagement = 'formReleaseManagement',
     StudentManagement = 'studentManagement',
     LecturerManagement = 'lecturerManagement',
     FormDesigner = 'formDesigner',

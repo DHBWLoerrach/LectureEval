@@ -12,6 +12,8 @@ type Props = {
 
 export type LectureAssignment = {
     id: number
+    releaseDate: string
+    recallDate: string
     lecture: Lecture
     lecturer: Lecturer
     form: Form
@@ -21,12 +23,14 @@ export const useAssignedLecturesForCourseQuery = ({ courseID }: Props) => {
     const queryFn = useCallback(async () => {
         const response = await supabase
             .from(Table.CourseAssignments)
-            .select('id, lectures(*), lecturers(*), forms(*)')
+            .select('id, releaseDate, recallDate, lectures(*), lecturers(*), forms(*)')
             .eq('courseID', courseID)
 
         return (
             response.data?.map((assignment) => ({
                 id: assignment.id as number,
+                releaseDate: assignment.releaseDate as string,
+                recallDate: assignment.recallDate as string,
                 lecture: assignment.lectures as unknown as Lecture,
                 lecturer: assignment.lecturers as unknown as Lecturer,
                 form: assignment.forms as unknown as Form,

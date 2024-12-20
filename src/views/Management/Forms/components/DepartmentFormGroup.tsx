@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { Icon, Text, TouchableRipple } from 'react-native-paper'
 import { Department } from '~/types/Department'
@@ -33,7 +33,12 @@ const DepartmentFormGroup = ({
     onDesign,
     onEdit,
 }: Props) => {
-    const [expanded, setExpanded] = useState(false)
+    const [expanded, setExpanded] = useState(true)
+
+    const departmentForms = useMemo(
+        () => forms.filter((f) => f.departmentID === department.id),
+        [department, forms],
+    )
 
     const renderItem = useCallback<ListRenderItem<Form>>(
         ({ item }) => {
@@ -62,7 +67,7 @@ const DepartmentFormGroup = ({
             </TouchableRipple>
             {(expanded || searching) && (
                 <FlatList<Form>
-                    data={forms}
+                    data={departmentForms}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()}
                 />

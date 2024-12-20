@@ -6,45 +6,47 @@ import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Department } from '~/types/Department'
 import ManagementWrapper from '~/views/Management/components/ManagementWrapper'
-import AddOrEditFormDialog from '~/views/Management/Forms/components/AddOrEditFormDialog'
-import DepartmentFormGroup from '~/views/Management/Forms/components/DepartmentFormGroup'
-import { useFormFilterLogic } from '~/views/Management/Forms/hooks/useFormFilterLogic'
-import { useFormManagementLogic } from '~/views/Management/Forms/hooks/useFormManagementLogic'
+import AddOrEditFormReleaseDialog from '~/views/Management/FormReleases/components/AddOrEditFormReleaseDialog'
+import DepartmentFormGroup from '~/views/Management/FormReleases/components/DepartmentFormReleaseGroup'
+import { useFormReleaseFilterLogic } from '~/views/Management/FormReleases/hooks/useFormReleaseFilterLogic'
+import { useFormReleaseManagementLogic } from '~/views/Management/FormReleases/hooks/useFormReleaseManagementLogic'
 
-const FormsManagement = () => {
+const FormReleasesManagement = () => {
     const intl = useIntl()
 
     const {
-        forms,
+        assignments,
         loading,
         editInfo,
+        forms,
         departments,
+        courses,
         onCreate,
         onDelete,
         onEdit,
         onSave,
         onClose,
-        onDesign,
-    } = useFormManagementLogic()
+    } = useFormReleaseManagementLogic()
 
-    const { filteredForms, search, setSearch } = useFormFilterLogic({ forms: forms ?? [] })
+    const { filteredAssignments, search, setSearch } = useFormReleaseFilterLogic({
+        assignments: assignments ?? [],
+    })
 
     const renderItem = useCallback<ListRenderItem<Department>>(
         ({ item }) => {
             return (
                 <DepartmentFormGroup
                     department={item}
-                    forms={filteredForms}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    onDesign={onDesign}
+                    assignments={filteredAssignments}
                     searching={search.length > 0}
+                    courses={courses ?? []}
                 />
             )
         },
-        [filteredForms, onDelete, onDesign, onEdit, search.length],
+        [filteredAssignments, onDelete, onEdit, search.length, courses],
     )
-
     return (
         <ManagementWrapper
             onFab={onCreate}
@@ -57,17 +59,18 @@ const FormsManagement = () => {
                 placeholder={intl.formatMessage(translations.search)}
             />
             <FlatList<Department>
-                contentContainerStyle={globalStyles.flatListContent}
                 data={departments}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(dep) => dep.id.toString()}
+                contentContainerStyle={globalStyles.list}
             />
             {editInfo && (
-                <AddOrEditFormDialog
-                    forms={forms}
+                <AddOrEditFormReleaseDialog
+                    assignments={assignments}
                     onSave={onSave}
                     onClose={onClose}
-                    departments={departments ?? []}
+                    forms={forms ?? []}
+                    courses={courses ?? []}
                     initialData={editInfo.initialData}
                 />
             )}
@@ -75,4 +78,4 @@ const FormsManagement = () => {
     )
 }
 
-export default FormsManagement
+export default FormReleasesManagement

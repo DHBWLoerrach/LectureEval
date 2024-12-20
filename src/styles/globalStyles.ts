@@ -9,6 +9,12 @@ export const globalStyles = StyleSheet.create({
         paddingVertical: 5,
     },
     dialog: { backgroundColor: colors.white },
+    flatListContent: {
+        gap: 20,
+        paddingBottom: 100,
+        padding: 20,
+        paddingTop: 0,
+    },
     list: {
         paddingBottom: 100,
     },

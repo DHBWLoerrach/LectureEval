@@ -9,6 +9,7 @@ type Props = {
     label: string
     helperText?: string
     rules?: UseControllerProps['rules']
+    disabled?: boolean
 }
 
 const styles = StyleSheet.create({
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     },
 })
 
-const SwitchInput = ({ label, helperText, name, rules }: Props) => {
+const SwitchInput = ({ label, helperText, name, rules, disabled }: Props) => {
     const {
         field: { value, onChange },
         fieldState: { error },
@@ -35,6 +36,7 @@ const SwitchInput = ({ label, helperText, name, rules }: Props) => {
                 <Switch
                     value={value}
                     onValueChange={onChange}
+                    disabled={disabled}
                 />
                 <Text
                     style={styles.text}

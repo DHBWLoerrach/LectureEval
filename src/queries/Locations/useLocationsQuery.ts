@@ -6,7 +6,11 @@ import { Location } from '~/types/Location'
 
 export const useLocationsQuery = () => {
     const queryFn = useCallback(async () => {
-        const response = await supabase.from(Table.Locations).select('*').throwOnError()
+        const response = await supabase
+            .from(Table.Locations)
+            .select('*')
+            .order('name', { ascending: true })
+            .throwOnError()
 
         return response.data ?? []
     }, [])

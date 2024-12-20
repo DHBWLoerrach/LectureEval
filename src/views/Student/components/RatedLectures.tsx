@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-paper'
 import { LectureAssignment } from '~/queries/CourseAssignments/useAssignedLecturesForCourseQuery'
+import { colors } from '~/styles/colors'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
 import { Semester } from '~/types/Semester'
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     placeholderText: {
+        color: colors.secondary,
         textAlign: 'center',
     },
 })
@@ -52,7 +54,7 @@ const RatedLectures = ({ semesters, lectures }: Props) => {
         return (
             <View style={styles.placeholder}>
                 <Text style={styles.placeholderText}>
-                    {intl.formatMessage(translations.noPendingRatings)}
+                    {intl.formatMessage(translations.noRatedLectures)}
                 </Text>
             </View>
         )

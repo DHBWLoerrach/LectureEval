@@ -155,8 +155,8 @@ export const translations = defineMessages({
     formsManagement: {
         defaultMessage: 'Formulare verwalten',
     },
-    ratingManagement: {
-        defaultMessage: 'Bewertungen verwalten',
+    formReleasesManagement: {
+        defaultMessage: 'Formular-Freigaben verwalten',
     },
     studentManagement: {
         defaultMessage: 'Studierende verwalten',
@@ -344,5 +344,32 @@ export const translations = defineMessages({
     },
     noRatings: {
         defaultMessage: 'In diesem Kurs wurden noch keine Bewertungen abgegeben.',
+    },
+    formRelease: {
+        defaultMessage: 'Formular-Freigabe',
+    },
+    formReleases: {
+        defaultMessage: 'Formular-Freigaben',
+    },
+    startDate: {
+        defaultMessage: 'Startdatum',
+    },
+    endDate: {
+        defaultMessage: 'Enddatum',
+    },
+    invalidDate: {
+        defaultMessage: 'Heute oder ein zukünftiges Datum eingeben.',
+    },
+    release: {
+        defaultMessage: 'Freigeben',
+    },
+    courseAssignment: {
+        defaultMessage: 'Kurszuweisung',
+    },
+    lecturer: {
+        defaultMessage: 'Dozent',
+    },
+    noOptions: {
+        defaultMessage: 'Keine Optionen vorhanden',
     },
 })

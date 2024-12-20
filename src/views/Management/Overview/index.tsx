@@ -58,8 +58,8 @@ const ManagementOverview = () => {
                         icon='text-box-multiple-outline'
                     />
                     <ListItem
-                        title={intl.formatMessage(translations.ratings)}
-                        onPress={navigateTo(Route.RatingManagement)}
+                        title={intl.formatMessage(translations.formReleases)}
+                        onPress={navigateTo(Route.FormReleaseManagement)}
                         icon='star-circle'
                     />
                 </ListSection>

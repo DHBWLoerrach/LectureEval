@@ -6,7 +6,11 @@ import { Course } from '~/types/Course'
 
 export const useCoursesQuery = () => {
     const queryFn = useCallback(async () => {
-        const { data } = await supabase.from(Table.Courses).select('*').throwOnError()
+        const { data } = await supabase
+            .from(Table.Courses)
+            .select('*')
+            .order('name', { ascending: true })
+            .throwOnError()
 
         return data ?? []
     }, [])

@@ -30,7 +30,7 @@ type Props = {
 }
 
 const DepartmentCourseGroup = ({ courses, department, onDelete, onEdit, searching }: Props) => {
-    const [expanded, setExpanded] = useState(false)
+    const [expanded, setExpanded] = useState(true)
 
     const departmentCourses = useMemo(
         () => courses.filter((l) => l.departmentID === department.id),

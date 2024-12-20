@@ -9,6 +9,7 @@ import FormsView from '~/views/Forms'
 import CoursesManagement from '~/views/Management/Courses'
 import DepartmentsManagement from '~/views/Management/Departments'
 import Designer, { DesignerRouteParams } from '~/views/Management/Designer'
+import FormReleaseManagement from '~/views/Management/FormReleases'
 import FormsManagement from '~/views/Management/Forms'
 import LecturersManagement from '~/views/Management/Lecturers'
 import LecturesManagement from '~/views/Management/Lectures'
@@ -25,6 +26,7 @@ type NavigationParamList = {
     [Route.LectureManagement]: undefined
     [Route.CourseManagement]: undefined
     [Route.DetailView]: DetailRouteParams
+    [Route.FormReleaseManagement]: undefined
 }
 
 const Navigation = () => {
@@ -81,6 +83,11 @@ const Navigation = () => {
                     name={Route.CourseManagement}
                     component={CoursesManagement}
                     options={{ title: getPageTranslation(Route.CourseManagement, intl) }}
+                />
+                <Stack.Screen
+                    name={Route.FormReleaseManagement}
+                    component={FormReleaseManagement}
+                    options={{ title: getPageTranslation(Route.FormReleaseManagement, intl) }}
                 />
                 <Stack.Screen
                     name={Route.DetailView}

@@ -1,6 +1,6 @@
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useIntl } from 'react-intl'
 // eslint-disable-next-line no-restricted-imports
 import { FlatList, ListRenderItem, StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -41,6 +41,13 @@ const styles = StyleSheet.create({
 const PendingRatings = ({ semesters, lectures }: Props) => {
     const intl = useIntl()
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+
+    const today = useMemo(() => new Date().toLocaleDateString('de-DE'), [])
+
+    const activeLectures = useMemo(
+        () => lectures.filter((l) => l.releaseDate <= today && l.recallDate >= today),
+        [lectures, today],
+    )
 
     const onPress = useCallback(
         (assignment: LectureAssignment) => {
@@ -83,7 +90,7 @@ const PendingRatings = ({ semesters, lectures }: Props) => {
         [onPress, semesters],
     )
 
-    if (lectures.length === 0)
+    if (activeLectures.length === 0)
         return (
             <Text style={styles.placeholder}>
                 {intl.formatMessage(translations.noPendingRatings)}
@@ -92,7 +99,7 @@ const PendingRatings = ({ semesters, lectures }: Props) => {
 
     return (
         <FlatList
-            data={lectures}
+            data={activeLectures}
             renderItem={renderItem}
             contentContainerStyle={[globalStyles.list, styles.list]}
             keyExtractor={(item) => item.id.toString()}

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
-import { FlatList, ListRenderItem, StyleSheet } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { Searchbar } from 'react-native-paper'
 import { globalStyles } from '~/styles/globalStyles'
 import { translations } from '~/translations/translations'
@@ -10,15 +10,6 @@ import AddOrEditDepartmentDialog from '~/views/Management/Departments/components
 import DepartmentItem from '~/views/Management/Departments/components/DepartmentItem'
 import { useDepartmentFilterLogic } from '~/views/Management/Departments/hooks/useDepartmentFilterLogic'
 import { useDepartmentManagementLogic } from '~/views/Management/Departments/hooks/useDepartmentManagementLogic'
-
-const styles = StyleSheet.create({
-    content: {
-        gap: 20,
-        paddingBottom: 100,
-        padding: 20,
-        paddingTop: 0,
-    },
-})
 
 const DepartmentsManagement = () => {
     const intl = useIntl()
@@ -55,7 +46,7 @@ const DepartmentsManagement = () => {
                 placeholder={intl.formatMessage(translations.search)}
             />
             <FlatList<Department>
-                contentContainerStyle={styles.content}
+                contentContainerStyle={globalStyles.flatListContent}
                 data={filteredDepartments}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id.toString()}
