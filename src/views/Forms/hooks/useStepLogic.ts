@@ -15,7 +15,6 @@ import { useStepsForFormQuery } from '~/queries/Steps/useStepsForFormQuery'
 import { useStudentByUserQuery } from '~/queries/Students/useStudentByUserQuery'
 import { translations } from '~/translations/translations'
 import { Step } from '~/types/Step'
-import { useUpdateLectureRating } from '~/views/Forms/hooks/useUpdateLectureRating'
 
 type Props = {
     assignment: LectureAssignment
@@ -28,7 +27,6 @@ export const useStepLogic = ({ assignment }: Props) => {
     const showDialog = useDialog()
     const showSnackbar = useSnackbar()
     const { session } = useAuth()
-    const updateLectureRating = useUpdateLectureRating()
     const [activeStep, setActiveStep] = useState<Step>()
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>()
 
@@ -107,8 +105,6 @@ export const useStepLogic = ({ assignment }: Props) => {
                     })),
                 {
                     onSuccess: () => {
-                        updateLectureRating({ lecture: assignment.lecture })
-
                         deletePendingRating(
                             {
                                 courseAssignmentId: assignment.id,
@@ -128,16 +124,7 @@ export const useStepLogic = ({ assignment }: Props) => {
                 },
             )
         },
-        [
-            assignment,
-            deletePendingRating,
-            intl,
-            navigation,
-            saveValue,
-            showSnackbar,
-            student,
-            updateLectureRating,
-        ],
+        [assignment, deletePendingRating, intl, navigation, saveValue, showSnackbar, student],
     )
 
     const onSubmit = useCallback(

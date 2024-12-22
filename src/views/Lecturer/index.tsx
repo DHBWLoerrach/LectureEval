@@ -30,6 +30,7 @@ const LecturerView = () => {
         departmentMap,
         semesterMap,
         courseMap,
+        ratingAveragesByLecture,
     } = useLecturerLogic()
 
     const intl = useIntl()
@@ -58,8 +59,8 @@ const LecturerView = () => {
                         titleStyle={globalStyles.listAccordionTitle}
                         style={globalStyles.listAccordion}
                         description={`${intl.formatMessage(translations.rating)}: ${
-                            lecture.rating !== null
-                                ? `${lecture.rating} ${intl.formatMessage(translations.stars)}`
+                            ratingAveragesByLecture[lecture.id] !== undefined
+                                ? `${ratingAveragesByLecture[lecture.id]} ${intl.formatMessage(translations.stars)}`
                                 : intl.formatMessage(translations.notSet)
                         }`}
                     >
@@ -83,7 +84,14 @@ const LecturerView = () => {
                 </View>
             )
         },
-        [departmentMap, semesterMap, courseAssignments, renderCourseItem, intl],
+        [
+            courseAssignments,
+            intl,
+            ratingAveragesByLecture,
+            departmentMap,
+            semesterMap,
+            renderCourseItem,
+        ],
     )
 
     if (isLoading) return <LoadingSpinner />

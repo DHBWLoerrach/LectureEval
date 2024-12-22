@@ -61,7 +61,9 @@ export const useDetailsLogic = (courseAssignmentID: number) => {
 
                     const average =
                         intValues.length > 0
-                            ? questionType === QuestionType.Rating
+                            ? questionType === QuestionType.Rating ||
+                              questionType === QuestionType.Result ||
+                              questionType === QuestionType.Difficulty
                                 ? roundToTwoDigits(
                                       intValues.reduce((sum, num) => sum + num, 0) /
                                           intValues.length,

@@ -100,70 +100,6 @@ export const useLecturerLogic = () => {
         departments: departments ?? [],
     })
 
-    const getFilteredFormValues = useCallback(
-        (questionType: QuestionType) => {
-            if (!formValues || !questions) return []
-
-            const questionTypeMap = new Map(
-                questions.map((question) => [question.id, question.typeID]),
-            )
-
-            return formValues.filter(
-                (formValue) => questionTypeMap.get(formValue.questionID) === questionType,
-            )
-        },
-        [formValues, questions],
-    )
-
-    const getFormValueAverages = useCallback(
-        (questionType: QuestionType) => {
-            const filteredFormValues = getFilteredFormValues(questionType)
-
-            const groupedByAssignment =
-                filteredFormValues?.reduce(
-                    (acc, formValue) => {
-                        if (!acc[formValue.courseAssignmentID]) {
-                            acc[formValue.courseAssignmentID] = []
-                        }
-                        acc[formValue.courseAssignmentID].push(formValue.value)
-
-                        return acc
-                    },
-                    {} as Record<string, string[]>,
-                ) ?? {}
-
-            return Object.fromEntries(
-                Object.entries(groupedByAssignment).map(([assignmentId, values]) => {
-                    const intValues = values
-                        .map((value) => parseInt(value, 10))
-                        .filter((num) => !isNaN(num))
-
-                    const average =
-                        intValues.length > 0
-                            ? questionType === QuestionType.Rating
-                                ? roundToTwoDigits(
-                                      intValues.reduce((sum, num) => sum + num, 0) /
-                                          intValues.length,
-                                  )
-                                : intValues.reduce((sum, num) => sum + num, 0) / intValues.length
-                            : null
-
-                    return [assignmentId, average ?? intl.formatMessage(translations.notSet)]
-                }),
-            )
-        },
-        [getFilteredFormValues, intl],
-    )
-
-    const ratingAverages = useMemo(
-        () => getFormValueAverages(QuestionType.Result),
-        [getFormValueAverages],
-    )
-    const difficultyAverages = useMemo(
-        () => getFormValueAverages(QuestionType.Difficulty),
-        [getFormValueAverages],
-    )
-
     const error = useMemo(
         () =>
             lecturerError ??
@@ -215,6 +151,133 @@ export const useLecturerLogic = () => {
         [courses],
     )
 
+    const courseAssignmentToLectureMap = useMemo(
+        () =>
+            Object.fromEntries(
+                courseAssignments?.map((assignment) => [assignment.id, assignment.lectureID]) ?? [],
+            ),
+        [courseAssignments],
+    )
+
+    const getFilteredFormValues = useCallback(
+        (questionType: QuestionType) => {
+            if (!formValues || !questions) return []
+
+            const questionTypeMap = new Map(
+                questions.map((question) => [question.id, question.typeID]),
+            )
+
+            return formValues.filter(
+                (formValue) => questionTypeMap.get(formValue.questionID) === questionType,
+            )
+        },
+        [formValues, questions],
+    )
+
+    const getFormValueAverages = useCallback(
+        (questionType: QuestionType) => {
+            const filteredFormValues = getFilteredFormValues(questionType)
+
+            const groupedByAssignment =
+                filteredFormValues?.reduce(
+                    (acc, formValue) => {
+                        if (!acc[formValue.courseAssignmentID]) {
+                            acc[formValue.courseAssignmentID] = []
+                        }
+                        acc[formValue.courseAssignmentID].push(formValue.value)
+
+                        return acc
+                    },
+                    {} as Record<string, string[]>,
+                ) ?? {}
+
+            return Object.fromEntries(
+                Object.entries(groupedByAssignment).map(([assignmentId, values]) => {
+                    const intValues = values
+                        .map((value) => parseInt(value, 10))
+                        .filter((num) => !isNaN(num))
+
+                    const average =
+                        intValues.length > 0
+                            ? questionType === QuestionType.Result ||
+                              questionType === QuestionType.Difficulty
+                                ? roundToTwoDigits(
+                                      intValues.reduce((sum, num) => sum + num, 0) /
+                                          intValues.length,
+                                  )
+                                : intValues.reduce((sum, num) => sum + num, 0) / intValues.length
+                            : null
+
+                    return [assignmentId, average ?? intl.formatMessage(translations.notSet)]
+                }),
+            )
+        },
+        [getFilteredFormValues, intl],
+    )
+
+    const ratingAverages = useMemo(
+        () => getFormValueAverages(QuestionType.Result),
+        [getFormValueAverages],
+    )
+    const difficultyAverages = useMemo(
+        () => getFormValueAverages(QuestionType.Difficulty),
+        [getFormValueAverages],
+    )
+
+    const getFormValueByLectureAverages = useCallback(
+        (questionType: QuestionType) => {
+            const filteredFormValues = getFilteredFormValues(questionType)
+
+            const groupedByLecture =
+                filteredFormValues.reduce(
+                    (acc, formValue) => {
+                        const lectureID = courseAssignmentToLectureMap[formValue.courseAssignmentID]
+                        if (!lectureID) {
+                            console.warn(
+                                `No lectureID found for courseAssignmentID: ${formValue.courseAssignmentID}`,
+                            )
+                            return acc
+                        }
+
+                        if (!acc[lectureID]) {
+                            acc[lectureID] = []
+                        }
+                        acc[lectureID].push(formValue.value)
+
+                        return acc
+                    },
+                    {} as Record<number, string[]>,
+                ) ?? {}
+
+            return Object.fromEntries(
+                Object.entries(groupedByLecture).map(([lectureID, values]) => {
+                    const intValues = values
+                        .map((value) => parseInt(value, 10))
+                        .filter((num) => !isNaN(num))
+
+                    const average =
+                        intValues.length > 0
+                            ? questionType === QuestionType.Result ||
+                              questionType === QuestionType.Difficulty
+                                ? roundToTwoDigits(
+                                      intValues.reduce((sum, num) => sum + num, 0) /
+                                          intValues.length,
+                                  )
+                                : intValues.reduce((sum, num) => sum + num, 0) / intValues.length
+                            : null
+
+                    return [lectureID, average ?? intl.formatMessage(translations.notSet)]
+                }),
+            )
+        },
+        [courseAssignmentToLectureMap, getFilteredFormValues, intl],
+    )
+
+    const ratingAveragesByLecture = useMemo(
+        () => getFormValueByLectureAverages(QuestionType.Result),
+        [getFormValueByLectureAverages],
+    )
+
     const isLoading = useMemo(
         () =>
             lecturesLoading ||
@@ -248,5 +311,6 @@ export const useLecturerLogic = () => {
         departmentMap,
         semesterMap,
         courseMap,
+        ratingAveragesByLecture,
     }
 }

@@ -33,6 +33,8 @@ const LecturesView = () => {
         isLoading,
         departmentMap,
         semesterMap,
+        ratingAverages,
+        difficultyAverages,
     } = useLecturesLogic()
 
     const intl = useIntl()
@@ -45,8 +47,8 @@ const LecturesView = () => {
                     titleStyle={globalStyles.listAccordionTitle}
                     style={globalStyles.listAccordion}
                     description={`${intl.formatMessage(translations.rating)}: ${
-                        lecture.rating !== null
-                            ? `${lecture.rating} ${intl.formatMessage(translations.stars)}`
+                        ratingAverages[lecture.id] !== undefined
+                            ? `${ratingAverages[lecture.id]} ${intl.formatMessage(translations.stars)}`
                             : intl.formatMessage(translations.notSet)
                     }`}
                 >
@@ -62,15 +64,15 @@ const LecturesView = () => {
                     />
                     <List.Item
                         title={`${intl.formatMessage(translations.difficulty)}: ${
-                            lecture.difficulty !== null
-                                ? `${lecture.difficulty}/3`
+                            difficultyAverages[lecture.id] !== null
+                                ? `${difficultyAverages[lecture.id]}/3`
                                 : intl.formatMessage(translations.notSet)
                         }`}
                     />
                 </List.Accordion>
             </View>
         ),
-        [departmentMap, semesterMap, intl],
+        [intl, ratingAverages, departmentMap, semesterMap, difficultyAverages],
     )
 
     if (isLoading) return <LoadingSpinner />

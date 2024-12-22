@@ -3,6 +3,4 @@ export type Lecture = {
     name: string
     departmentID: number
     semesterID: number
-    rating: number
-    difficulty: number
 }
