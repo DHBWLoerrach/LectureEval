@@ -1,5 +1,5 @@
-import { Lecture } from '~/types/Lecture'
+import { Lecture } from '~/types/Lecture';
 
 export type LectureFormData = Lecture & {
-    id?: number
-}
+  id?: number;
+};

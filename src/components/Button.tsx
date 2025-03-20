@@ -1,9 +1,9 @@
-import { ComponentProps, useMemo } from 'react'
+import { ComponentProps, useMemo } from 'react';
 // eslint-disable-next-line no-restricted-imports
-import { Button as BaseButton } from 'react-native-paper'
-import { v4 } from 'react-native-uuid/dist/v4'
+import { Button as BaseButton } from 'react-native-paper';
+import { v4 } from 'react-native-uuid/dist/v4';
 
-type Props = ComponentProps<typeof BaseButton>
+type Props = ComponentProps<typeof BaseButton>;
 
 /**
  * Custom Button Wrapper
@@ -38,25 +38,25 @@ type Props = ComponentProps<typeof BaseButton>
  */
 // TODO: Remove this component once the issue in react-native-paper is resolved.
 const Button = ({ children, disabled, ...props }: Props) => {
-    const uuid = useMemo(() => v4(), [])
+  const uuid = useMemo(() => v4(), []);
 
-    const key = useMemo(() => {
-        return `${disabled ? 'disabled' : 'enabled'}_${uuid}`
-    }, [disabled, uuid])
+  const key = useMemo(() => {
+    return `${disabled ? 'disabled' : 'enabled'}_${uuid}`;
+  }, [disabled, uuid]);
 
-    return (
-        <BaseButton
-            /**
-             * Temporary workaround for react-native-paper issue.
-             * Applying a dynamic key forces a rerender when the `disabled` prop changes.
-             */
-            key={key}
-            disabled={disabled}
-            {...props}
-        >
-            {children}
-        </BaseButton>
-    )
-}
+  return (
+    <BaseButton
+      /**
+       * Temporary workaround for react-native-paper issue.
+       * Applying a dynamic key forces a rerender when the `disabled` prop changes.
+       */
+      key={key}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </BaseButton>
+  );
+};
 
-export default Button
+export default Button;

@@ -1,5 +1,5 @@
 export type Department = {
-    id: number
-    name: string
-    locationId: number
-}
+  id: number;
+  name: string;
+  locationId: number;
+};

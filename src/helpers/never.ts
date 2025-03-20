@@ -10,5 +10,5 @@
  * @throws {Error} Throws an error with the provided message.
  */
 export const never = (_never: never, message: string) => {
-    throw new Error(message)
-}
+  throw new Error(message);
+};

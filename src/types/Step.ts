@@ -1,7 +1,7 @@
 export type Step = {
-    id: number
-    title: string
-    subTitle: string
-    serial: number
-    formID: number
-}
+  id: number;
+  title: string;
+  subTitle: string;
+  serial: number;
+  formID: number;
+};

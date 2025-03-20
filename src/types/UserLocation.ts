@@ -1,5 +1,5 @@
 export type UserLocation = {
-    id: number
-    userId: string
-    locationId: number
-}
+  id: number;
+  userId: string;
+  locationId: number;
+};

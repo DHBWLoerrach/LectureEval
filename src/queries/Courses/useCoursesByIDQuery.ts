@@ -1,31 +1,31 @@
-import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
-import { Table } from '~/enums/Table'
-import { supabase } from '~/services/supabase'
-import { Course } from '~/types/Course'
+import { useQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
+import { Table } from '~/enums/Table';
+import { supabase } from '~/services/supabase';
+import { Course } from '~/types/Course';
 
 type Props = {
-    courseIDs: number[] | undefined
-}
+  courseIDs: number[] | undefined;
+};
 
 export const useCoursesByIDQuery = ({ courseIDs }: Props) => {
-    const queryFn = useCallback(async () => {
-        if (!courseIDs || courseIDs.length === 0) {
-            return []
-        }
+  const queryFn = useCallback(async () => {
+    if (!courseIDs || courseIDs.length === 0) {
+      return [];
+    }
 
-        const { data } = await supabase
-            .from(Table.Courses)
-            .select('*')
-            .in('id', courseIDs)
-            .throwOnError()
+    const { data } = await supabase
+      .from(Table.Courses)
+      .select('*')
+      .in('id', courseIDs)
+      .throwOnError();
 
-        return data ?? []
-    }, [courseIDs])
+    return data ?? [];
+  }, [courseIDs]);
 
-    return useQuery<Course[]>({
-        queryKey: ['coursesByIDQuery', courseIDs],
-        queryFn,
-        enabled: !!courseIDs,
-    })
-}
+  return useQuery<Course[]>({
+    queryKey: ['coursesByIDQuery', courseIDs],
+    queryFn,
+    enabled: !!courseIDs,
+  });
+};

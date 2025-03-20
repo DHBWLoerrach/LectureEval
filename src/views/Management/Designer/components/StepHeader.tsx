@@ -1,112 +1,114 @@
-import { useCallback, useMemo } from 'react'
-import { useIntl } from 'react-intl'
-import { StyleSheet, View } from 'react-native'
-import { IconButton, ProgressBar, Text } from 'react-native-paper'
-import { RFValue } from 'react-native-responsive-fontsize'
-import { roundToTwoDigits } from '~/helpers/roundToTwoDigits'
-import { translations } from '~/translations/translations'
-import { Step } from '~/types/Step'
+import { useCallback, useMemo } from 'react';
+import { useIntl } from 'react-intl';
+import { StyleSheet, View } from 'react-native';
+import { IconButton, ProgressBar, Text } from 'react-native-paper';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { roundToTwoDigits } from '~/helpers/roundToTwoDigits';
+import { translations } from '~/translations/translations';
+import { Step } from '~/types/Step';
 
 type Props = {
-    maxSerial: number
-    step: Step | undefined
-    onEdit: (step: Step) => void
-    onDelete: (step: Step) => void
-}
+  maxSerial: number;
+  step: Step | undefined;
+  onEdit: (step: Step) => void;
+  onDelete: (step: Step) => void;
+};
 
 const styles = StyleSheet.create({
-    buttonWrapper: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-    },
-    container: {
-        gap: 5,
-        padding: 20,
-    },
-    heading: {
-        fontSize: RFValue(14),
-        fontWeight: 'bold',
-        overflow: 'hidden',
-        width: '75%',
-    },
-    subHeading: {
-        fontSize: RFValue(14),
-        fontStyle: 'italic',
-    },
-    title: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-})
+  buttonWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  container: {
+    gap: 5,
+    padding: 20,
+  },
+  heading: {
+    fontSize: RFValue(14),
+    fontWeight: 'bold',
+    overflow: 'hidden',
+    width: '75%',
+  },
+  subHeading: {
+    fontSize: RFValue(14),
+    fontStyle: 'italic',
+  },
+  title: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
 
-const StepHeader = ({ maxSerial, step, onEdit: onEditProp, onDelete: onDeleteProp }: Props) => {
-    const intl = useIntl()
+const StepHeader = ({
+  maxSerial,
+  step,
+  onEdit: onEditProp,
+  onDelete: onDeleteProp,
+}: Props) => {
+  const intl = useIntl();
 
-    const progress = useMemo(() => {
-        if (!step) return 0.01
+  const progress = useMemo(() => {
+    if (!step) return 0.01;
 
-        return roundToTwoDigits(step.serial / maxSerial)
-    }, [step, maxSerial])
+    return roundToTwoDigits(step.serial / maxSerial);
+  }, [step, maxSerial]);
 
-    const title = useMemo(() => {
-        const base = intl.formatMessage(translations.stepHeading, {
-            current: (step?.serial ?? 0) + 1,
-            max: maxSerial + 1,
-        })
+  const title = useMemo(() => {
+    const base = intl.formatMessage(translations.stepHeading, {
+      current: (step?.serial ?? 0) + 1,
+      max: maxSerial + 1,
+    });
 
-        return `${base}: ${step?.title ?? intl.formatMessage(translations.privacyNotice)}`
-    }, [intl, maxSerial, step?.serial, step?.title])
+    return `${base}: ${step?.title ?? intl.formatMessage(translations.privacyNotice)}`;
+  }, [intl, maxSerial, step?.serial, step?.title]);
 
-    const subTitle = useMemo(() => {
-        if (!step) return intl.formatMessage(translations.privacyStepSubTitle)
+  const subTitle = useMemo(() => {
+    if (!step) return intl.formatMessage(translations.privacyStepSubTitle);
 
-        return step.subTitle
-    }, [intl, step])
+    return step.subTitle;
+  }, [intl, step]);
 
-    const onEdit = useCallback(() => {
-        if (!step) return
+  const onEdit = useCallback(() => {
+    if (!step) return;
 
-        onEditProp(step)
-    }, [onEditProp, step])
+    onEditProp(step);
+  }, [onEditProp, step]);
 
-    const onDelete = useCallback(() => {
-        if (!step) return
+  const onDelete = useCallback(() => {
+    if (!step) return;
 
-        onDeleteProp(step)
-    }, [onDeleteProp, step])
+    onDeleteProp(step);
+  }, [onDeleteProp, step]);
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.title}>
-                <Text
-                    style={styles.heading}
-                    numberOfLines={2}
-                >
-                    {title}
-                </Text>
-                {!!step && (
-                    <View style={styles.buttonWrapper}>
-                        <IconButton
-                            size={16}
-                            icon='pencil'
-                            onPress={onEdit}
-                            mode='contained-tonal'
-                        />
-                        <IconButton
-                            size={16}
-                            icon='trash-can'
-                            onPress={onDelete}
-                            mode='contained-tonal'
-                        />
-                    </View>
-                )}
-            </View>
-            <ProgressBar progress={progress} />
-            <Text style={styles.subHeading}>{subTitle}</Text>
-        </View>
-    )
-}
+  return (
+    <View style={styles.container}>
+      <View style={styles.title}>
+        <Text style={styles.heading} numberOfLines={2}>
+          {title}
+        </Text>
+        {!!step && (
+          <View style={styles.buttonWrapper}>
+            <IconButton
+              size={16}
+              icon="pencil"
+              onPress={onEdit}
+              mode="contained-tonal"
+            />
+            <IconButton
+              size={16}
+              icon="trash-can"
+              onPress={onDelete}
+              mode="contained-tonal"
+            />
+          </View>
+        )}
+      </View>
+      <ProgressBar progress={progress} />
+      <Text style={styles.subHeading}>{subTitle}</Text>
+    </View>
+  );
+};
 
-export default StepHeader
+export default StepHeader;

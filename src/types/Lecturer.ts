@@ -1,6 +1,6 @@
 export type Lecturer = {
-    id: number
-    firstName: string
-    lastName: string
-    userID: string
-}
+  id: number;
+  firstName: string;
+  lastName: string;
+  userID: string;
+};

@@ -1,5 +1,5 @@
-import { Department } from '~/types/Department'
+import { Department } from '~/types/Department';
 
 export type DepartmentFormData = Department & {
-    id?: number
-}
+  id?: number;
+};

@@ -1,22 +1,22 @@
-import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
-import { Table } from '~/enums/Table'
-import { supabase } from '~/services/supabase'
-import { Department } from '~/types/Department'
+import { useQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
+import { Table } from '~/enums/Table';
+import { supabase } from '~/services/supabase';
+import { Department } from '~/types/Department';
 
 export const useDepartmentsQuery = () => {
-    const queryFn = useCallback(async () => {
-        const { data } = await supabase
-            .from(Table.Departments)
-            .select('*')
-            .order('name', { ascending: true })
-            .throwOnError()
+  const queryFn = useCallback(async () => {
+    const { data } = await supabase
+      .from(Table.Departments)
+      .select('*')
+      .order('name', { ascending: true })
+      .throwOnError();
 
-        return data ?? []
-    }, [])
+    return data ?? [];
+  }, []);
 
-    return useQuery<Department[]>({
-        queryKey: ['departmentsQuery'],
-        queryFn,
-    })
-}
+  return useQuery<Department[]>({
+    queryKey: ['departmentsQuery'],
+    queryFn,
+  });
+};

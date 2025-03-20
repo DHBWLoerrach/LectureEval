@@ -1,27 +1,27 @@
-import { useDeferredValue, useMemo, useState } from 'react'
-import { Question } from '~/types/Question'
+import { useDeferredValue, useMemo, useState } from 'react';
+import { Question } from '~/types/Question';
 
 type Props = {
-    questions?: Question[]
-}
+  questions?: Question[];
+};
 
 export const useDetailsFilterLogic = ({ questions }: Props) => {
-    const [search, setSearch] = useState('')
-    const debouncedSearch = useDeferredValue(search)
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDeferredValue(search);
 
-    const searchedDetails = useMemo(() => {
-        return questions?.filter((questions) => {
-            const matchesName = questions.question
-                .toLowerCase()
-                .includes(debouncedSearch.toLowerCase())
+  const searchedDetails = useMemo(() => {
+    return questions?.filter((questions) => {
+      const matchesName = questions.question
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase());
 
-            return matchesName
-        })
-    }, [questions, debouncedSearch])
+      return matchesName;
+    });
+  }, [questions, debouncedSearch]);
 
-    return {
-        search,
-        setSearch,
-        searchedDetails,
-    }
-}
+  return {
+    search,
+    setSearch,
+    searchedDetails,
+  };
+};

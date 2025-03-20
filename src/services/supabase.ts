@@ -1,6 +1,6 @@
-import { supabaseAnonKey, supabaseUrl } from '@env'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createClient } from '@supabase/supabase-js'
+import { supabaseAnonKey, supabaseUrl } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createClient } from '@supabase/supabase-js';
 
 /**
  * Initializes and exports a Supabase client instance.
@@ -12,14 +12,14 @@ import { createClient } from '@supabase/supabase-js'
  * - `detectSessionInUrl`: Disables session detection in the URL.
  */
 export const supabase = createClient(
-    process.env.SUPABASE_URL ?? supabaseUrl,
-    process.env.SUPABASE_ANON_KEY ?? supabaseAnonKey,
-    {
-        auth: {
-            storage: AsyncStorage,
-            autoRefreshToken: true,
-            persistSession: true,
-            detectSessionInUrl: false,
-        },
+  process.env.SUPABASE_URL ?? supabaseUrl,
+  process.env.SUPABASE_ANON_KEY ?? supabaseAnonKey,
+  {
+    auth: {
+      storage: AsyncStorage,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
     },
-)
+  }
+);

@@ -1,5 +1,5 @@
-import { Form } from '~/types/Form'
+import { Form } from '~/types/Form';
 
 export type FormFormData = Form & {
-    id?: number
-}
+  id?: number;
+};

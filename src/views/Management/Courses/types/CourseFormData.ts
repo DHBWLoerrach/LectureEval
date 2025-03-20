@@ -1,5 +1,5 @@
-import { Course } from '~/types/Course'
+import { Course } from '~/types/Course';
 
 export type CourseFormData = Course & {
-    id?: number
-}
+  id?: number;
+};

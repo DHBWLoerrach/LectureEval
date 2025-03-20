@@ -1,22 +1,22 @@
-import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
-import { Table } from '~/enums/Table'
-import { supabase } from '~/services/supabase'
-import { Lecture } from '~/types/Lecture'
+import { useQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
+import { Table } from '~/enums/Table';
+import { supabase } from '~/services/supabase';
+import { Lecture } from '~/types/Lecture';
 
 export const useLecturesQuery = () => {
-    const queryFn = useCallback(async () => {
-        const { data } = await supabase
-            .from(Table.Lectures)
-            .select('*')
-            .order('name', { ascending: true })
-            .throwOnError()
+  const queryFn = useCallback(async () => {
+    const { data } = await supabase
+      .from(Table.Lectures)
+      .select('*')
+      .order('name', { ascending: true })
+      .throwOnError();
 
-        return data ?? []
-    }, [])
+    return data ?? [];
+  }, []);
 
-    return useQuery<Lecture[]>({
-        queryKey: ['lecturesQuery'],
-        queryFn,
-    })
-}
+  return useQuery<Lecture[]>({
+    queryKey: ['lecturesQuery'],
+    queryFn,
+  });
+};

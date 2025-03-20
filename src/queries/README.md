@@ -4,9 +4,9 @@ This folder contains all the queries and mutations used in the project.
 
 ## 📋 Purpose
 
--   **Centralized Storage**: All queries and mutations are stored in this folder.
--   **React Query**: All queries and mutations use `@tanstack/react-query`.
--   **Unique Query Keys**: Each query has a unique `queryKey` to avoid conflicts.
+- **Centralized Storage**: All queries and mutations are stored in this folder.
+- **React Query**: All queries and mutations use `@tanstack/react-query`.
+- **Unique Query Keys**: Each query has a unique `queryKey` to avoid conflicts.
 
 ## 🔍 Example Query
 
@@ -38,16 +38,16 @@ export const useExampleQuery = ({ exampleId }: Props) => {
 
 ```ts
 type Payload = {
-    example: Example
-}
+  example: Example;
+};
 
 export const useExampleMutation = () => {
-    const mutateFn = useCallback(async ({ example }: Payload) => {
-        return await supabase.from(Table.Example).upsert(example).throwOnError()
-    }, [])
+  const mutateFn = useCallback(async ({ example }: Payload) => {
+    return await supabase.from(Table.Example).upsert(example).throwOnError();
+  }, []);
 
-    return useMutation({
-        mutationFn,
-    })
-}
+  return useMutation({
+    mutationFn,
+  });
+};
 ```

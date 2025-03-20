@@ -9,18 +9,18 @@
  */
 
 declare module '@env' {
-    /**
-     * The URL for the Supabase instance.
-     */
-    export const supabaseUrl: string
+  /**
+   * The URL for the Supabase instance.
+   */
+  export const supabaseUrl: string;
 
-    /**
-     * The anonymous public key for accessing the Supabase instance.
-     */
-    export const supabaseAnonKey: string
+  /**
+   * The anonymous public key for accessing the Supabase instance.
+   */
+  export const supabaseAnonKey: string;
 
-    /**
-     * Api Key for DeepL Translation API
-     */
-    export const deeplApiKey: string
+  /**
+   * Api Key for DeepL Translation API
+   */
+  export const deeplApiKey: string;
 }

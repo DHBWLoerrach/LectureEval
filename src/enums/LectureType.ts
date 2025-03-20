@@ -1,4 +1,4 @@
 export enum LectureType {
-    MyLectures = 'myLectures',
-    AllLectures = 'allLectures',
+  MyLectures = 'myLectures',
+  AllLectures = 'allLectures',
 }

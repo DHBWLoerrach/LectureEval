@@ -1,5 +1,5 @@
-import { CourseAssignment } from '~/types/CourseAssignment'
+import { CourseAssignment } from '~/types/CourseAssignment';
 
 export type CourseAssignmentFormData = CourseAssignment & {
-    id?: number
-}
+  id?: number;
+};
