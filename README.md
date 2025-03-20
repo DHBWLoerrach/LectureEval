@@ -125,3 +125,7 @@ refactor: Ensure all colors are used from constants instead of literals
 # Lizenz
 
 Dieses Projekt ist unter der MIT-Lizenz freigegeben. Nähere Informationen zur Lizenz befinden sich in der `LICENSE` Datei.
+
+# Contributors
+
+TIF22A: Anna Kohlbecker, Alexander Ebner, Simon Schmieder
