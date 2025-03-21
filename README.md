@@ -1,6 +1,6 @@
 # Vorlesungsbewertung App
 
-Dies ist eine mobile Anwendung, die in React Native entwickelt wurde. Mit der App können Studierende Vorlesungen und Dozenten bewerten, Kommentare hinterlassen und Feedback geben. Die App zielt darauf ab, den Austausch zwischen Studierenden und Lehrenden zu verbessern, indem konstruktives Feedback einfach und zugänglich gemacht wird.
+Dies ist eine mobile Anwendung, die in React Native mit Expo entwickelt wurde. Mit der App können Studierende Vorlesungen und Dozenten bewerten, Kommentare hinterlassen und Feedback geben. Die App zielt darauf ab, den Austausch zwischen Studierenden und Lehrenden zu verbessern, indem konstruktives Feedback einfach und zugänglich gemacht wird.
 
 # Installation
 
@@ -10,34 +10,33 @@ Für die Entwicklung sollte VSCode genutzt werden. Einige grundlegende Einstellu
 
 ## Voraussetzungen:
 
--   Node.js
--   Git
+- Node.js
+- Git
 
 ## Schritte:
 
-1. Repository klonen:
-    ```bash
-    git clone https://github.com/schmieders/VorlesungsBewertung.git
-    ```
+1. Repository klonen
 2. Navigiere in das Projektverzeichnis:
-    ```bash
-    cd VorlesungsBewertung
-    ```
+
+   ```bash
+   cd LectureEval
+   ```
+
 3. Abhängigkeiten installieren:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 4. Umgebungsvariablen setzen
 
-    - Kopiere `.env.example` zu `.env` und füge die notwendigen Werte ein.
-    - (Um einen Build zu ermöglichen müssen diese auch als Secret in EAS gesetzt werden. Führe dafür `eas env:create` aus und folge den Anweisungen.)
+   - Kopiere `.env.example` zu `.env` und füge die notwendigen Werte ein.
+   - (Um einen Build zu ermöglichen müssen diese auch als Secret in EAS gesetzt werden. Führe dafür `eas env:create` aus und folge den Anweisungen.)
 
 5. App starten:
-    ```bash
-    npx expo
-    ```
+   ```bash
+   npx expo
+   ```
 
 # Entwicklung
 
@@ -95,10 +94,10 @@ type(<scope>): <subject>
 
 Der `type` bezieht sich dabei auf die Art der Arbeit, die im Commit getan wurde. Wir nutzen folgende Typen:
 
--   feat - Ein neues Feature wurde implementiert
--   fix - Ein Bug wurde behoben
--   chore - Andere Tätigkeiten wie Konfigurations-Änderungen, Dependency-Updates, etc.
--   refactor - Ein veralteter oder unschöner Code wurde überarbeitet
+- feat - Ein neues Feature wurde implementiert
+- fix - Ein Bug wurde behoben
+- chore - Andere Tätigkeiten wie Konfigurations-Änderungen, Dependency-Updates, etc.
+- refactor - Ein veralteter oder unschöner Code wurde überarbeitet
 
 Das `scope` grenzt ein, an welchem Teil der App gearbeitet wurde. Wenn irrelevant kann das scope samt klammern weggelassen werden.
 
