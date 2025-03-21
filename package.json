@@ -1,21 +1,7 @@
 {
-  "name": "vorlesungsbewertung",
+  "name": "LectureEval",
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
-  "contributors": [
-    {
-      "name": "Alexander Ebner",
-      "email": "ebner.alexander@gmx.de"
-    },
-    {
-      "name": "Anna Kohlbecker",
-      "email": "aipskohlbecker@gmail.com"
-    },
-    {
-      "name": "Simon Schmieder",
-      "email": "simon@schmieders.dev"
-    }
-  ],
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -43,7 +29,7 @@
     "axios": "1.7.7",
     "date-fns": "4.1.0",
     "date-fns-tz": "3.2.0",
-    "expo": "52.0.20",
+    "expo": "^52.0.20",
     "expo-status-bar": "2.0.0",
     "react": "18.3.1",
     "react-hook-form": "7.53.2",
