@@ -1,19 +1,19 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useIntl } from 'react-intl';
-import TabNavigator from '~/components/Navigation/components/TabNavigator';
-import { Route } from '~/enums/Route';
-import { getPageTranslation } from '~/helpers/getPageTranslation';
-import Detail, { DetailRouteParams } from '~/views/Detail';
-import FormsView, { FormsRouteParams } from '~/views/Forms';
-import CoursesManagement from '~/views/Management/Courses';
-import DepartmentsManagement from '~/views/Management/Departments';
-import Designer, { DesignerRouteParams } from '~/views/Management/Designer';
-import FormReleaseManagement from '~/views/Management/FormReleases';
-import FormsManagement from '~/views/Management/Forms';
-import LecturersManagement from '~/views/Management/Lecturers';
-import LecturesManagement from '~/views/Management/Lectures';
-import StudentsManagement from '~/views/Management/Students';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useIntl } from 'react-intl'
+import TabNavigator from '~/components/Navigation/components/TabNavigator'
+import { Route } from '~/enums/Route'
+import { getPageTranslation } from '~/helpers/getPageTranslation'
+import Detail, { DetailRouteParams } from '~/views/Detail'
+import FormsView, { FormsRouteParams } from '~/views/Forms'
+import CoursesManagement from '~/views/Management/Courses'
+import DepartmentsManagement from '~/views/Management/Departments'
+import Designer, { DesignerRouteParams } from '~/views/Management/Designer'
+import FormReleaseManagement from '~/views/Management/FormReleases'
+import FormsManagement from '~/views/Management/Forms'
+import LecturersManagement from '~/views/Management/Lecturers'
+import LecturesManagement from '~/views/Management/Lectures'
+import StudentsManagement from '~/views/Management/Students'
 
 type NavigationParamList = {
   [Route.Start]: undefined;
@@ -30,8 +30,8 @@ type NavigationParamList = {
 };
 
 const Navigation = () => {
-  const intl = useIntl();
-  const Stack = createNativeStackNavigator<NavigationParamList>();
+  const intl = useIntl()
+  const Stack = createNativeStackNavigator<NavigationParamList>()
 
   return (
     <NavigationContainer>
@@ -39,7 +39,10 @@ const Navigation = () => {
         <Stack.Screen
           name={Route.Start}
           component={TabNavigator}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            title: getPageTranslation(Route.Start, intl),
+          }}
         />
         <Stack.Screen
           name={Route.FormsView}
@@ -100,7 +103,7 @@ const Navigation = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation
