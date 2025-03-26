@@ -28,12 +28,14 @@ Für die Entwicklung sollte VSCode genutzt werden. Einige grundlegende Einstellu
    npm install
    ```
 
-4. Umgebungsvariablen setzen
+4. Eigene Supabase-Instanz für die Entwicklung erstellen (siehe [supabase.md](supabase.md))
 
-   - Kopiere `.env.example` zu `.env` und füge die notwendigen Werte ein.
+5. Umgebungsvariablen setzen
+
+   - Kopiere `.env.example` zu `.env` und füge die notwendigen Werte ein (in Supabase sind diese in `Project Settings > Data API` zu finden).
    - (Um einen Build zu ermöglichen müssen diese auch als Secret in EAS gesetzt werden. Führe dafür `eas env:create` aus und folge den Anweisungen.)
 
-5. App starten:
+6. App starten:
    ```bash
    npx expo
    ```
